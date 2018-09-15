@@ -1,4 +1,5 @@
-﻿using Pace.Client.System;
+﻿using Pace.Client.Configuration;
+using Pace.Client.System;
 using Pace.Client.Web;
 using Pace.Common.Network;
 using Pace.Common.Network.Packets;
@@ -19,8 +20,6 @@ namespace Pace.Client
 {
     class Program
     {
-        private const string Identifier = "PACE-01";
-
         private PaceClient client;
         private bool isRunning;
 
@@ -36,7 +35,7 @@ namespace Pace.Client
             {
                 try
                 {
-                    client.Connect(IPAddress.Parse("127.0.0.1"), 7777);
+                    client.Connect(IPAddress.Parse(ClientConfiguration.Host), ClientConfiguration.Port);
                 }
                 catch (Exception)
                 {
@@ -45,6 +44,8 @@ namespace Pace.Client
                 }
             }
 
+            Console.Write("connected >:)");
+
             var packetChannel = new PacketChannel();
 
             packetChannel.RegisterHandler<GetSystemInfoRequestPacket>((packet) =>
@@ -52,7 +53,7 @@ namespace Pace.Client
                 var systemInfo = SystemInformation.Get();
 
                 var infoPacket = new GetSystemInfoResponsePacket(
-                    Identifier,
+                    ClientConfiguration.Identifier,
                     systemInfo.UserName,
                     systemInfo.ComputerName,
                     systemInfo.OperatingSystem
