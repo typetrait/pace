@@ -142,5 +142,13 @@ namespace Pace.Server.Forms
                 e.Cancel = true;
             }
         }
+
+        private void aboutMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var aboutForm = new AboutForm())
+            {
+                aboutForm.ShowDialog();
+            }
+        }
     }
 }
