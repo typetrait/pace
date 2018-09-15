@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -102,9 +103,26 @@ namespace Pace.Client
 
             while (isRunning)
             {
-                var packet = client.ReadPacket();
+                try
+                {
+                    var packet = client.ReadPacket();
 
-                packetChannel.HandlePacket(packet);
+                    packetChannel.HandlePacket(packet);
+                }
+                catch (IOException ex)
+                {
+                    if (ex.InnerException.GetType() == typeof(SocketException))
+                    {
+                        var socketException = (ex.InnerException as SocketException);
+
+                        if (socketException.ErrorCode == (int)SocketError.ConnectionReset)
+                        {
+                            Console.WriteLine("Connection reset!");
+                        }
+                    }
+
+                    isRunning = false;
+                }
             }
 
             Console.ReadKey();
