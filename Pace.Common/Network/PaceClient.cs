@@ -53,10 +53,12 @@ namespace Pace.Common.Network
             byte[] packetLengthBytes = new byte[4];
 
             int headerBytesRead = 0;
+            int headerRead = 0;
 
             while (headerBytesRead < packetLengthBytes.Length)
             {
-                headerBytesRead += stream.Read(packetLengthBytes, headerBytesRead, packetLengthBytes.Length);
+                headerRead = stream.Read(packetLengthBytes, headerBytesRead, packetLengthBytes.Length);
+                headerBytesRead += headerRead;
             }
 
             int packetLength = BitConverter.ToInt32(packetLengthBytes, 0);
