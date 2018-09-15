@@ -22,13 +22,28 @@ namespace Pace.Client
         private const string Identifier = "PACE-01";
 
         private PaceClient client;
+        private bool isRunning;
 
         static void Main(string[] args) => new Program().Run();
 
         private void Run()
         {
             client = new PaceClient();
-            client.Connect(IPAddress.Parse("127.0.0.1"), 7777);
+
+            Console.Write("Waiting for Server");
+
+            while (!client.TcpClient.Connected)
+            {
+                try
+                {
+                    client.Connect(IPAddress.Parse("127.0.0.1"), 7777);
+                }
+                catch (Exception)
+                {
+                    Console.Write('.');
+                    continue;
+                }
+            }
 
             var packetChannel = new PacketChannel();
 
@@ -82,7 +97,9 @@ namespace Pace.Client
                 client.SendPacket(response);
             });
 
-            while (true)
+            isRunning = true;
+
+            while (isRunning)
             {
                 var packet = client.ReadPacket();
 
