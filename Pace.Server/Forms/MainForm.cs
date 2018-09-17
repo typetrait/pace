@@ -117,7 +117,10 @@ namespace Pace.Server.Forms
         {
             using (var fileDialog = new OpenFileDialog())
             {
-                fileDialog.ShowDialog();
+                if (fileDialog.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
 
                 byte[] fileBytes = File.ReadAllBytes(fileDialog.FileName);
 
