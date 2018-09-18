@@ -32,6 +32,7 @@
             this.logoPictureBox = new System.Windows.Forms.PictureBox();
             this.nameLabel = new System.Windows.Forms.Label();
             this.descriptionLabel = new System.Windows.Forms.Label();
+            this.okButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,11 +65,23 @@
             this.descriptionLabel.TabIndex = 2;
             this.descriptionLabel.Text = "A Remote Access Tool for Windows.";
             // 
+            // okButton
+            // 
+            this.okButton.Location = new System.Drawing.Point(342, 141);
+            this.okButton.Name = "okButton";
+            this.okButton.Size = new System.Drawing.Size(75, 23);
+            this.okButton.TabIndex = 3;
+            this.okButton.Text = "OK";
+            this.okButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.okButton_Click);
+            // 
             // AboutForm
             // 
+            this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(429, 176);
+            this.Controls.Add(this.okButton);
             this.Controls.Add(this.descriptionLabel);
             this.Controls.Add(this.nameLabel);
             this.Controls.Add(this.logoPictureBox);
@@ -90,5 +103,6 @@
         private System.Windows.Forms.PictureBox logoPictureBox;
         private System.Windows.Forms.Label nameLabel;
         private System.Windows.Forms.Label descriptionLabel;
+        private System.Windows.Forms.Button okButton;
     }
 }
