@@ -111,6 +111,11 @@ namespace Pace.Client
                 }
                 catch (IOException ex)
                 {
+                    if (ex.InnerException == null)
+                    {
+                        throw ex;
+                    }
+
                     if (ex.InnerException.GetType() == typeof(SocketException))
                     {
                         var socketException = (ex.InnerException as SocketException);
