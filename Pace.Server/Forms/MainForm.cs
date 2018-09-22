@@ -32,6 +32,7 @@ namespace Pace.Server.Forms
 
             server = new PaceServer();
             server.ClientConnected += Server_ClientConnected;
+            server.ClientDisconnected += Server_ClientDisconnected;
 
             server.Start();
         }
@@ -77,6 +78,16 @@ namespace Pace.Server.Forms
 
                 clientListview.Items.Add(new ListViewItem(row));
             }));
+        }
+
+        private void Server_ClientDisconnected(object sender, ClientConnectedEventArgs e)
+        {
+            MessageBox.Show(
+                $"Client at {e.Client.TcpClient.Client.RemoteEndPoint} disconnected.",
+                "Pace",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
         }
 
         private void fileExplorerMenuItem_Click(object sender, EventArgs e)

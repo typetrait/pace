@@ -14,6 +14,7 @@ namespace Pace.Server.Network
     public class PaceServer
     {
         public event EventHandler<ClientConnectedEventArgs> ClientConnected;
+        public event EventHandler<ClientConnectedEventArgs> ClientDisconnected;
 
         public List<PaceClient> ConnectedClients { get; set; }
         public bool Listening { get; set; }
@@ -32,7 +33,7 @@ namespace Pace.Server.Network
 
             Serializer = new Serializer(PacketRegistry.GetPacketTypes());
 
-            Task.Factory.StartNew(() => HandleClientConnection());
+            Task.Factory.StartNew(HandleClientConnection);
         }
 
         public void Shutdown()
@@ -44,6 +45,12 @@ namespace Pace.Server.Network
         {
             ConnectedClients.Add(client);
             ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
+        }
+
+        protected void OnClientDisconnected(PaceClient client)
+        {
+            ConnectedClients.Remove(client);
+            ClientDisconnected?.Invoke(this, new ClientConnectedEventArgs(client));
         }
 
         private void HandleClientConnection()

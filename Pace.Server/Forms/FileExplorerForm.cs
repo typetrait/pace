@@ -31,20 +31,20 @@ namespace Pace.Server.Forms
 
         private void FileExplorerForm_Load(object sender, EventArgs e)
         {
-            PerformNavigation(Path.GetPathRoot(Environment.SystemDirectory));
+            Navigate(Path.GetPathRoot(Environment.SystemDirectory));
         }
 
         private void directoryListView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PerformNavigation(directoryListView.SelectedItems[0].Text);
+            Navigate(directoryListView.SelectedItems[0].Text);
         }
 
         private void browseButton_Click(object sender, EventArgs e)
         {
-            PerformNavigation(pathTextBox.Text);
+            Navigate(pathTextBox.Text);
         }
 
-        private void PerformNavigation(string path)
+        private void Navigate(string path)
         {
             var getDirectoryPacket = new GetDirectoryRequestPacket(path);
             client.SendPacket(getDirectoryPacket);
