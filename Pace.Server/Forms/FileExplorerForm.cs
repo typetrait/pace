@@ -39,9 +39,12 @@ namespace Pace.Server.Forms
             Navigate(directoryListView.SelectedItems[0].Text);
         }
 
-        private void browseButton_Click(object sender, EventArgs e)
+        private void pathTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            Navigate(pathTextBox.Text);
+            if (e.KeyCode == Keys.Enter)
+            {
+                Navigate(pathTextBox.Text);
+            }
         }
 
         private void Navigate(string path)
