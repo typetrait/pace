@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="Network\ClientConnectedEventArgs.cs" />
     <Compile Include="Network\PaceServer.cs" />
+    <Compile Include="Network\PacketEventArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\AboutForm.resx">

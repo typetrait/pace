@@ -13,6 +13,7 @@ namespace Pace.Server.Network
 {
     public class PaceServer
     {
+        public event EventHandler<PacketEventArgs> PacketReceived;
         public event EventHandler<ClientConnectedEventArgs> ClientConnected;
         public event EventHandler<ClientConnectedEventArgs> ClientDisconnected;
 
@@ -53,12 +54,20 @@ namespace Pace.Server.Network
             ClientDisconnected?.Invoke(this, new ClientConnectedEventArgs(client));
         }
 
+        protected void OnPacketReceived(IPacket packet, PaceClient client)
+        {
+            PacketReceived?.Invoke(this, new PacketEventArgs(packet, client));
+        }
+
         private void HandleClientConnection()
         {
             while (Listening)
             {
                 var client = new PaceClient(listener.AcceptTcpClient());
                 OnClientConnected(client);
+
+                var packet = client.ReadPacket();
+                OnPacketReceived(packet, client);
             }
 
             listener.Stop();
