@@ -64,7 +64,7 @@
             // 
             this.pathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pathTextBox.Location = new System.Drawing.Point(99, 15);
+            this.pathTextBox.Location = new System.Drawing.Point(99, 14);
             this.pathTextBox.Name = "pathTextBox";
             this.pathTextBox.Size = new System.Drawing.Size(419, 20);
             this.pathTextBox.TabIndex = 3;
@@ -73,7 +73,7 @@
             // backButton
             // 
             this.backButton.Image = global::Pace.Server.Properties.Resources.arrow_left;
-            this.backButton.Location = new System.Drawing.Point(12, 13);
+            this.backButton.Location = new System.Drawing.Point(12, 12);
             this.backButton.Name = "backButton";
             this.backButton.Size = new System.Drawing.Size(23, 23);
             this.backButton.TabIndex = 0;
@@ -82,7 +82,7 @@
             // forwardButton
             // 
             this.forwardButton.Image = global::Pace.Server.Properties.Resources.arrow_right;
-            this.forwardButton.Location = new System.Drawing.Point(41, 13);
+            this.forwardButton.Location = new System.Drawing.Point(41, 12);
             this.forwardButton.Name = "forwardButton";
             this.forwardButton.Size = new System.Drawing.Size(23, 23);
             this.forwardButton.TabIndex = 1;
@@ -91,7 +91,7 @@
             // upButton
             // 
             this.upButton.Image = global::Pace.Server.Properties.Resources.arrow_up;
-            this.upButton.Location = new System.Drawing.Point(70, 13);
+            this.upButton.Location = new System.Drawing.Point(70, 12);
             this.upButton.Name = "upButton";
             this.upButton.Size = new System.Drawing.Size(23, 23);
             this.upButton.TabIndex = 2;
@@ -101,7 +101,7 @@
             // 
             this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.refreshButton.Image = global::Pace.Server.Properties.Resources.arrow_rotate_anticlockwise;
-            this.refreshButton.Location = new System.Drawing.Point(524, 13);
+            this.refreshButton.Location = new System.Drawing.Point(524, 12);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(23, 23);
             this.refreshButton.TabIndex = 4;
