@@ -8,7 +8,7 @@ namespace Pace.Common.Network.Packets
 {
     public class PacketChannel
     {
-        public Dictionary<Type, Action<IPacket>> Handlers { get; private set; }
+        public readonly Dictionary<Type, Action<IPacket>> Handlers;
 
         public PacketChannel()
         {
