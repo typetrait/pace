@@ -52,7 +52,7 @@ namespace Pace.Server.Forms
             Close();
         }
 
-        private void Server_ClientConnected(object sender, ClientConnectedEventArgs e)
+        private void Server_ClientConnected(object sender, ClientEventArgs e)
         {
             MessageBox.Show(
                 $"Client connected from {e.Client.TcpClient.Client.RemoteEndPoint}.",
@@ -64,7 +64,7 @@ namespace Pace.Server.Forms
             e.Client.SendPacket(new GetSystemInfoRequestPacket());
         }
 
-        private void Server_ClientDisconnected(object sender, ClientConnectedEventArgs e)
+        private void Server_ClientDisconnected(object sender, ClientEventArgs e)
         {
             MessageBox.Show(
                 $"Client at {e.Client.TcpClient.Client.RemoteEndPoint} disconnected.",
