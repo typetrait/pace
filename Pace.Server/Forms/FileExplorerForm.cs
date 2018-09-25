@@ -67,23 +67,17 @@ namespace Pace.Server.Forms
             directoryListView.Invoke(new Action(() =>
             {
                 directoryListView.Clear();
-            }));
 
-            foreach (var folder in response.Folders)
-            {
-                directoryListView.Invoke(new Action(() =>
+                foreach (var folder in response.Folders)
                 {
                     directoryListView.Items.Add(folder, 0);
-                }));
-            }
+                }
 
-            foreach (var file in response.Files)
-            {
-                directoryListView.Invoke(new Action(() =>
+                foreach (var file in response.Files)
                 {
                     directoryListView.Items.Add(file, 1);
-                }));
-            }
+                }
+            }));
         }
 
         private void backButton_Click(object sender, EventArgs e)

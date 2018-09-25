@@ -78,7 +78,7 @@
     <Compile Include="Forms\ViewImageForm.Designer.cs">
       <DependentUpon>ViewImageForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Network\ClientConnectedEventArgs.cs" />
+    <Compile Include="Network\ClientEventArgs.cs" />
     <Compile Include="Network\PaceServer.cs" />
     <Compile Include="Network\PacketEventArgs.cs" />
     <Compile Include="Program.cs" />
