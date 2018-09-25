@@ -85,5 +85,25 @@ namespace Pace.Server.Forms
                 }));
             }
         }
+
+        private void backButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void forwardButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void upButton_Click(object sender, EventArgs e)
+        {
+            Navigate(Directory.GetParent(pathTextBox.Text).FullName);
+        }
+
+        private void refreshButton_Click(object sender, EventArgs e)
+        {
+            Navigate(pathTextBox.Text);
+        }
     }
 }

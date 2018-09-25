@@ -78,6 +78,7 @@
             this.backButton.Size = new System.Drawing.Size(23, 23);
             this.backButton.TabIndex = 0;
             this.backButton.UseVisualStyleBackColor = true;
+            this.backButton.Click += new System.EventHandler(this.backButton_Click);
             // 
             // forwardButton
             // 
@@ -87,6 +88,7 @@
             this.forwardButton.Size = new System.Drawing.Size(23, 23);
             this.forwardButton.TabIndex = 1;
             this.forwardButton.UseVisualStyleBackColor = true;
+            this.forwardButton.Click += new System.EventHandler(this.forwardButton_Click);
             // 
             // upButton
             // 
@@ -96,6 +98,7 @@
             this.upButton.Size = new System.Drawing.Size(23, 23);
             this.upButton.TabIndex = 2;
             this.upButton.UseVisualStyleBackColor = true;
+            this.upButton.Click += new System.EventHandler(this.upButton_Click);
             // 
             // refreshButton
             // 
@@ -106,6 +109,7 @@
             this.refreshButton.Size = new System.Drawing.Size(23, 23);
             this.refreshButton.TabIndex = 4;
             this.refreshButton.UseVisualStyleBackColor = true;
+            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 
             // FileExplorerForm
             // 
