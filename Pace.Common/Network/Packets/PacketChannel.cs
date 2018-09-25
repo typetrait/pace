@@ -22,13 +22,17 @@ namespace Pace.Common.Network.Packets
                 if (action.Key.Equals(packet.GetType()))
                 {
                     action.Value(packet);
+                    return;
                 }
             }
         }
 
         public void RegisterHandler<TPacket>(Action<IPacket> handler)
         {
-            Handlers.Add(typeof(TPacket), handler);
+            if (!Handlers.ContainsKey(typeof(TPacket)))
+            {
+                Handlers.Add(typeof(TPacket), handler);
+            }
         }
     }
 }

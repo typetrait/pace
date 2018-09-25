@@ -17,11 +17,17 @@ namespace Pace.Server.Network
         public event EventHandler<ClientConnectedEventArgs> ClientConnected;
         public event EventHandler<ClientConnectedEventArgs> ClientDisconnected;
 
+        public readonly PacketChannel PacketChannel;
         public List<PaceClient> ConnectedClients { get; set; }
         public bool Listening { get; set; }
         public Serializer Serializer { get; set; }
 
         private TcpListener listener;
+
+        public PaceServer()
+        {
+            PacketChannel = new PacketChannel();
+        }
 
         public void Start()
         {
@@ -57,6 +63,7 @@ namespace Pace.Server.Network
         protected void OnPacketReceived(IPacket packet, PaceClient client)
         {
             PacketReceived?.Invoke(this, new PacketEventArgs(packet, client));
+            PacketChannel.HandlePacket(packet);
         }
 
         private void HandleClientConnection()
@@ -66,8 +73,14 @@ namespace Pace.Server.Network
                 var client = new PaceClient(listener.AcceptTcpClient());
                 OnClientConnected(client);
 
-                var packet = client.ReadPacket();
-                OnPacketReceived(packet, client);
+                Task.Factory.StartNew(() =>
+                {
+                    while (true)
+                    {
+                        var packet = client.ReadPacket();
+                        OnPacketReceived(packet, client);
+                    }
+                });
             }
 
             listener.Stop();

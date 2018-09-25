@@ -21,7 +21,6 @@ namespace Pace.Server.Forms
     public partial class MainForm : Form
     {
         private PaceServer server;
-        private PacketChannel packetChannel;
 
         public MainForm()
         {
@@ -36,11 +35,9 @@ namespace Pace.Server.Forms
             server = new PaceServer();
             server.ClientConnected += Server_ClientConnected;
             server.ClientDisconnected += Server_ClientDisconnected;
-            server.PacketReceived += Server_PacketReceived;
 
-            packetChannel = new PacketChannel();
-            packetChannel.RegisterHandler<GetSystemInfoResponsePacket>(SystemInformationHandler);
-            packetChannel.RegisterHandler<TakeScreenshotResponsePacket>(ScreenshotHandler);
+            server.PacketChannel.RegisterHandler<GetSystemInfoResponsePacket>(HandleSystemInfo);
+            server.PacketChannel.RegisterHandler<TakeScreenshotResponsePacket>(HandleScreenshot);
 
             server.Start();
         }
@@ -77,17 +74,9 @@ namespace Pace.Server.Forms
             );
         }
 
-        private void Server_PacketReceived(object sender, PacketEventArgs e)
-        {
-            var packet = e.Packet;
-            var client = e.Client;
-
-            packetChannel.HandlePacket(packet);
-        }
-
         private void fileExplorerMenuItem_Click(object sender, EventArgs e)
         {
-            using (var fileExplorerForm = new FileExplorerForm(server.ConnectedClients[clientListview.SelectedItems[0].Index]))
+            using (var fileExplorerForm = new FileExplorerForm(server, server.ConnectedClients[clientListview.SelectedItems[0].Index]))
             {
                 fileExplorerForm.ShowDialog();
             }
@@ -141,7 +130,7 @@ namespace Pace.Server.Forms
             }
         }
 
-        private void SystemInformationHandler(object packet)
+        private void HandleSystemInfo(object packet)
         {
             var systemInfoResponse = (GetSystemInfoResponsePacket)packet;
 
@@ -155,13 +144,13 @@ namespace Pace.Server.Forms
                         systemInfoResponse.Username,
                         systemInfoResponse.ComputerName,
                         systemInfoResponse.OS
-            };
+                };
 
                 clientListview.Items.Add(new ListViewItem(row));
             }));
         }
 
-        private void ScreenshotHandler(object packet)
+        private void HandleScreenshot(object packet)
         {
             var screenshotPacket = (TakeScreenshotResponsePacket)packet;
 

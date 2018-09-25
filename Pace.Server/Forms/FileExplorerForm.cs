@@ -2,6 +2,7 @@
 using Pace.Common.Network;
 using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
+using Pace.Server.Network;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,6 +18,7 @@ namespace Pace.Server.Forms
 {
     public partial class FileExplorerForm : Form
     {
+        private PaceServer server;
         private PaceClient client;
 
         public FileExplorerForm()
@@ -24,13 +26,16 @@ namespace Pace.Server.Forms
             InitializeComponent();
         }
 
-        public FileExplorerForm(PaceClient client) : this()
+        public FileExplorerForm(PaceServer server, PaceClient client) : this()
         {
+            this.server = server;
             this.client = client;
         }
 
         private void FileExplorerForm_Load(object sender, EventArgs e)
         {
+            server.PacketChannel.RegisterHandler<GetDirectoryResponsePacket>(HandleGetDirectory);
+
             Navigate(Path.GetPathRoot(Environment.SystemDirectory));
         }
 
@@ -52,21 +57,33 @@ namespace Pace.Server.Forms
             var getDirectoryPacket = new GetDirectoryRequestPacket(path);
             client.SendPacket(getDirectoryPacket);
 
-            var response = (GetDirectoryResponsePacket)client.ReadPacket();
+            pathTextBox.Text = getDirectoryPacket.Path;
+        }
 
-            directoryListView.Clear();
+        private void HandleGetDirectory(object packet)
+        {
+            var response = (GetDirectoryResponsePacket)packet;
+
+            directoryListView.Invoke(new Action(() =>
+            {
+                directoryListView.Clear();
+            }));
 
             foreach (var folder in response.Folders)
             {
-                directoryListView.Items.Add(folder, 0);
+                directoryListView.Invoke(new Action(() =>
+                {
+                    directoryListView.Items.Add(folder, 0);
+                }));
             }
 
             foreach (var file in response.Files)
             {
-                directoryListView.Items.Add(file, 1);
+                directoryListView.Invoke(new Action(() =>
+                {
+                    directoryListView.Items.Add(file, 1);
+                }));
             }
-
-            pathTextBox.Text = getDirectoryPacket.Path;
         }
     }
 }
