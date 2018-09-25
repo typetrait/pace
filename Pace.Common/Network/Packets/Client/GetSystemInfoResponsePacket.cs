@@ -10,13 +10,17 @@ namespace Pace.Common.Network.Packets.Client
     public class GetSystemInfoResponsePacket : IPacket
     {
         public string Identifier { get; set; }
+        public string Address { get; set; }
+        public int Port { get; set; }
         public string Username { get; set; }
         public string ComputerName { get; set; }
         public string OS { get; set; }
 
-        public GetSystemInfoResponsePacket(string identifier, string username, string computerName, string os)
+        public GetSystemInfoResponsePacket(string identifier, string address, int port, string username, string computerName, string os)
         {
             Identifier = identifier;
+            Address = address;
+            Port = port;
             Username = username;
             ComputerName = computerName;
             OS = os;

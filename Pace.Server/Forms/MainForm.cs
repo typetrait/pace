@@ -1,4 +1,5 @@
-﻿using Pace.Common.Network.Packets;
+﻿using Pace.Common.Network;
+using Pace.Common.Network.Packets;
 using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
 using Pace.Server.Forms;
@@ -144,15 +145,13 @@ namespace Pace.Server.Forms
         {
             var systemInfoResponse = (GetSystemInfoResponsePacket)packet;
 
-            //string[] addressInfo = client.TcpClient.Client.RemoteEndPoint.ToString().Split(':');
-
             clientListview.Invoke(new Action(() =>
             {
                 string[] row =
                 {
                         systemInfoResponse.Identifier,
-                        "REPLACE",
-                        "LATER",
+                        systemInfoResponse.Address,
+                        systemInfoResponse.Port.ToString(),
                         systemInfoResponse.Username,
                         systemInfoResponse.ComputerName,
                         systemInfoResponse.OS

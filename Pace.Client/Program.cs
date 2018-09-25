@@ -53,8 +53,12 @@ namespace Pace.Client
             {
                 var systemInfo = SystemInformation.Get();
 
+                var clientAddress = client.TcpClient.Client.LocalEndPoint.ToString().Split(':');
+
                 var infoPacket = new GetSystemInfoResponsePacket(
                     ClientConfiguration.Identifier,
+                    clientAddress[0],
+                    int.Parse(clientAddress[1]),
                     systemInfo.UserName,
                     systemInfo.ComputerName,
                     systemInfo.OperatingSystem

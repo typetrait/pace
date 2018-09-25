@@ -18,11 +18,12 @@ namespace Pace.Client.System
 
         public static SystemInformation Get()
         {
-            var systemInformation = new SystemInformation();
-
-            systemInformation.UserName = Environment.UserName;
-            systemInformation.ComputerName = Environment.MachineName;
-            systemInformation.OperatingSystem = GetProductName();
+            var systemInformation = new SystemInformation
+            {
+                UserName = Environment.UserName,
+                ComputerName = Environment.MachineName,
+                OperatingSystem = GetProductName()
+            };
 
             return systemInformation;
         }
