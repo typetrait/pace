@@ -8,16 +8,16 @@ namespace Pace.Common.Network.Packets
 {
     public class PacketChannel
     {
-        public Dictionary<Type, Action<object>> Actions { get; private set; }
+        public Dictionary<Type, Action<IPacket>> Handlers { get; private set; }
 
         public PacketChannel()
         {
-            Actions = new Dictionary<Type, Action<object>>();
+            Handlers = new Dictionary<Type, Action<IPacket>>();
         }
 
         public void HandlePacket(IPacket packet)
         {
-            foreach (var action in Actions)
+            foreach (var action in Handlers)
             {
                 if (action.Key.Equals(packet.GetType()))
                 {
@@ -26,9 +26,9 @@ namespace Pace.Common.Network.Packets
             }
         }
 
-        public void RegisterHandler<TPacket>(Action<object> handler)
+        public void RegisterHandler<TPacket>(Action<IPacket> handler)
         {
-            Actions.Add(typeof(TPacket), handler);
+            Handlers.Add(typeof(TPacket), handler);
         }
     }
 }
