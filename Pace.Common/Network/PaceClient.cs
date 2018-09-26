@@ -13,6 +13,9 @@ namespace Pace.Common.Network
 {
     public class PaceClient
     {
+        public event EventHandler PacketReceived;
+        public event EventHandler PacketSent;
+
         public TcpClient TcpClient { get; set; }
 
         private Serializer serializer;
@@ -42,6 +45,7 @@ namespace Pace.Common.Network
 
             using (var ms = new MemoryStream(packetBytes))
             {
+                PacketReceived?.Invoke(this, EventArgs.Empty);
                 return (IPacket)serializer.Deserialize(ms);
             }
         }
@@ -86,6 +90,8 @@ namespace Pace.Common.Network
                 byte[] packetBytes = ms.ToArray();
                 SendData(packetBytes);
             }
+
+            PacketSent?.Invoke(this, EventArgs.Empty);
         }
 
         public void SendData(byte[] data)

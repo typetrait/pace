@@ -29,6 +29,8 @@ namespace Pace.Client
         private void Run()
         {
             client = new PaceClient();
+            client.PacketReceived += Client_PacketReceived;
+            client.PacketSent += Client_PacketSent;
 
             PrintDebug("Waiting for Server...");
 
@@ -134,6 +136,16 @@ namespace Pace.Client
             }
 
             Console.ReadKey();
+        }
+
+        private void Client_PacketReceived(object sender, EventArgs e)
+        {
+            PrintDebug("Packet received.");
+        }
+
+        private void Client_PacketSent(object sender, EventArgs e)
+        {
+            PrintDebug("Packet sent.");
         }
 
         public void PrintDebug(string message)
