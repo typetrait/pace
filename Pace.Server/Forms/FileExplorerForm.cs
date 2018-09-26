@@ -1,5 +1,6 @@
 ﻿using NetSerializer;
 using Pace.Common.Network;
+using Pace.Common.Network.Packets;
 using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
 using Pace.Server.Network;
@@ -64,20 +65,17 @@ namespace Pace.Server.Forms
         {
             var response = (GetDirectoryResponsePacket)packet;
 
-            directoryListView.Invoke(new Action(() =>
+            Invoke(new Action(() => directoryListView.Clear()));
+
+            foreach (var folder in response.Folders)
             {
-                directoryListView.Clear();
+                Invoke(new Action(() => directoryListView.Items.Add(folder, 0)));
+            }
 
-                foreach (var folder in response.Folders)
-                {
-                    directoryListView.Items.Add(folder, 0);
-                }
-
-                foreach (var file in response.Files)
-                {
-                    directoryListView.Items.Add(file, 1);
-                }
-            }));
+            foreach (var file in response.Files)
+            {
+                Invoke(new Action(() => directoryListView.Items.Add(file, 1)));
+            }
         }
 
         private void backButton_Click(object sender, EventArgs e)
