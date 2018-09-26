@@ -29,10 +29,12 @@ namespace Pace.Common.Network.Packets
 
         public void RegisterHandler<TPacket>(Action<IPacket> handler)
         {
-            if (!Handlers.ContainsKey(typeof(TPacket)))
+            if (Handlers.ContainsKey(typeof(TPacket)))
             {
-                Handlers.Add(typeof(TPacket), handler);
+                Handlers.Remove(typeof(TPacket));
             }
+
+            Handlers.Add(typeof(TPacket), handler);
         }
     }
 }
