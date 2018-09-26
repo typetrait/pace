@@ -30,7 +30,7 @@ namespace Pace.Client
         {
             client = new PaceClient();
 
-            Console.Write("Waiting for Server");
+            PrintDebug("Waiting for Server...");
 
             while (!client.TcpClient.Connected)
             {
@@ -40,12 +40,11 @@ namespace Pace.Client
                 }
                 catch (Exception)
                 {
-                    Console.Write('.');
                     continue;
                 }
             }
 
-            Console.Write("connected >:)");
+            PrintDebug("Connection established!");
 
             var packetChannel = new PacketChannel();
 
@@ -126,7 +125,7 @@ namespace Pace.Client
 
                         if (socketException.ErrorCode == (int)SocketError.ConnectionReset)
                         {
-                            Console.WriteLine("Connection reset!");
+                            PrintDebug("Connection reset!");
                         }
                     }
 
@@ -135,6 +134,11 @@ namespace Pace.Client
             }
 
             Console.ReadKey();
+        }
+
+        public void PrintDebug(string message)
+        {
+            Console.WriteLine($"[DEBUG]: {message}");
         }
     }
 }
