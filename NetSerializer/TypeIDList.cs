@@ -9,15 +9,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading;
 
 namespace NetSerializer
 {
-	/// <summary>
-	/// Threadsafe TypeID -> TypeData list, which supports lockless reading.
-	/// </summary>
-	class TypeIDList
+    /// <summary>
+    /// Threadsafe TypeID -> TypeData list, which supports lockless reading.
+    /// </summary>
+    class TypeIDList
 	{
 		TypeData[] m_array;
 		object m_writeLock = new object();

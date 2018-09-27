@@ -7,15 +7,13 @@
  */
 
 using System;
-using System.Linq;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using System.Collections.Generic;
 
 namespace NetSerializer
 {
-	public static class Primitives
+    public static class Primitives
 	{
 		public static MethodInfo GetWritePrimitive(Type type)
 		{

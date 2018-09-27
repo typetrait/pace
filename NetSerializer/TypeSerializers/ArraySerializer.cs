@@ -8,14 +8,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
 
 namespace NetSerializer
 {
-	sealed class ArraySerializer : IDynamicTypeSerializer
+    sealed class ArraySerializer : IDynamicTypeSerializer
 	{
 		public bool Handles(Type type)
 		{

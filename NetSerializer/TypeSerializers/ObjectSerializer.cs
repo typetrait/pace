@@ -9,12 +9,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace NetSerializer
 {
-	sealed class ObjectSerializer : IStaticTypeSerializer
+    sealed class ObjectSerializer : IStaticTypeSerializer
 	{
 		public bool Handles(Type type)
 		{

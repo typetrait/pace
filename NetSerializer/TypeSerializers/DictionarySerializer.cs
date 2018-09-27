@@ -12,11 +12,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace NetSerializer
 {
-	sealed class DictionarySerializer : IStaticTypeSerializer
+    sealed class DictionarySerializer : IStaticTypeSerializer
 	{
 		public bool Handles(Type type)
 		{

@@ -8,14 +8,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace NetSerializer
 {
-	sealed class PrimitivesSerializer : IStaticTypeSerializer
+    sealed class PrimitivesSerializer : IStaticTypeSerializer
 	{
 		static Type[] s_primitives = new Type[] {
 				typeof(bool),

@@ -1,19 +1,10 @@
-﻿using Pace.Common.Network;
-using Pace.Common.Network.Packets;
-using Pace.Common.Network.Packets.Client;
+﻿using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
-using Pace.Server.Forms;
 using Pace.Server.Network;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Pace.Server.Forms

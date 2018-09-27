@@ -13,11 +13,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
 
 namespace NetSerializer
 {
-	static class Helpers
+    static class Helpers
 	{
 		public static IEnumerable<FieldInfo> GetFieldInfos(Type type)
 		{

@@ -8,16 +8,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
 
 namespace NetSerializer
 {
-	sealed class GenericSerializer : IDynamicTypeSerializer
+    sealed class GenericSerializer : IDynamicTypeSerializer
 	{
 		public bool Handles(Type type)
 		{
