@@ -13,6 +13,8 @@ namespace Pace.Server.Forms
         private PaceServer server;
         private PaceClient client;
 
+        private DirectoryInfo currentDirectory;
+
         public FileExplorerForm()
         {
             InitializeComponent();
@@ -40,7 +42,8 @@ namespace Pace.Server.Forms
                 if (item.ImageIndex == 1)
                     return;
 
-                Navigate(item.Text);
+                var path = Path.Combine(currentDirectory.FullName, item.Text);
+                Navigate(path);
             }
         }
 
@@ -49,31 +52,6 @@ namespace Pace.Server.Forms
             if (e.KeyCode == Keys.Enter)
             {
                 Navigate(pathTextBox.Text);
-            }
-        }
-
-        private void Navigate(string path)
-        {
-            var getDirectoryPacket = new GetDirectoryRequestPacket(path);
-            client.SendPacket(getDirectoryPacket);
-
-            pathTextBox.Text = getDirectoryPacket.Path;
-        }
-
-        private void HandleGetDirectory(object packet)
-        {
-            var response = (GetDirectoryResponsePacket)packet;
-
-            Invoke(new Action(() => directoryListView.Clear()));
-
-            foreach (var folder in response.Folders)
-            {
-                Invoke(new Action(() => directoryListView.Items.Add(folder, 0)));
-            }
-
-            foreach (var file in response.Files)
-            {
-                Invoke(new Action(() => directoryListView.Items.Add(file, 1)));
             }
         }
 
@@ -95,6 +73,34 @@ namespace Pace.Server.Forms
         private void refreshButton_Click(object sender, EventArgs e)
         {
             Navigate(pathTextBox.Text);
+        }
+
+        private void Navigate(string path)
+        {
+            var getDirectoryPacket = new GetDirectoryRequestPacket(path);
+            client.SendPacket(getDirectoryPacket);
+
+            currentDirectory = new DirectoryInfo(getDirectoryPacket.Path);
+            pathTextBox.Text = getDirectoryPacket.Path;
+        }
+
+        private void HandleGetDirectory(object packet)
+        {
+            var response = (GetDirectoryResponsePacket)packet;
+
+            Invoke(new Action(() => directoryListView.Clear()));
+
+            foreach (var folder in response.Folders)
+            {
+                var dirInfo = new DirectoryInfo(folder);
+                Invoke(new Action(() => directoryListView.Items.Add(dirInfo.Name, 0)));
+            }
+
+            foreach (var file in response.Files)
+            {
+                var fileInfo = new FileInfo(file);
+                Invoke(new Action(() => directoryListView.Items.Add(fileInfo.Name, 1)));
+            }
         }
     }
 }
