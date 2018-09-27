@@ -1,18 +1,9 @@
-﻿using NetSerializer;
-using Pace.Common.Network;
-using Pace.Common.Network.Packets;
+﻿using Pace.Common.Network;
 using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
 using Pace.Server.Network;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Pace.Server.Forms
@@ -40,9 +31,17 @@ namespace Pace.Server.Forms
             Navigate(Path.GetPathRoot(Environment.SystemDirectory));
         }
 
-        private void directoryListView_SelectedIndexChanged(object sender, EventArgs e)
+        private void directoryListView_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Navigate(directoryListView.SelectedItems[0].Text);
+            if (directoryListView.SelectedItems.Count > 0)
+            {
+                var item = directoryListView.SelectedItems[0];
+
+                if (item.ImageIndex == 1)
+                    return;
+
+                Navigate(item.Text);
+            }
         }
 
         private void pathTextBox_KeyDown(object sender, KeyEventArgs e)

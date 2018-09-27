@@ -58,7 +58,7 @@
             this.directoryListView.TabIndex = 5;
             this.directoryListView.UseCompatibleStateImageBehavior = false;
             this.directoryListView.View = System.Windows.Forms.View.List;
-            this.directoryListView.SelectedIndexChanged += new System.EventHandler(this.directoryListView_SelectedIndexChanged);
+            this.directoryListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.directoryListView_MouseDoubleClick);
             // 
             // pathTextBox
             // 
