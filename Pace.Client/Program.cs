@@ -39,7 +39,7 @@ namespace Pace.Client
                 }
             }
 
-            PrintDebug("Connection established!");
+            PrintDebug("Connected!");
 
             var packetChannel = new PacketChannel();
 
@@ -120,7 +120,7 @@ namespace Pace.Client
 
                         if (socketException.ErrorCode == (int)SocketError.ConnectionReset)
                         {
-                            PrintDebug("Connection reset!");
+                            PrintDebug("Disconnected!");
                         }
                     }
 
