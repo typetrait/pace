@@ -86,6 +86,18 @@ namespace Pace.Server.Forms
 
         private void deleteMenuItem_Click(object sender, EventArgs e)
         {
+            var result = MessageBox.Show(
+                "Are you sure you want to delete the selected items?",
+                "Pace",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+
             foreach (ListViewItem item in directoryListView.SelectedItems)
             {
                 var packet = new DeleteFileRequestPacket(Path.Combine(currentDirectory.FullName, item.Text));
