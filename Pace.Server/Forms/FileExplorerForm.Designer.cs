@@ -32,11 +32,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileExplorerForm));
             this.explorerImageList = new System.Windows.Forms.ImageList(this.components);
             this.directoryListView = new System.Windows.Forms.ListView();
+            this.fileContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pathTextBox = new System.Windows.Forms.TextBox();
             this.backButton = new System.Windows.Forms.Button();
             this.forwardButton = new System.Windows.Forms.Button();
             this.upButton = new System.Windows.Forms.Button();
             this.refreshButton = new System.Windows.Forms.Button();
+            this.fileContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // explorerImageList
@@ -51,6 +54,7 @@
             this.directoryListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.directoryListView.ContextMenuStrip = this.fileContextMenu;
             this.directoryListView.Location = new System.Drawing.Point(12, 54);
             this.directoryListView.Name = "directoryListView";
             this.directoryListView.Size = new System.Drawing.Size(535, 270);
@@ -59,6 +63,22 @@
             this.directoryListView.UseCompatibleStateImageBehavior = false;
             this.directoryListView.View = System.Windows.Forms.View.List;
             this.directoryListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.directoryListView_MouseDoubleClick);
+            // 
+            // fileContextMenu
+            // 
+            this.fileContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteMenuItem});
+            this.fileContextMenu.Name = "fileContextMenu";
+            this.fileContextMenu.Size = new System.Drawing.Size(181, 48);
+            this.fileContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.fileContextMenu_Opening);
+            // 
+            // deleteMenuItem
+            // 
+            this.deleteMenuItem.Image = global::Pace.Server.Properties.Resources.cross;
+            this.deleteMenuItem.Name = "deleteMenuItem";
+            this.deleteMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteMenuItem.Text = "Delete";
+            this.deleteMenuItem.Click += new System.EventHandler(this.deleteMenuItem_Click);
             // 
             // pathTextBox
             // 
@@ -127,6 +147,7 @@
             this.Name = "FileExplorerForm";
             this.Text = "File Explorer";
             this.Load += new System.EventHandler(this.FileExplorerForm_Load);
+            this.fileContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -140,5 +161,7 @@
         private System.Windows.Forms.Button forwardButton;
         private System.Windows.Forms.Button upButton;
         private System.Windows.Forms.Button refreshButton;
+        private System.Windows.Forms.ContextMenuStrip fileContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem deleteMenuItem;
     }
 }

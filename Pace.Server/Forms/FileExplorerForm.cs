@@ -3,6 +3,7 @@ using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
 using Pace.Server.Network;
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 
@@ -47,6 +48,14 @@ namespace Pace.Server.Forms
             }
         }
 
+        private void fileContextMenu_Opening(object sender, CancelEventArgs e)
+        {
+            if (directoryListView.SelectedItems.Count < 1)
+            {
+                e.Cancel = true;
+            }
+        }
+
         private void pathTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -73,6 +82,15 @@ namespace Pace.Server.Forms
         private void refreshButton_Click(object sender, EventArgs e)
         {
             Navigate(pathTextBox.Text);
+        }
+
+        private void deleteMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in directoryListView.SelectedItems)
+            {
+                var packet = new DeleteFileRequestPacket(Path.Combine(currentDirectory.FullName, item.Text));
+                client.SendPacket(packet);
+            }
         }
 
         private void Navigate(string path)

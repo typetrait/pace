@@ -17,7 +17,8 @@ namespace Pace.Common.Network.Packets
                 typeof(TakeScreenshotResponsePacket),
                 typeof(SendFileRequestPacket),
                 typeof(GetDirectoryRequestPacket),
-                typeof(GetDirectoryResponsePacket)
+                typeof(GetDirectoryResponsePacket),
+                typeof(DeleteFileRequestPacket)
             };
         }
     }

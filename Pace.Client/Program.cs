@@ -97,6 +97,28 @@ namespace Pace.Client
                 client.SendPacket(response);
             });
 
+            packetChannel.RegisterHandler<DeleteFileRequestPacket>((packet) =>
+            {
+                var deleteFilePacket = (DeleteFileRequestPacket)packet;
+
+                PrintDebug($"Requested deletion of file {deleteFilePacket.File}");
+
+                if (Directory.Exists(deleteFilePacket.File))
+                {
+                    Directory.Delete(deleteFilePacket.File);
+                }
+                else if (File.Exists(deleteFilePacket.File))
+                {
+                    File.Delete(deleteFilePacket.File);
+                }
+
+                client.SendPacket(new GetDirectoryResponsePacket
+                {
+                    Folders = FileExplorer.GetDirectories(Directory.GetParent(deleteFilePacket.File).FullName),
+                    Files = FileExplorer.GetFiles(Directory.GetParent(deleteFilePacket.File).FullName)
+                });
+            });
+
             isRunning = true;
 
             while (isRunning)
