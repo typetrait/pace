@@ -1,4 +1,6 @@
-![Pace Logo](pace-banner.png)
+<p align="center">
+  <img src="pace-banner.png" height="350px">
+</p>
 
 ---
 
