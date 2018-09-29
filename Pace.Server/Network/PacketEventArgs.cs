@@ -6,10 +6,10 @@ namespace Pace.Server.Network
 {
     public class PacketEventArgs : EventArgs
     {
-        public IPacket Packet { get; set; }
         public PaceClient Client { get; set; }
+        public IPacket Packet { get; set; }
 
-        public PacketEventArgs(IPacket packet, PaceClient client)
+        public PacketEventArgs(PaceClient client, IPacket packet)
         {
             Packet = packet;
             Client = client;

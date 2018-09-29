@@ -58,9 +58,9 @@ namespace Pace.Server.Network
             ClientDisconnected?.Invoke(this, new ClientEventArgs(client));
         }
 
-        protected void OnPacketReceived(IPacket packet, PaceClient client)
+        protected void OnPacketReceived(PaceClient client, IPacket packet)
         {
-            PacketReceived?.Invoke(this, new PacketEventArgs(packet, client));
+            PacketReceived?.Invoke(this, new PacketEventArgs(client, packet));
             PacketChannel.HandlePacket(packet);
         }
 
@@ -76,7 +76,7 @@ namespace Pace.Server.Network
                     while (true)
                     {
                         var packet = client.ReadPacket();
-                        OnPacketReceived(packet, client);
+                        OnPacketReceived(client, packet);
                     }
                 });
             }
