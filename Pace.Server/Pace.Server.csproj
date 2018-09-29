@@ -124,7 +124,6 @@
   <ItemGroup>
     <Content Include="icon.ico" />
     <None Include="Resources\pace-icon.png" />
-    <None Include="Resources\pace_logo.bmp" />
     <None Include="icons\zones-stack.png" />
     <None Include="icons\zone-share.png" />
     <None Include="icons\zone-select.png" />

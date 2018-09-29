@@ -69,14 +69,14 @@
             this.fileContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteMenuItem});
             this.fileContextMenu.Name = "fileContextMenu";
-            this.fileContextMenu.Size = new System.Drawing.Size(181, 48);
+            this.fileContextMenu.Size = new System.Drawing.Size(108, 26);
             this.fileContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.fileContextMenu_Opening);
             // 
             // deleteMenuItem
             // 
             this.deleteMenuItem.Image = global::Pace.Server.Properties.Resources.cross;
             this.deleteMenuItem.Name = "deleteMenuItem";
-            this.deleteMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteMenuItem.Size = new System.Drawing.Size(107, 22);
             this.deleteMenuItem.Text = "Delete";
             this.deleteMenuItem.Click += new System.EventHandler(this.deleteMenuItem_Click);
             // 
