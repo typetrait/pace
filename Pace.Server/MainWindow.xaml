@@ -12,9 +12,11 @@
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
-        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+        DataContext="{StaticResource ResourceKey=ClientViewModel}">
+
     <Grid>
-        <ListView Margin="10" Name="clientListView">
+        <ListView Margin="10" Name="clientListView" ItemsSource="{Binding Clients}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Identifier" Width="120" DisplayMemberBinding="{Binding Identifier}" />
