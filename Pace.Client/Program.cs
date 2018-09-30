@@ -88,6 +88,11 @@ namespace Pace.Client
             {
                 var getDirectoryPacket = (GetDirectoryRequestPacket)packet;
 
+                var directory = new DirectoryInfo(getDirectoryPacket.Path);
+
+                if (!directory.Exists)
+                    return;
+
                 var response = new GetDirectoryResponsePacket
                 {
                     Folders = FileExplorer.GetDirectories(getDirectoryPacket.Path),

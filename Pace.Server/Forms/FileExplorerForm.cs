@@ -76,6 +76,11 @@ namespace Pace.Server.Forms
 
         private void upButton_Click(object sender, EventArgs e)
         {
+            if (currentDirectory.Parent == null)
+            {
+                return;
+            }
+
             Navigate(Directory.GetParent(pathTextBox.Text).FullName);
         }
 
