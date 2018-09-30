@@ -7,7 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Icon="icon.ico"
-        Title="PACE" Height="450" Width="800"
+        Title="Pace" Height="450" Width="800"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
@@ -15,7 +15,7 @@
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
     <Grid>
         <materialDesign:Card Padding="32" Margin="16">
-            <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}">PACE</TextBlock>
+            <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}">Pace</TextBlock>
         </materialDesign:Card>
     </Grid>
 </Window>
