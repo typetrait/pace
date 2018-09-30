@@ -14,8 +14,17 @@
         TextElement.FontSize="14"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
     <Grid>
-        <materialDesign:Card Padding="32" Margin="16">
-            <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}">Pace</TextBlock>
-        </materialDesign:Card>
+        <ListView Margin="10" Name="clientListView">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Identifier" Width="120" DisplayMemberBinding="{Binding Identifier}" />
+                    <GridViewColumn Header="IP Address" Width="120" DisplayMemberBinding="{Binding Address}" />
+                    <GridViewColumn Header="Port" Width="120" DisplayMemberBinding="{Binding Port}" />
+                    <GridViewColumn Header="Username" Width="120" DisplayMemberBinding="{Binding Username}" />
+                    <GridViewColumn Header="Computer Name" Width="140" DisplayMemberBinding="{Binding ComputerName}" />
+                    <GridViewColumn Header="Operating System" Width="140" DisplayMemberBinding="{Binding OS}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
