@@ -117,9 +117,7 @@
   <ItemGroup>
     <Resource Include="icon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="View\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\NetSerializer\NetSerializer.csproj">
       <Project>{85a11d07-8d18-42d5-accf-ef9744efe825}</Project>
