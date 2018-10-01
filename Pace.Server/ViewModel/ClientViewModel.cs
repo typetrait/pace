@@ -1,4 +1,7 @@
-﻿using Pace.Server.Model;
+﻿using Pace.Common.Network.Packets.Client;
+using Pace.Common.Network.Packets.Server;
+using Pace.Server.Model;
+using Pace.Server.Network;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,34 +9,64 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Pace.Server.ViewModel
 {
-    public class ClientViewModel : INotifyPropertyChanged
+    public class ClientViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        private readonly PaceServer server;
 
         public ObservableCollection<Client> Clients { get; set; }
 
         public ClientViewModel()
         {
-            Clients = new ObservableCollection<Client>()
-            {
-                new Client()
-                {
-                    Identifier = "PACE-01",
-                    Address = "127.0.0.1",
-                    Port = 5674,
-                    Username = "Bruno",
-                    ComputerName = "CORE",
-                    OS = "Windows 10 Home"
-                }
-            };
+            Clients = new ObservableCollection<Client>();
+
+            server = new PaceServer();
+            server.ClientConnected += Server_ClientConnected;
+            server.ClientDisconnected += Server_ClientDisconnected;
+
+            server.PacketChannel.RegisterHandler<GetSystemInfoResponsePacket>(HandleSystemInfo);
+
+            server.Start();
         }
 
-        protected void OnPropertyChanged(string propertyName)
+        private void Server_ClientConnected(object sender, ClientEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            MessageBox.Show(
+                $"Client connected from {e.Client.TcpClient.Client.RemoteEndPoint}.",
+                "Pace",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information
+            );
+
+            e.Client.SendPacket(new GetSystemInfoRequestPacket());
+        }
+
+        private void Server_ClientDisconnected(object sender, ClientEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleSystemInfo(object packet)
+        {
+            var systemInfoResponse = (GetSystemInfoResponsePacket)packet;
+
+            var client = new Client()
+            {
+                Identifier = systemInfoResponse.Identifier,
+                Address = systemInfoResponse.Address,
+                Port = systemInfoResponse.Port,
+                Username = systemInfoResponse.Username,
+                ComputerName = systemInfoResponse.ComputerName,
+                OS = systemInfoResponse.OS
+            };
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                Clients.Add(client);
+            });
         }
     }
 }

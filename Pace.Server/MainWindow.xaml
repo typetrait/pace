@@ -15,7 +15,7 @@
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         DataContext="{StaticResource ResourceKey=ClientViewModel}">
 
-    <Grid>
+    <DockPanel>
         <ListView Margin="10" Name="clientListView" ItemsSource="{Binding Clients}">
             <ListView.View>
                 <GridView>
@@ -28,5 +28,5 @@
                 </GridView>
             </ListView.View>
         </ListView>
-    </Grid>
+    </DockPanel>
 </Window>

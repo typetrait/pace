@@ -69,6 +69,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Network\ClientEventArgs.cs" />
+    <Compile Include="Network\PaceServer.cs" />
+    <Compile Include="Network\PacketEventArgs.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -116,6 +119,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="View\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NetSerializer\NetSerializer.csproj">
+      <Project>{85a11d07-8d18-42d5-accf-ef9744efe825}</Project>
+      <Name>NetSerializer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pace.Common\Pace.Common.csproj">
+      <Project>{e5527d2f-7026-4691-bf15-f79cf3a5562e}</Project>
+      <Name>Pace.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\ShowMeTheXAML.MSBuild.1.0.10\build\net45\ShowMeTheXAML.MSBuild.targets" Condition="Exists('..\packages\ShowMeTheXAML.MSBuild.1.0.10\build\net45\ShowMeTheXAML.MSBuild.targets')" />
