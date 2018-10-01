@@ -17,6 +17,11 @@
 
     <DockPanel>
         <ListView Margin="10" Name="clientListView" ItemsSource="{Binding Clients}">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="File Manager" />
+                </ContextMenu>
+            </ListView.ContextMenu>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Identifier" Width="120" DisplayMemberBinding="{Binding Identifier}" />
