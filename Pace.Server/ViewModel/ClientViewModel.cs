@@ -23,6 +23,10 @@ namespace Pace.Server.ViewModel
         {
             Clients = new ObservableCollection<Client>();
 
+            #if DEBUG
+                if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
+            #endif
+
             server = new PaceServer();
             server.ClientConnected += Server_ClientConnected;
             server.ClientDisconnected += Server_ClientDisconnected;
