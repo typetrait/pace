@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Pace.Server"
              xmlns:viewModel="clr-namespace:Pace.Server.ViewModel"
-             StartupUri="MainWindow.xaml">
+             StartupUri="View\MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary>
+        <ResourceDictionary x:Name="Habalau">
+            <BitmapImage UriSource="pack://application:,,,/Resources/icon.ico" x:Key="Icon" />
             <viewModel:ClientViewModel x:Key="ClientViewModel" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />

@@ -37,7 +37,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
@@ -73,7 +73,7 @@
     <Compile Include="Network\PaceServer.cs" />
     <Compile Include="Network\PacketEventArgs.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -81,7 +81,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -115,7 +115,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icon.ico" />
+    <Resource Include="Resources\icon.ico" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
