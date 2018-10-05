@@ -27,7 +27,7 @@
                 </materialDesign:PopupBox>-->
                 <StackPanel Orientation="Horizontal">
                     <!--<ToggleButton Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />-->
-                    <Image VerticalAlignment="Center" MaxHeight="45px" Source="{StaticResource Icon}"></Image>
+                    <Image VerticalAlignment="Center" Height="45px" Source="{StaticResource Icon}"></Image>
                     <TextBlock VerticalAlignment="Center" Margin="16 0 0 0" FontSize="24px">
                         PACE
                     </TextBlock>
