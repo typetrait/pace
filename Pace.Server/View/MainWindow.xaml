@@ -16,6 +16,7 @@
         DataContext="{StaticResource ResourceKey=ClientViewModel}">
 
     <DockPanel>
+        <materialDesign:Snackbar HorizontalAlignment="Stretch" MessageQueue="{Binding ConnectedMessageQueue}" x:Name="ConnectionSnackbar" DockPanel.Dock="Bottom" />
         <materialDesign:ColorZone DockPanel.Dock="Top" Mode="PrimaryDark" Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth0">
             <DockPanel>
                 <!--<materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges">

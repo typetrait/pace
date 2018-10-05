@@ -1,4 +1,5 @@
-﻿using Pace.Common.Network.Packets.Client;
+﻿using MaterialDesignThemes.Wpf;
+using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
 using Pace.Server.Model;
 using Pace.Server.Network;
@@ -18,10 +19,13 @@ namespace Pace.Server.ViewModel
         private readonly PaceServer server;
 
         public ObservableCollection<Client> Clients { get; set; }
+        public SnackbarMessageQueue ConnectedMessageQueue { get; set; }
 
         public ClientViewModel()
         {
             Clients = new ObservableCollection<Client>();
+
+            ConnectedMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(5000));
 
             #if DEBUG
                 if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
@@ -38,12 +42,7 @@ namespace Pace.Server.ViewModel
 
         private void Server_ClientConnected(object sender, ClientEventArgs e)
         {
-            MessageBox.Show(
-                $"Client connected from {e.Client.TcpClient.Client.RemoteEndPoint}.",
-                "Pace",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information
-            );
+            ConnectedMessageQueue.Enqueue($"Client connected from {e.Client.TcpClient.Client.RemoteEndPoint}.");
 
             e.Client.SendPacket(new GetSystemInfoRequestPacket());
         }
