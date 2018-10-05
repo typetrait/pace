@@ -19,7 +19,12 @@
         <ListView Margin="10" Name="clientListView" ItemsSource="{Binding Clients}">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="File Manager" />
+                    <MenuItem Header="Management">
+                        <MenuItem Header="File Manager" />
+                    </MenuItem>
+                    <MenuItem Header="Surveillance">
+                        <MenuItem Header="Take Screenshot" />
+                    </MenuItem>
                 </ContextMenu>
             </ListView.ContextMenu>
             <ListView.View>
