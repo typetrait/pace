@@ -16,6 +16,24 @@
         DataContext="{StaticResource ResourceKey=ClientViewModel}">
 
     <DockPanel>
+        <materialDesign:ColorZone DockPanel.Dock="Top" Mode="PrimaryDark" Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth0">
+            <DockPanel>
+                <!--<materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges">
+                    <ListBox>
+                        <ListBoxItem>
+                            About
+                        </ListBoxItem>
+                    </ListBox>
+                </materialDesign:PopupBox>-->
+                <StackPanel Orientation="Horizontal">
+                    <!--<ToggleButton Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />-->
+                    <Image VerticalAlignment="Center" MaxHeight="45px" Source="{StaticResource Icon}"></Image>
+                    <TextBlock VerticalAlignment="Center" Margin="16 0 0 0" FontSize="24px">
+                        PACE
+                    </TextBlock>
+                </StackPanel>
+            </DockPanel>
+        </materialDesign:ColorZone>
         <ListView Margin="10" Name="clientListView" ItemsSource="{Binding Clients}">
             <ListView.ContextMenu>
                 <ContextMenu>
