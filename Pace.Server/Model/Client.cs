@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pace.Common.Network;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace Pace.Server.Model
 {
     public class Client
     {
+        public PaceClient Owner { get; set; }
         public string Identifier { get; set; }
         public string Address { get; set; }
         public int Port { get; set; }

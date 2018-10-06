@@ -4,6 +4,7 @@ using Pace.Common.Network.Packets.Server;
 using Pace.Server.Model;
 using Pace.Server.Network;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -45,7 +46,13 @@ namespace Pace.Server.ViewModel
 
         private void Server_ClientDisconnected(object sender, ClientEventArgs e)
         {
-            throw new NotImplementedException();
+            var list = new List<Client>(Clients);
+            var client = list.Find(c => c.Owner == e.Client);
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                Clients.Remove(client);
+            });
         }
 
         private void HandleSystemInfo(object packet)
@@ -61,6 +68,8 @@ namespace Pace.Server.ViewModel
                 ComputerName = systemInfoResponse.ComputerName,
                 OS = systemInfoResponse.OS
             };
+
+            client.Owner = server.ConnectedClients.Find(c => client.Address == c.TcpClient.Client.RemoteEndPoint.ToString().Split(':')[0]);
 
             Application.Current.Dispatcher.Invoke(() =>
             {
