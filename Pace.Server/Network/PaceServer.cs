@@ -1,8 +1,10 @@
 ﻿using NetSerializer;
 using Pace.Common.Network;
 using Pace.Common.Network.Packets;
+using Pace.Server.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -18,25 +20,24 @@ namespace Pace.Server.Network
         public readonly PacketChannel PacketChannel;
         public List<PaceClient> ConnectedClients { get; set; }
         public bool Listening { get; set; }
-        public Serializer Serializer { get; set; }
 
+        private readonly Serializer serializer;
         private TcpListener listener;
 
         public PaceServer()
         {
             PacketChannel = new PacketChannel();
+            ConnectedClients = new List<PaceClient>();
+            serializer = new Serializer(PacketRegistry.GetPacketTypes());
         }
 
         public void Start()
         {
-            ConnectedClients = new List<PaceClient>();
+            listener?.Stop();
 
-            listener = new TcpListener(IPAddress.Any, 7777);
+            listener = new TcpListener(IPAddress.Any, ServerConfiguration.Port);
             listener.Start();
-
             Listening = true;
-
-            Serializer = new Serializer(PacketRegistry.GetPacketTypes());
 
             Task.Factory.StartNew(HandleClientConnection);
         }
@@ -73,10 +74,33 @@ namespace Pace.Server.Network
 
                 Task.Factory.StartNew(() =>
                 {
-                    while (true)
+                    bool isConnected = true;
+
+                    while (isConnected)
                     {
-                        var packet = client.ReadPacket();
-                        OnPacketReceived(client, packet);
+                        try
+                        {
+                            var packet = client.ReadPacket();
+                            OnPacketReceived(client, packet);
+                        }
+                        catch (IOException ex)
+                        {
+                            if (ex.InnerException == null)
+                            {
+                                throw ex;
+                            }
+
+                            if (ex.InnerException.GetType() == typeof(SocketException))
+                            {
+                                var socketException = (ex.InnerException as SocketException);
+
+                                if (socketException.ErrorCode == (int)SocketError.ConnectionReset)
+                                {
+                                    OnClientDisconnected(client);
+                                    isConnected = false;
+                                }
+                            }
+                        }
                     }
                 });
             }

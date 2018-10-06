@@ -66,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Configuration\ServerConfiguration.cs" />
     <Compile Include="Network\ClientEventArgs.cs" />
     <Compile Include="Network\PaceServer.cs" />
     <Compile Include="Network\PacketEventArgs.cs" />
