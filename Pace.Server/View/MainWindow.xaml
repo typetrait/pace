@@ -39,10 +39,24 @@
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Management">
-                        <MenuItem Header="File Manager" />
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Monitor" />
+                        </MenuItem.Icon>
+                        <MenuItem Header="File Manager">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Folder" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
                     <MenuItem Header="Surveillance">
-                        <MenuItem Header="Take Screenshot" />
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Eye" />
+                        </MenuItem.Icon>
+                        <MenuItem Header="Take Screenshot">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Camera" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
                 </ContextMenu>
             </ListView.ContextMenu>
