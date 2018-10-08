@@ -42,7 +42,7 @@
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="Monitor" />
                         </MenuItem.Icon>
-                        <MenuItem Header="File Manager">
+                        <MenuItem Header="File Manager" Command="{Binding FileManagerCommand}">
                             <MenuItem.Icon>
                                 <materialDesign:PackIcon Kind="Folder" />
                             </MenuItem.Icon>

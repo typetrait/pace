@@ -17,12 +17,15 @@ namespace Pace.Server.ViewModel
 
         public ObservableCollection<Client> Clients { get; set; }
         public SnackbarMessageQueue ConnectedMessageQueue { get; set; }
+        public RelayCommand<Client> FileManagerCommand { get; set; }
 
         public ClientViewModel()
         {
             Clients = new ObservableCollection<Client>();
 
             ConnectedMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(5000));
+
+            FileManagerCommand = new RelayCommand<Client>(ExecuteFileManager);
 
             #if DEBUG
                 if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
@@ -53,6 +56,11 @@ namespace Pace.Server.ViewModel
             {
                 Clients.Remove(client);
             });
+        }
+
+        private void ExecuteFileManager(Client client)
+        {
+            throw new NotImplementedException();
         }
 
         private void HandleSystemInfo(object packet)
