@@ -14,6 +14,7 @@ namespace Pace.Server.ViewModel
     public class ClientViewModel
     {
         private readonly PaceServer server;
+        private readonly FileWindowService fileManagerService;
 
         public ObservableCollection<Client> Clients { get; set; }
         public SnackbarMessageQueue ConnectedMessageQueue { get; set; }
@@ -21,6 +22,8 @@ namespace Pace.Server.ViewModel
 
         public ClientViewModel()
         {
+            fileManagerService = new FileWindowService();
+
             Clients = new ObservableCollection<Client>();
 
             ConnectedMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(5000));
@@ -60,7 +63,7 @@ namespace Pace.Server.ViewModel
 
         private void ExecuteFileManager(Client client)
         {
-            throw new NotImplementedException();
+            fileManagerService.ShowWindow(this);
         }
 
         private void HandleSystemInfo(object packet)
