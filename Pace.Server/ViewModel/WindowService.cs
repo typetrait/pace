@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace Pace.Server.ViewModel
 {
-    public class IWindowService<TWindow> where TWindow : Window, new()
+    public class WindowService<TWindow> where TWindow : Window, new()
     {
         public void ShowWindow(object viewModel)
         {

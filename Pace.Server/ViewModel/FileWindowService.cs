@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace Pace.Server.ViewModel
 {
-    public class FileWindowService : IWindowService<FileExplorerWindow>
+    public class FileWindowService : WindowService<FileExplorerWindow>
     {
 
     }
