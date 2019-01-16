@@ -70,6 +70,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Configuration\ServerConfiguration.cs" />
+    <Compile Include="Model\File.cs" />
     <Compile Include="Network\ClientEventArgs.cs" />
     <Compile Include="Network\PaceServer.cs" />
     <Compile Include="Network\PacketEventArgs.cs" />
@@ -86,6 +87,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModel\FileExplorerViewModel.cs" />
     <Compile Include="ViewModel\WindowService.cs" />
     <Compile Include="ViewModel\FileWindowService.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />

@@ -2,16 +2,7 @@
 
 namespace Pace.Server.ViewModel
 {
-    public class WindowService<TWindow> where TWindow : Window, new()
+    public class WindowService<TWindow> where TWindow : Window
     {
-        public void ShowWindow(object viewModel)
-        {
-            var window = new TWindow()
-            {
-                DataContext = viewModel
-            };
-
-            window.Show();
-        }
     }
 }

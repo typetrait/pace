@@ -20,7 +20,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <DockPanel>
-        <materialDesign:Snackbar HorizontalAlignment="Stretch" MessageQueue="{Binding FileMessageQueue}" x:Name="ConnectionSnackbar" DockPanel.Dock="Bottom" />
+        <!--<materialDesign:Snackbar HorizontalAlignment="Stretch" MessageQueue="{Binding FileMessageQueue}" x:Name="ConnectionSnackbar" DockPanel.Dock="Bottom" />-->
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" >
                 <Button>
@@ -67,7 +67,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Type" Width="120" DisplayMemberBinding="{Binding Type}" />
+                    <!--<GridViewColumn Header="Type" Width="120" DisplayMemberBinding="{Binding Type}" />-->
                     <GridViewColumn Header="Size" Width="120" DisplayMemberBinding="{Binding Size}" />
                 </GridView>
             </ListView.View>

@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Pace.Server.Network;
+using Pace.Server.ViewModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Pace.Server.View
 {
@@ -19,9 +9,10 @@ namespace Pace.Server.View
     /// </summary>
     public partial class FileExplorerWindow : Window
     {
-        public FileExplorerWindow()
+        public FileExplorerWindow(PaceServer server)
         {
             InitializeComponent();
+            DataContext = new FileExplorerViewModel(server);
         }
     }
 }

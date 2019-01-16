@@ -1,4 +1,5 @@
-﻿using Pace.Server.View;
+﻿using Pace.Server.Network;
+using Pace.Server.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,12 @@ using System.Windows;
 
 namespace Pace.Server.ViewModel
 {
-    public class FileWindowService : WindowService<FileExplorerWindow>
+    public class FileWindowService
     {
-
+        public void ShowWindow(PaceServer server)
+        {
+            var window = new FileExplorerWindow(server);
+            window.Show();
+        }
     }
 }

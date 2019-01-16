@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using Pace.Common.Network.Packets;
 using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
 using Pace.Server.Model;
@@ -63,10 +64,10 @@ namespace Pace.Server.ViewModel
 
         private void ExecuteFileManager(Client client)
         {
-            fileManagerService.ShowWindow(this);
+            fileManagerService.ShowWindow(server);
         }
 
-        private void HandleSystemInfo(object packet)
+        private void HandleSystemInfo(IPacket packet)
         {
             var systemInfoResponse = (GetSystemInfoResponsePacket)packet;
 
