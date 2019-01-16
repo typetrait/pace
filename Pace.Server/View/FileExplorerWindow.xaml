@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pace.Server.View"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
@@ -11,7 +12,65 @@
         TextElement.FontSize="14"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         Title="File Explorer" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <DockPanel>
+        <materialDesign:Snackbar HorizontalAlignment="Stretch" MessageQueue="{Binding FileMessageQueue}" x:Name="ConnectionSnackbar" DockPanel.Dock="Bottom" />
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" >
+                <Button>
+                    <materialDesign:PackIcon Kind="ArrowLeft" />
+                </Button>
+                <Button>
+                    <materialDesign:PackIcon Kind="ArrowRight" />
+                </Button>
+                <Button>
+                    <materialDesign:PackIcon Kind="ArrowUp" />
+                </Button>
+                <Separator></Separator>
+                <TextBox materialDesign:HintAssist.Hint="Browse...">
+                </TextBox>
+            </ToolBar>
+        </ToolBarTray>
+        <ListView Margin="10" Name="fileListView" ItemsSource="{Binding Files}">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Open">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="FolderOpen" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Rename">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Pencil" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Delete">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Delete" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Properties">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Information" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Type" Width="120" DisplayMemberBinding="{Binding Type}" />
+                    <GridViewColumn Header="Size" Width="120" DisplayMemberBinding="{Binding Size}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
 </Window>
