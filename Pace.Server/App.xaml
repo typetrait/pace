@@ -3,11 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Pace.Server"
              xmlns:viewModel="clr-namespace:Pace.Server.ViewModel"
+             xmlns:converters="clr-namespace:Pace.Server.Converters"
              StartupUri="View\MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary x:Name="Habalau">
             <BitmapImage UriSource="pack://application:,,,/Resources/icon.ico" x:Key="Icon" />
             <viewModel:ClientViewModel x:Key="ClientViewModel" />
+            <converters:FileSizeConverter x:Key="fileSizeConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
