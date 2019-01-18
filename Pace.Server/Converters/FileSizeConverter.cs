@@ -14,7 +14,27 @@ namespace Pace.Server.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             long size = (long)value;
-            return $"{size.ToString()} bytes";
+
+            string unit = "bytes";
+            long minifiedSize = size;
+
+            if (size >= 1000)
+            {
+                unit = "KB";
+                minifiedSize = size / 1024;
+            }
+            if (size >= 1000000)
+            {
+                unit = "MB";
+                minifiedSize = size / 1048576;
+            }
+            if (size >= 1000000000)
+            {
+                unit = "GB";
+                minifiedSize = size / 1073741824;
+            }
+
+            return $"{minifiedSize.ToString()} {unit}";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
