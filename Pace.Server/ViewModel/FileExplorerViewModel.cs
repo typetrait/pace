@@ -20,15 +20,20 @@ namespace Pace.Server.ViewModel
         {
             server.PacketChannel.RegisterHandler<GetDirectoryResponsePacket>(HandleGetDirectory);
 
-            server.ConnectedClients[0].SendPacket(new GetDirectoryRequestPacket(@"D:\Files\Temporary")); // TODO: Clean this up.
+            if (server.ConnectedClients.Count > 0)
+                server.ConnectedClients[0].SendPacket(new GetDirectoryRequestPacket(@"D:\Files\Temporary")); // TODO: Clean this up.
+
+            Files = new ObservableCollection<File>();
         }
 
         private void HandleGetDirectory(IPacket packet)
         {
             var directoryResponse = (GetDirectoryResponsePacket)packet;
 
-            var files = directoryResponse.Files.Select(file => new File(file));
-            Files = new ObservableCollection<File>(files);
+            for (int i = 0; i < directoryResponse.Files.Length; i++)
+            {
+                Files.Add(new File(directoryResponse.Files[i], directoryResponse.FileSizes[i]));
+            }
         }
     }
 }

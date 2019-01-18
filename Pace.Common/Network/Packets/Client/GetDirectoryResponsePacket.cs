@@ -7,7 +7,7 @@ namespace Pace.Common.Network.Packets.Client
     {
         public string[] Folders { get; set; }
         public string[] Files { get; set; }
-        public int[] FolderSizes { get; set; }
-        public int[] FileSizes { get; set; }
+        public long[] FolderSizes { get; set; }
+        public long[] FileSizes { get; set; }
     }
 }

@@ -9,12 +9,12 @@ namespace Pace.Server.Model
     public class File
     {
         public string Name { get; set; }
-        public int Size { get; set; }
+        public long? Size { get; set; }
 
-        public File(string name)
+        public File(string name, long size)
         {
             Name = name;
-            Size = 0;
+            Size = size;
         }
     }
 }

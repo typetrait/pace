@@ -9,6 +9,8 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Pace.Client
 {
@@ -93,10 +95,14 @@ namespace Pace.Client
                 if (!directory.Exists)
                     return;
 
+                var folders = FileExplorer.GetDirectories(getDirectoryPacket.Path);
+                var files = FileExplorer.GetFiles(getDirectoryPacket.Path);
+
                 var response = new GetDirectoryResponsePacket
                 {
-                    Folders = FileExplorer.GetDirectories(getDirectoryPacket.Path),
-                    Files = FileExplorer.GetFiles(getDirectoryPacket.Path)
+                    Folders = folders,
+                    Files = files,
+                    FileSizes = files.Select(file => new FileInfo(file).Length).ToArray()
                 };
 
                 client.SendPacket(response);
@@ -117,10 +123,14 @@ namespace Pace.Client
                     File.Delete(deleteFilePacket.File);
                 }
 
+                var folders = FileExplorer.GetDirectories(Directory.GetParent(deleteFilePacket.File).FullName);
+                var files = FileExplorer.GetFiles(Directory.GetParent(deleteFilePacket.File).FullName);
+
                 client.SendPacket(new GetDirectoryResponsePacket
                 {
-                    Folders = FileExplorer.GetDirectories(Directory.GetParent(deleteFilePacket.File).FullName),
-                    Files = FileExplorer.GetFiles(Directory.GetParent(deleteFilePacket.File).FullName)
+                    Folders = folders,
+                    Files = files,
+                    FileSizes = files.Select(file => new FileInfo(file).Length).ToArray()
                 });
             });
 
