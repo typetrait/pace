@@ -97,11 +97,13 @@ namespace Pace.Client
                 var folders = FileExplorer.GetDirectories(getDirectoryPacket.Path);
                 var files = FileExplorer.GetFiles(getDirectoryPacket.Path);
 
+                var infos = files.Select(file => new FileInfo(file));
+
                 var response = new GetDirectoryResponsePacket
                 {
                     Folders = folders,
-                    Files = files,
-                    FileSizes = files.Select(file => new FileInfo(file).Length).ToArray()
+                    Files = infos.Select(info => info.Name).ToArray(),
+                    FileSizes = infos.Select(info => info.Length).ToArray()
                 };
 
                 client.SendPacket(response);
