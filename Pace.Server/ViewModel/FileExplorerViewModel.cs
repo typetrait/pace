@@ -4,6 +4,7 @@ using Pace.Common.Network.Packets.Server;
 using Pace.Server.Model;
 using Pace.Server.Network;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Pace.Server.ViewModel
 {
@@ -27,7 +28,10 @@ namespace Pace.Server.ViewModel
 
             for (int i = 0; i < directoryResponse.Files.Length; i++)
             {
-                Files.Add(new File(directoryResponse.Files[i], directoryResponse.FileSizes[i]));
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Files.Add(new File(directoryResponse.Files[i], directoryResponse.FileSizes[i]));
+                });
             }
         }
     }
