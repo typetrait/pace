@@ -89,6 +89,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\FileExplorerViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\WindowService.cs" />
     <Compile Include="ViewModel\FileWindowService.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />

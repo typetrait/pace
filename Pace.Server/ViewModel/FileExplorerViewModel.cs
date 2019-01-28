@@ -8,16 +8,30 @@ using System.Windows;
 
 namespace Pace.Server.ViewModel
 {
-    public class FileExplorerViewModel
+    public class FileExplorerViewModel : ViewModelBase
     {
         public ObservableCollection<File> Files { get; set; }
+
+        private string currentDirectory;
+        public string CurrentDirectory 
+        {
+            get { return currentDirectory; }
+            set
+            {
+                currentDirectory = value;
+                OnPropertyChanged(() => CurrentDirectory); 
+            }
+        }
 
         public FileExplorerViewModel(PaceServer server)
         {
             server.PacketChannel.RegisterHandler<GetDirectoryResponsePacket>(HandleGetDirectory);
 
             if (server.ConnectedClients.Count > 0)
+            {
                 server.ConnectedClients[0].SendPacket(new GetDirectoryRequestPacket(@"D:\Files\Temporary")); // TODO: Clean this up.
+                CurrentDirectory = @"D:\Files\Temporary";
+            }
 
             Files = new ObservableCollection<File>();
         }

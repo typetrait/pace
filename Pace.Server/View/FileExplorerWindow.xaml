@@ -33,7 +33,7 @@
                     <materialDesign:PackIcon Kind="ArrowUp" />
                 </Button>
                 <Separator></Separator>
-                <TextBox materialDesign:HintAssist.Hint="Browse...">
+                <TextBox materialDesign:HintAssist.Hint="Browse..." Text="{Binding CurrentDirectory}">
                 </TextBox>
             </ToolBar>
         </ToolBarTray>
