@@ -1,14 +1,10 @@
 ﻿using Pace.Client.Configuration;
 using Pace.Client.Handlers;
 using Pace.Client.Network;
-using Pace.Client.System;
-using Pace.Client.Web;
 using Pace.Common.Network;
-using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
 using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 
