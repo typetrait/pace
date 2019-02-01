@@ -32,7 +32,7 @@ namespace Pace.Server.ViewModel
 
         public SnackbarMessageQueue ConnectedMessageQueue { get; set; }
 
-        public RelayCommand<ClientInfo> FileManagerCommand { get; set; }
+        public RelayCommand<ClientInfo> OpenFileManagerCommand { get; set; }
 
         public ClientViewModel()
         {
@@ -42,7 +42,7 @@ namespace Pace.Server.ViewModel
 
             ConnectedMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(5000));
 
-            FileManagerCommand = new RelayCommand<ClientInfo>(ExecuteFileManager);
+            OpenFileManagerCommand = new RelayCommand<ClientInfo>(OpenFileManager);
 
             #if DEBUG
                 if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
@@ -75,7 +75,7 @@ namespace Pace.Server.ViewModel
             });
         }
 
-        private void ExecuteFileManager(ClientInfo client)
+        private void OpenFileManager(ClientInfo client)
         {
             fileManagerService.ShowWindow(server, SelectedClient);
         }
@@ -94,7 +94,7 @@ namespace Pace.Server.ViewModel
                 OS = systemInfoResponse.OS
             };
 
-            clientInfo.Owner = server.ConnectedClients.Find(c => clientInfo.Address == c.TcpClient.Client.RemoteEndPoint.ToString().Split(':')[0]);
+            clientInfo.Owner = server.ConnectedClients.Find(c => clientInfo.Address == c.Address.Split(':')[0]);
 
             Application.Current.Dispatcher.Invoke(() =>
             {

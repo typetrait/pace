@@ -1,12 +1,12 @@
 ﻿namespace Pace.Server.Model
 {
-    public class File
+    public class FileSystemEntry
     {
         public string Name { get; set; }
         public long Size { get; set; }
         public FileType Type { get; set; }
 
-        public File(string name, long size, FileType type = FileType.File)
+        public FileSystemEntry(string name, long size, FileType type)
         {
             Name = name;
             Size = size;
