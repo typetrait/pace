@@ -25,14 +25,14 @@ namespace Pace.Server.ViewModel
 
         public FileExplorerViewModel(PaceServer server, ClientInfo client)
         {
+            Files = new ObservableCollection<File>();
+
             server.PacketChannel.RegisterHandler<GetDirectoryResponsePacket>(HandleGetDirectory);
 
             if (server.ConnectedClients.Count > 0)
             {
                 client.Owner.SendPacket(new GetDirectoryRequestPacket(string.Empty));
             }
-
-            Files = new ObservableCollection<File>();
         }
 
         private void HandleGetDirectory(IPacket packet)
