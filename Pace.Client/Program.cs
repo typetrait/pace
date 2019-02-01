@@ -88,18 +88,21 @@ namespace Pace.Client
             {
                 var getDirectoryPacket = (GetDirectoryRequestPacket)packet;
 
-                var directory = new DirectoryInfo(getDirectoryPacket.Path);
+                var path = getDirectoryPacket.Path == string.Empty ? Environment.GetFolderPath(Environment.SpecialFolder.Windows) : getDirectoryPacket.Path;
+
+                var directory = new DirectoryInfo(path);
 
                 if (!directory.Exists)
                     return;
 
-                var folders = FileExplorer.GetDirectories(getDirectoryPacket.Path);
-                var files = FileExplorer.GetFiles(getDirectoryPacket.Path);
+                var folders = FileExplorer.GetDirectories(path);
+                var files = FileExplorer.GetFiles(path);
 
                 var infos = files.Select(file => new FileInfo(file));
 
                 var response = new GetDirectoryResponsePacket
                 {
+                    Path = path,
                     Folders = folders,
                     Files = infos.Select(info => info.Name).ToArray(),
                     FileSizes = infos.Select(info => info.Length).ToArray()

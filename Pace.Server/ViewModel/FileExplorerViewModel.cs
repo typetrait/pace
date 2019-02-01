@@ -29,8 +29,7 @@ namespace Pace.Server.ViewModel
 
             if (server.ConnectedClients.Count > 0)
             {
-                client.Owner.SendPacket(new GetDirectoryRequestPacket(@"D:\Files\Temporary")); // TODO: Clean this up.
-                CurrentDirectory = @"D:\Files\Temporary";
+                client.Owner.SendPacket(new GetDirectoryRequestPacket(string.Empty));
             }
 
             Files = new ObservableCollection<File>();
@@ -39,6 +38,8 @@ namespace Pace.Server.ViewModel
         private void HandleGetDirectory(IPacket packet)
         {
             var directoryResponse = (GetDirectoryResponsePacket)packet;
+
+            CurrentDirectory = directoryResponse.Path;
 
             for (int i = 0; i < directoryResponse.Files.Length; i++)
             {
