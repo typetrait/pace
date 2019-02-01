@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ClientConfiguration.cs" />
+    <Compile Include="Handlers\FileHandlers.cs" />
+    <Compile Include="Handlers\SystemHandlers.cs" />
     <Compile Include="Network\PacketChannel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
