@@ -7,9 +7,9 @@ using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Linq;
 
 namespace Pace.Client
 {
@@ -47,13 +47,12 @@ namespace Pace.Client
             packetChannel.RegisterHandler<GetSystemInfoRequestPacket>((packet) =>
             {
                 var systemInfo = SystemInformation.Get();
-
-                var clientAddress = client.TcpClient.Client.LocalEndPoint.ToString().Split(':');
+                var addressInfo = client.Address.Split(':');
 
                 var infoPacket = new GetSystemInfoResponsePacket(
                     ClientConfiguration.Identifier,
-                    clientAddress[0],
-                    int.Parse(clientAddress[1]),
+                    addressInfo[0],
+                    int.Parse(addressInfo[1]),
                     systemInfo.UserName,
                     systemInfo.ComputerName,
                     systemInfo.OperatingSystem
