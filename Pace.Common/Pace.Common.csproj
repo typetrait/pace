@@ -47,7 +47,6 @@
     <Compile Include="Network\Packets\Client\GetSystemInfoResponsePacket.cs" />
     <Compile Include="Network\Packets\Client\TakeScreenshotResponsePacket.cs" />
     <Compile Include="Network\Packets\IPacket.cs" />
-    <Compile Include="Network\Packets\PacketChannel.cs" />
     <Compile Include="Network\Packets\PacketRegistry.cs" />
     <Compile Include="Network\Packets\Server\DeleteFileRequestPacket.cs" />
     <Compile Include="Network\Packets\Server\DownloadFileRequestPacket.cs" />

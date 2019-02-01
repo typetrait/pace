@@ -74,6 +74,7 @@
     <Compile Include="Model\File.cs" />
     <Compile Include="Network\ClientEventArgs.cs" />
     <Compile Include="Network\PaceServer.cs" />
+    <Compile Include="Network\PacketChannel.cs" />
     <Compile Include="Network\PacketEventArgs.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
     <Page Include="View\FileExplorerWindow.xaml">

