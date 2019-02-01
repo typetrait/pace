@@ -41,6 +41,14 @@ namespace Pace.Server.ViewModel
 
             CurrentDirectory = directoryResponse.Path;
 
+            for (int i = 0; i < directoryResponse.Folders.Length; i++)
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Files.Add(new File(directoryResponse.Folders[i], 0, FileType.Directory));
+                });
+            }
+
             for (int i = 0; i < directoryResponse.Files.Length; i++)
             {
                 Application.Current.Dispatcher.Invoke(() =>

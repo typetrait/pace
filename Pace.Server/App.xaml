@@ -9,6 +9,7 @@
         <ResourceDictionary x:Name="Habalau">
             <BitmapImage UriSource="pack://application:,,,/Resources/icon.ico" x:Key="Icon" />
             <viewModel:ClientViewModel x:Key="ClientViewModel" />
+            <converters:FileTypeConverter x:Key="fileTypeConverter"/>
             <converters:FileSizeConverter x:Key="fileSizeConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
