@@ -34,7 +34,7 @@
                 </StackPanel>
             </DockPanel>
         </materialDesign:ColorZone>
-        <ListView Margin="10" Name="clientListView" ItemsSource="{Binding Clients}">
+        <ListView Margin="10" Name="clientListView" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Management">

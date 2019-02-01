@@ -1,4 +1,5 @@
-﻿using Pace.Server.Network;
+﻿using Pace.Server.Model;
+using Pace.Server.Network;
 using Pace.Server.ViewModel;
 using System.Windows;
 
@@ -9,10 +10,10 @@ namespace Pace.Server.View
     /// </summary>
     public partial class FileExplorerWindow : Window
     {
-        public FileExplorerWindow(PaceServer server)
+        public FileExplorerWindow(PaceServer server, ClientInfo client)
         {
             InitializeComponent();
-            DataContext = new FileExplorerViewModel(server);
+            DataContext = new FileExplorerViewModel(server, client);
         }
     }
 }

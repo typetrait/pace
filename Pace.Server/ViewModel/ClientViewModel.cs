@@ -12,24 +12,37 @@ using System.Windows;
 
 namespace Pace.Server.ViewModel
 {
-    public class ClientViewModel
+    public class ClientViewModel : ViewModelBase
     {
         private readonly PaceServer server;
         private readonly FileWindowService fileManagerService;
 
-        public ObservableCollection<Client> Clients { get; set; }
+        private ClientInfo selectedClient;
+        public ClientInfo SelectedClient
+        {
+            get { return selectedClient; }
+            set
+            {
+                selectedClient = value;
+                OnPropertyChanged(() => selectedClient);
+            }
+        }
+
+        public ObservableCollection<ClientInfo> Clients { get; set; }
+
         public SnackbarMessageQueue ConnectedMessageQueue { get; set; }
-        public RelayCommand<Client> FileManagerCommand { get; set; }
+
+        public RelayCommand<ClientInfo> FileManagerCommand { get; set; }
 
         public ClientViewModel()
         {
             fileManagerService = new FileWindowService();
 
-            Clients = new ObservableCollection<Client>();
+            Clients = new ObservableCollection<ClientInfo>();
 
             ConnectedMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(5000));
 
-            FileManagerCommand = new RelayCommand<Client>(ExecuteFileManager);
+            FileManagerCommand = new RelayCommand<ClientInfo>(ExecuteFileManager);
 
             #if DEBUG
                 if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
@@ -53,7 +66,7 @@ namespace Pace.Server.ViewModel
 
         private void Server_ClientDisconnected(object sender, ClientEventArgs e)
         {
-            var list = new List<Client>(Clients);
+            var list = new List<ClientInfo>(Clients);
             var client = list.Find(c => c.Owner == e.Client);
 
             Application.Current.Dispatcher.Invoke(() =>
@@ -62,16 +75,16 @@ namespace Pace.Server.ViewModel
             });
         }
 
-        private void ExecuteFileManager(Client client)
+        private void ExecuteFileManager(ClientInfo client)
         {
-            fileManagerService.ShowWindow(server);
+            fileManagerService.ShowWindow(server, SelectedClient);
         }
 
         private void HandleSystemInfo(IPacket packet)
         {
             var systemInfoResponse = (GetSystemInfoResponsePacket)packet;
 
-            var client = new Client()
+            var clientInfo = new ClientInfo()
             {
                 Identifier = systemInfoResponse.Identifier,
                 Address = systemInfoResponse.Address,
@@ -81,11 +94,11 @@ namespace Pace.Server.ViewModel
                 OS = systemInfoResponse.OS
             };
 
-            client.Owner = server.ConnectedClients.Find(c => client.Address == c.TcpClient.Client.RemoteEndPoint.ToString().Split(':')[0]);
+            clientInfo.Owner = server.ConnectedClients.Find(c => clientInfo.Address == c.TcpClient.Client.RemoteEndPoint.ToString().Split(':')[0]);
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                Clients.Add(client);
+                Clients.Add(clientInfo);
             });
         }
     }

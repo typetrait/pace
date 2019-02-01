@@ -23,13 +23,13 @@ namespace Pace.Server.ViewModel
             }
         }
 
-        public FileExplorerViewModel(PaceServer server)
+        public FileExplorerViewModel(PaceServer server, ClientInfo client)
         {
             server.PacketChannel.RegisterHandler<GetDirectoryResponsePacket>(HandleGetDirectory);
 
             if (server.ConnectedClients.Count > 0)
             {
-                server.ConnectedClients[0].SendPacket(new GetDirectoryRequestPacket(@"D:\Files\Temporary")); // TODO: Clean this up.
+                client.Owner.SendPacket(new GetDirectoryRequestPacket(@"D:\Files\Temporary")); // TODO: Clean this up.
                 CurrentDirectory = @"D:\Files\Temporary";
             }
 

@@ -2,7 +2,7 @@
 
 namespace Pace.Server.Model
 {
-    public class Client
+    public class ClientInfo
     {
         public PaceClient Owner { get; set; }
         public string Identifier { get; set; }
