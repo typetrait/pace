@@ -3,6 +3,7 @@
     public class FileSystemEntry
     {
         public string Name { get; set; }
+        public string ParentDirectory { get; set; }
         public long Size { get; set; }
         public FileType Type { get; set; }
 

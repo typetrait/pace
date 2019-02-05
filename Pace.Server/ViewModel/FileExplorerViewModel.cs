@@ -13,6 +13,8 @@ namespace Pace.Server.ViewModel
     {
         public ObservableCollection<FileSystemEntry> Files { get; set; }
 
+        public string Path { get; set; }
+
         private string currentDirectory;
         public string CurrentDirectory 
         {
@@ -24,7 +26,7 @@ namespace Pace.Server.ViewModel
             }
         }
 
-        public ICommand NavigateUpCommand { get; set; }
+        public ICommand NavigateCommand { get; set; }
 
         public ClientInfo Client { get; set; }
 
@@ -40,10 +42,17 @@ namespace Pace.Server.ViewModel
             }
 
             Client = client;
+
+            NavigateCommand = new RelayCommand<string>(Navigate);
         }
 
         private void HandleGetDirectory(IPacket packet)
         {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                Files.Clear();
+            });
+
             var directoryResponse = (GetDirectoryResponsePacket)packet;
 
             CurrentDirectory = directoryResponse.Path;
@@ -63,6 +72,11 @@ namespace Pace.Server.ViewModel
                     Files.Add(new FileSystemEntry(directoryResponse.Files[i], directoryResponse.FileSizes[i], FileType.File));
                 });
             }
+        }
+
+        private void Navigate(string path)
+        {
+            Client.Owner.SendPacket(new GetDirectoryRequestPacket(path));
         }
     }
 }
