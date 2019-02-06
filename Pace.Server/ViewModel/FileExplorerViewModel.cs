@@ -69,13 +69,19 @@ namespace Pace.Server.ViewModel
 
             var directoryResponse = (GetDirectoryResponsePacket)packet;
 
-            CurrentDirectory = new FileSystemEntry(directoryResponse.Path, 0, FileType.Directory);
+            CurrentDirectory = new FileSystemEntry(directoryResponse.Name, directoryResponse.Path, 0, FileType.Directory);
 
             for (int i = 0; i < directoryResponse.Folders.Length; i++)
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    Files.Add(new FileSystemEntry(directoryResponse.Folders[i], 0, FileType.Directory));
+                    Files.Add(new FileSystemEntry
+                    (
+                        directoryResponse.Folders[i],
+                        System.IO.Path.Combine(CurrentDirectory.Path, directoryResponse.Folders[i]),
+                        0,
+                        FileType.Directory
+                    ));
                 });
             }
 
@@ -83,7 +89,13 @@ namespace Pace.Server.ViewModel
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    Files.Add(new FileSystemEntry(directoryResponse.Files[i], directoryResponse.FileSizes[i], FileType.File));
+                    Files.Add(new FileSystemEntry
+                    (
+                        directoryResponse.Files[i],
+                        System.IO.Path.Combine(CurrentDirectory.Path, directoryResponse.Folders[i]),
+                        directoryResponse.FileSizes[i],
+                        FileType.File
+                    ));
                 });
             }
         }
@@ -98,7 +110,7 @@ namespace Pace.Server.ViewModel
             if (SelectedFile.Type != FileType.Directory)
                 return;
 
-            Client.Owner.SendPacket(new GetDirectoryRequestPacket(SelectedFile.Name));
+            Client.Owner.SendPacket(new GetDirectoryRequestPacket(SelectedFile.Path));
         }
     }
 }

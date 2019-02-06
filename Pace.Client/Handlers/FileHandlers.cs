@@ -26,15 +26,13 @@ namespace Pace.Client.Handlers
             var folders = FileExplorer.GetDirectories(path);
             var files = FileExplorer.GetFiles(path);
 
-            var folderInfos = folders.Select(folder => new DirectoryInfo(folder));
-            var fileInfos = files.Select(file => new FileInfo(file));
-
             var response = new GetDirectoryResponsePacket
             {
+                Name = directory.Name,
                 Path = path,
-                Folders = folderInfos.Select(info => info.Name).ToArray(),
-                Files = fileInfos.Select(info => info.Name).ToArray(),
-                FileSizes = fileInfos.Select(info => info.Length).ToArray()
+                Folders = folders.Select(folder => folder.Name).ToArray(),
+                Files = files.Select(file => file.Name).ToArray(),
+                FileSizes = files.Select(file => file.Size).ToArray()
             };
 
             client.SendPacket(response);
@@ -58,9 +56,9 @@ namespace Pace.Client.Handlers
 
             client.SendPacket(new GetDirectoryResponsePacket
             {
-                Folders = folders,
-                Files = files,
-                FileSizes = files.Select(file => new FileInfo(file).Length).ToArray()
+                Folders = folders.Select(folder => folder.Name).ToArray(),
+                Files = files.Select(file => file.Name).ToArray(),
+                FileSizes = files.Select(file => file.Size).ToArray()
             });
         }
 

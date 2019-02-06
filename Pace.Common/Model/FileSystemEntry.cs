@@ -7,9 +7,10 @@
         public long Size { get; set; }
         public FileType Type { get; set; }
 
-        public FileSystemEntry(string name, long size, FileType type)
+        public FileSystemEntry(string name, string path, long size, FileType type)
         {
             Name = name;
+            Path = path;
             Size = size;
             Type = type;
         }
