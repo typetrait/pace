@@ -92,7 +92,7 @@ namespace Pace.Server.ViewModel
                     Files.Add(new FileSystemEntry
                     (
                         directoryResponse.Files[i],
-                        System.IO.Path.Combine(CurrentDirectory.Path, directoryResponse.Folders[i]),
+                        System.IO.Path.Combine(CurrentDirectory.Path, directoryResponse.Files[i]),
                         directoryResponse.FileSizes[i],
                         FileType.File
                     ));
