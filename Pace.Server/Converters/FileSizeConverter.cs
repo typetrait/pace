@@ -1,15 +1,19 @@
-﻿using System;
+﻿using Pace.Server.Model;
+using System;
 using System.Globalization;
 using System.Windows.Data;
 
 namespace Pace.Server.Converters
 {
-    [ValueConversion(typeof(long), typeof(string))]
-    public class FileSizeConverter : IValueConverter
+    public class FileSizeConverter : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            long size = (long)value;
+            long size = (long)values[0];
+            var fileType = (FileType)values[1];
+
+            if (fileType == FileType.Directory)
+                return "-";
 
             string unit = "bytes";
             long minifiedSize = size;
@@ -33,9 +37,9 @@ namespace Pace.Server.Converters
             return $"{minifiedSize.ToString()} {unit}";
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)
         {
-            return (value as string).Split(' ')[0];
+            throw new NotImplementedException();
         }
     }
 }

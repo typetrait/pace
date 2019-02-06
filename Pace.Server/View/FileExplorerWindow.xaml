@@ -71,7 +71,14 @@
                 <GridView>
                     <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />
                     <GridViewColumn Header="Type" Width="120" DisplayMemberBinding="{Binding Type, Converter={StaticResource fileTypeConverter}}" />
-                    <GridViewColumn Header="Size" Width="120" DisplayMemberBinding="{Binding Size, Converter={StaticResource fileSizeConverter}}" />
+                    <GridViewColumn Header="Size" Width="120">
+                        <GridViewColumn.DisplayMemberBinding>
+                            <MultiBinding Converter="{StaticResource fileSizeConverter}">
+                                <Binding Path="Size" />
+                                <Binding Path="Type" />
+                            </MultiBinding>
+                        </GridViewColumn.DisplayMemberBinding>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
