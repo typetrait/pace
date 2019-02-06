@@ -33,7 +33,7 @@
                     <materialDesign:PackIcon Kind="ArrowUp" />
                 </Button>
                 <Separator></Separator>
-                <TextBox materialDesign:HintAssist.Hint="Browse..." Text="{Binding CurrentDirectory}">
+                <TextBox materialDesign:HintAssist.Hint="Browse..." Text="{Binding CurrentDirectory.Name}">
                     <TextBox.InputBindings>
                         <KeyBinding Key="Enter" Command="{Binding NavigateCommand}" CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
                     </TextBox.InputBindings>

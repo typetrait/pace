@@ -15,14 +15,14 @@ namespace Pace.Server.ViewModel
 
         public string Path { get; set; }
 
-        private string currentDirectory;
-        public string CurrentDirectory 
+        private FileSystemEntry currentDirectory;
+        public FileSystemEntry CurrentDirectory
         {
             get { return currentDirectory; }
             set
             {
                 currentDirectory = value;
-                OnPropertyChanged(() => CurrentDirectory); 
+                OnPropertyChanged(() => CurrentDirectory);
             }
         }
 
@@ -55,7 +55,7 @@ namespace Pace.Server.ViewModel
 
             var directoryResponse = (GetDirectoryResponsePacket)packet;
 
-            CurrentDirectory = directoryResponse.Path;
+            CurrentDirectory = new FileSystemEntry(directoryResponse.Path, 0, FileType.Directory);
 
             for (int i = 0; i < directoryResponse.Folders.Length; i++)
             {
