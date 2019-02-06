@@ -1,4 +1,4 @@
-﻿using Pace.Server.Model;
+﻿using Pace.Common.Model;
 using System;
 using System.Globalization;
 using System.Windows.Data;

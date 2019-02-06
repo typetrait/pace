@@ -1,4 +1,5 @@
-﻿using Pace.Common.Network.Packets;
+﻿using Pace.Common.Model;
+using Pace.Common.Network.Packets;
 using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
 using Pace.Server.Model;
@@ -26,7 +27,19 @@ namespace Pace.Server.ViewModel
             }
         }
 
+        private FileSystemEntry selectedFile;
+        public FileSystemEntry SelectedFile
+        {
+            get { return selectedFile; }
+            set
+            {
+                selectedFile = value;
+                OnPropertyChanged(() => selectedFile);
+            }
+        }
+
         public ICommand NavigateCommand { get; set; }
+        public ICommand NavigateSelectedCommand { get; set; }
 
         public ClientInfo Client { get; set; }
 
@@ -44,6 +57,7 @@ namespace Pace.Server.ViewModel
             Client = client;
 
             NavigateCommand = new RelayCommand<string>(Navigate);
+            NavigateSelectedCommand = new RelayCommand<string>(NavigateSelected);
         }
 
         private void HandleGetDirectory(IPacket packet)
@@ -77,6 +91,14 @@ namespace Pace.Server.ViewModel
         private void Navigate(string path)
         {
             Client.Owner.SendPacket(new GetDirectoryRequestPacket(path));
+        }
+
+        private void NavigateSelected(string s)
+        {
+            if (SelectedFile.Type != FileType.Directory)
+                return;
+
+            Client.Owner.SendPacket(new GetDirectoryRequestPacket(SelectedFile.Name));
         }
     }
 }

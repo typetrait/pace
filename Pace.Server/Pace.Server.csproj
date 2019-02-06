@@ -72,8 +72,6 @@
     <Compile Include="Configuration\ServerConfiguration.cs" />
     <Compile Include="Converters\FileSizeConverter.cs" />
     <Compile Include="Converters\FileTypeConverter.cs" />
-    <Compile Include="Model\FileSystemEntry.cs" />
-    <Compile Include="Model\FileType.cs" />
     <Compile Include="Network\ClientEventArgs.cs" />
     <Compile Include="Network\PaceServer.cs" />
     <Compile Include="Network\PacketChannel.cs" />

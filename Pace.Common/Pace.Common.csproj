@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\FileSystemEntry.cs" />
+    <Compile Include="Model\FileType.cs" />
     <Compile Include="Network\PaceClient.cs" />
     <Compile Include="Network\Packets\Client\GetDirectoryResponsePacket.cs" />
     <Compile Include="Network\Packets\Client\GetSystemInfoResponsePacket.cs" />
@@ -62,8 +64,6 @@
       <Name>NetSerializer</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Forms\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,8 +1,9 @@
-﻿namespace Pace.Server.Model
+﻿namespace Pace.Common.Model
 {
     public class FileSystemEntry
     {
         public string Name { get; set; }
+        public string Path { get; set; }
         public long Size { get; set; }
         public FileType Type { get; set; }
 

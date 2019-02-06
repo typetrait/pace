@@ -40,10 +40,10 @@
                 </TextBox>
             </ToolBar>
         </ToolBarTray>
-        <ListView Margin="10" Name="fileListView" ItemsSource="{Binding Files}">
+        <ListView Margin="10" Name="fileListView" ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Open">
+                    <MenuItem Header="Open" Command="{Binding NavigateSelectedCommand}">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="FolderOpen" />
                         </MenuItem.Icon>
