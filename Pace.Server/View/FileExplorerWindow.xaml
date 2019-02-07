@@ -38,6 +38,9 @@
                         <KeyBinding Key="Enter" Command="{Binding NavigateCommand}" CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
                     </TextBox.InputBindings>
                 </TextBox>
+                <Button Command="{Binding NavigateCommand}" CommandParameter="{Binding CurrentDirectory.Path}">
+                    <materialDesign:PackIcon Kind="Refresh" />
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <ListView Margin="10" Name="fileListView" ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}">
