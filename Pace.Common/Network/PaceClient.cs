@@ -33,6 +33,7 @@ namespace Pace.Common.Network
 
         public void Connect(IPAddress address, int port)
         {
+            TcpClient = new TcpClient();
             TcpClient.Connect(address, port);
         }
 

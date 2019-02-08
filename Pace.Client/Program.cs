@@ -13,7 +13,7 @@ namespace Pace.Client
     class Program
     {
         private PaceClient client;
-        private bool isRunning;
+        private bool isConnected;
 
         static void Main(string[] args) => new Program().Run();
 
@@ -22,22 +22,6 @@ namespace Pace.Client
             client = new PaceClient();
             client.PacketReceived += Client_PacketReceived;
             client.PacketSent += Client_PacketSent;
-
-            PrintDebug("Waiting for Server...");
-
-            while (!client.TcpClient.Connected)
-            {
-                try
-                {
-                    client.Connect(IPAddress.Parse(ClientConfiguration.Host), ClientConfiguration.Port);
-                }
-                catch (Exception)
-                {
-                    continue;
-                }
-            }
-
-            PrintDebug("Connected!");
 
             var packetChannel = new PacketChannel();
 
@@ -49,9 +33,9 @@ namespace Pace.Client
             packetChannel.RegisterHandler<DeleteFileRequestPacket>(FileHandlers.HandleDeleteFile);
             packetChannel.RegisterHandler<SendFileRequestPacket>(FileHandlers.HandleSendFile);
 
-            isRunning = true;
+            TryConnect();
 
-            while (isRunning)
+            while (isConnected)
             {
                 try
                 {
@@ -73,10 +57,9 @@ namespace Pace.Client
                         if (socketException.ErrorCode == (int)SocketError.ConnectionReset)
                         {
                             PrintDebug("Disconnected!");
+                            TryConnect();
                         }
                     }
-
-                    isRunning = false;
                 }
             }
 
@@ -91,6 +74,29 @@ namespace Pace.Client
         private void Client_PacketSent(object sender, EventArgs e)
         {
             PrintDebug("Packet sent.");
+        }
+
+        public void TryConnect()
+        {
+            isConnected = false;
+
+            PrintDebug("Waiting for Server...");
+
+            while (!client.TcpClient.Connected)
+            {
+                try
+                {
+                    client.Connect(IPAddress.Parse(ClientConfiguration.Host), ClientConfiguration.Port);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
+
+            isConnected = true;
+
+            PrintDebug("Connected!");
         }
 
         public void PrintDebug(string message)
