@@ -13,7 +13,7 @@ namespace Pace.Common.Network
         public event EventHandler PacketSent;
 
         public TcpClient TcpClient { get; set; }
-        public string Address => TcpClient.Client.LocalEndPoint.ToString();
+        public string Address => TcpClient.Client.RemoteEndPoint.ToString();
 
         private Serializer serializer;
 
