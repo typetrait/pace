@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pace.Server"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Pace" Height="500" Width="800"
+        Title="Pace" Height="500" Width="815"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
