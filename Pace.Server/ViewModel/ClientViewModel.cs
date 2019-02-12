@@ -94,7 +94,7 @@ namespace Pace.Server.ViewModel
                 OS = systemInfoResponse.OS
             };
 
-            clientInfo.Owner = server.ConnectedClients.Find(c => clientInfo.Address == c.Address.Split(':')[0]);
+            clientInfo.Owner = server.ConnectedClients.Find(c => clientInfo.Address == c.RemoteAddress.Split(':')[0]);
 
             Application.Current.Dispatcher.Invoke(() =>
             {

@@ -13,7 +13,9 @@ namespace Pace.Common.Network
         public event EventHandler PacketSent;
 
         public TcpClient TcpClient { get; set; }
-        public string Address => TcpClient.Client.RemoteEndPoint.ToString();
+
+        public string RemoteAddress => TcpClient.Client.RemoteEndPoint.ToString();
+        public string LocalAddress => TcpClient.Client.LocalEndPoint.ToString();
 
         private Serializer serializer;
 

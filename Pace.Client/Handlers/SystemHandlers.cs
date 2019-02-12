@@ -11,7 +11,7 @@ namespace Pace.Client.Handlers
         public static void HandleGetSystemInfo(PaceClient client, IPacket packet)
         {
             var systemInfo = SystemInformation.Get();
-            var addressInfo = client.Address.Split(':');
+            var addressInfo = client.LocalAddress.Split(':');
 
             var infoPacket = new GetSystemInfoResponsePacket(
                 ClientConfiguration.Identifier,
