@@ -13,4 +13,6 @@ Manage remote computers with ease, through an easy to use interface, straightfor
 **This project is currently in an early development stage, contributions are most welcome.**
 
 ## Screenshots
-![Pace Main Window](Screenshots/pace-screenshot-01.png)
+<p align="center">
+  <img src="Screenshots/pace-screenshot-01.png">
+</p>
