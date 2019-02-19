@@ -48,6 +48,7 @@ namespace Pace.Server.ViewModel
             Files = new ObservableCollection<FileSystemEntry>();
 
             server.PacketChannel.RegisterHandler<GetDirectoryResponsePacket>(HandleGetDirectory);
+            server.PacketChannel.RegisterHandler<NotifyStatusPacket>(HandleNotifyStatus);
 
             if (server.ConnectedClients.Count > 0)
             {
@@ -98,6 +99,12 @@ namespace Pace.Server.ViewModel
                     ));
                 });
             }
+        }
+
+        private void HandleNotifyStatus(IPacket packet)
+        {
+            var statusPacket = (NotifyStatusPacket)packet;
+            MessageBox.Show(statusPacket.StatusMessage, "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void Navigate(string path)

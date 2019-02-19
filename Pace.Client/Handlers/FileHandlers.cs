@@ -7,6 +7,7 @@ using Pace.Common.Network.Packets.Server;
 using System;
 using System.IO;
 using System.Linq;
+using System.Security;
 
 namespace Pace.Client.Handlers
 {
@@ -18,24 +19,44 @@ namespace Pace.Client.Handlers
 
             var path = getDirectoryPacket.Path == string.Empty ? Environment.GetFolderPath(Environment.SpecialFolder.Windows) : getDirectoryPacket.Path;
 
-            var directory = new DirectoryInfo(path);
-
-            if (!directory.Exists)
-                return;
-
-            var folders = FileExplorer.GetDirectories(path);
-            var files = FileExplorer.GetFiles(path);
-
-            var response = new GetDirectoryResponsePacket
+            void notifyStatus(string statusMessage)
             {
-                Name = directory.Name,
-                Path = path,
-                Folders = folders.Select(folder => folder.Name).ToArray(),
-                Files = files.Select(file => file.Name).ToArray(),
-                FileSizes = files.Select(file => file.Size).ToArray()
-            };
+                client.SendPacket(new NotifyStatusPacket(statusMessage));
+            }
 
-            client.SendPacket(response);
+            try
+            {
+                var directory = new DirectoryInfo(path);
+
+                if (!directory.Exists)
+                    return;
+
+                var folders = FileExplorer.GetDirectories(path);
+                var files = FileExplorer.GetFiles(path);
+
+                var response = new GetDirectoryResponsePacket
+                {
+                    Name = directory.Name,
+                    Path = path,
+                    Folders = folders.Select(folder => folder.Name).ToArray(),
+                    Files = files.Select(file => file.Name).ToArray(),
+                    FileSizes = files.Select(file => file.Size).ToArray()
+                };
+
+                client.SendPacket(response);
+            }
+            catch (SecurityException)
+            {
+                notifyStatus("Insufficient privileges.");
+            }
+            catch (ArgumentException)
+            {
+                notifyStatus("Invalid path.");
+            }
+            catch (Exception)
+            {
+                notifyStatus("An unexpected error has occured.");
+            }
         }
 
         public static void HandleDeleteFile(PaceClient client, IPacket packet)
