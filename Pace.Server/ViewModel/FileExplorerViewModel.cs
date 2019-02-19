@@ -40,6 +40,7 @@ namespace Pace.Server.ViewModel
 
         public ICommand NavigateCommand { get; set; }
         public ICommand NavigateSelectedCommand { get; set; }
+        public ICommand DeleteFileCommand { get; set; }
 
         public ClientInfo Client { get; set; }
 
@@ -59,6 +60,7 @@ namespace Pace.Server.ViewModel
 
             NavigateCommand = new RelayCommand<string>(Navigate);
             NavigateSelectedCommand = new RelayCommand<string>(NavigateSelected);
+            DeleteFileCommand = new RelayCommand<string>(DeleteFile);
         }
 
         private void HandleGetDirectory(IPacket packet)
@@ -118,6 +120,14 @@ namespace Pace.Server.ViewModel
                 return;
 
             Client.Owner.SendPacket(new GetDirectoryRequestPacket(SelectedFile.Path));
+        }
+
+        private void DeleteFile(string s)
+        {
+            var result = MessageBox.Show($"Delete {SelectedFile.Name}?", "File deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
+                Client.Owner.SendPacket(new DeleteFileRequestPacket(SelectedFile.Path));
         }
     }
 }

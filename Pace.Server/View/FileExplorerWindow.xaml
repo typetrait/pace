@@ -57,7 +57,7 @@
                             <materialDesign:PackIcon Kind="Pencil" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Delete">
+                    <MenuItem Header="Delete" Command="{Binding DeleteFileCommand}">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="Delete" />
                         </MenuItem.Icon>
