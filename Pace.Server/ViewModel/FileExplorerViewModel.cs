@@ -40,6 +40,7 @@ namespace Pace.Server.ViewModel
 
         public ICommand NavigateCommand { get; set; }
         public ICommand NavigateSelectedCommand { get; set; }
+        public ICommand NavigateUpCommand { get; set; }
         public ICommand DeleteFileCommand { get; set; }
 
         public ClientInfo Client { get; set; }
@@ -60,6 +61,7 @@ namespace Pace.Server.ViewModel
 
             NavigateCommand = new RelayCommand<string>(Navigate);
             NavigateSelectedCommand = new RelayCommand<string>(NavigateSelected);
+            NavigateUpCommand = new RelayCommand<string>(NavigateUp);
             DeleteFileCommand = new RelayCommand<string>(DeleteFile);
         }
 
@@ -119,7 +121,12 @@ namespace Pace.Server.ViewModel
             if (SelectedFile.Type != FileType.Directory)
                 return;
 
-            Client.Owner.SendPacket(new GetDirectoryRequestPacket(SelectedFile.Path));
+            Navigate(SelectedFile.Path);
+        }
+
+        private void NavigateUp(string s)
+        {
+            Navigate(System.IO.Path.Combine(CurrentDirectory.Path, ".."));
         }
 
         private void DeleteFile(string s)
