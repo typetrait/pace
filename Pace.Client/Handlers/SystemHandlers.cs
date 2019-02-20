@@ -27,7 +27,7 @@ namespace Pace.Client.Handlers
 
         public static void HandleTakeScreenshot(PaceClient client, IPacket packet)
         {
-            var screenshot = ScreenCapture.CaptureScreen();
+            var screenshot = ScreenCapture.Take();
 
             byte[] screenshotBytes = ScreenCapture.ImageToBytes(screenshot);
 

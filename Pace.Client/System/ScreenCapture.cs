@@ -7,7 +7,7 @@ namespace Pace.Client.System
 {
     public static class ScreenCapture
     {
-        public static Image CaptureScreen()
+        public static Image Take()
         {
             var screenBounds = Screen.PrimaryScreen.Bounds;
 
