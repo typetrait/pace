@@ -19,11 +19,6 @@ namespace Pace.Client.Handlers
 
             var path = getDirectoryPacket.Path == string.Empty ? Environment.GetFolderPath(Environment.SpecialFolder.Windows) : getDirectoryPacket.Path;
 
-            void notifyStatus(string statusMessage)
-            {
-                client.SendPacket(new NotifyStatusPacket(statusMessage));
-            }
-
             try
             {
                 var directory = new DirectoryInfo(path);
@@ -47,15 +42,15 @@ namespace Pace.Client.Handlers
             }
             catch (SecurityException)
             {
-                notifyStatus("Insufficient privileges.");
+                NotifyStatus(client, "Insufficient privileges.");
             }
             catch (ArgumentException)
             {
-                notifyStatus("Invalid path.");
+                NotifyStatus(client, "Invalid path.");
             }
             catch (Exception)
             {
-                notifyStatus("An unexpected error has occured.");
+                NotifyStatus(client, "An unexpected error has occured.");
             }
         }
 
@@ -93,6 +88,11 @@ namespace Pace.Client.Handlers
         {
             var downloadFilePacket = (DownloadFileRequestPacket)packet;
             new WebFileDownloader().DownloadFile(downloadFilePacket.Url);
+        }
+
+        private static void NotifyStatus(PaceClient client, string statusMessage)
+        {
+            client.SendPacket(new NotifyStatusPacket(statusMessage));
         }
     }
 }
