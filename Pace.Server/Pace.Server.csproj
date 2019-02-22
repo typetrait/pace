@@ -76,6 +76,11 @@
     <Compile Include="Network\PaceServer.cs" />
     <Compile Include="Network\PacketChannel.cs" />
     <Compile Include="Network\PacketEventArgs.cs" />
+    <Compile Include="Resources\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\ClientViewModel.cs" />
     <Page Include="View\FileExplorerWindow.xaml">
       <SubType>Designer</SubType>
@@ -119,6 +124,10 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

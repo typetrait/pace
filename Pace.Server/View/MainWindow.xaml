@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pace.Server"
+        xmlns:p="clr-namespace:Pace.Server.Resources"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Pace" Height="500" Width="815"
@@ -37,26 +38,26 @@
         <ListView Margin="10" Name="clientListView" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Management">
+                    <MenuItem Header="{x:Static p:Strings.Main_Management}">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="Monitor" />
                         </MenuItem.Icon>
-                        <MenuItem Header="File Manager" Command="{Binding OpenFileManagerCommand}">
+                        <MenuItem Header="{x:Static p:Strings.Main_FileManager}" Command="{Binding OpenFileManagerCommand}">
                             <MenuItem.Icon>
                                 <materialDesign:PackIcon Kind="Folder" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Command Prompt">
+                        <MenuItem Header="{x:Static p:Strings.Main_CommandPrompt}">
                             <MenuItem.Icon>
                                 <materialDesign:PackIcon Kind="Console" />
                             </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>
-                    <MenuItem Header="Surveillance">
+                    <MenuItem Header="{x:Static p:Strings.Main_Surveillance}">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="Eye" />
                         </MenuItem.Icon>
-                        <MenuItem Header="Take Screenshot">
+                        <MenuItem Header="{x:Static p:Strings.Main_TakeScreenshot}">
                             <MenuItem.Icon>
                                 <materialDesign:PackIcon Kind="Camera" />
                             </MenuItem.Icon>
@@ -66,12 +67,12 @@
             </ListView.ContextMenu>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Identifier" Width="120" DisplayMemberBinding="{Binding Identifier}" />
-                    <GridViewColumn Header="IP Address" Width="120" DisplayMemberBinding="{Binding Address}" />
-                    <GridViewColumn Header="Port" Width="120" DisplayMemberBinding="{Binding Port}" />
-                    <GridViewColumn Header="Username" Width="120" DisplayMemberBinding="{Binding Username}" />
-                    <GridViewColumn Header="Computer Name" Width="140" DisplayMemberBinding="{Binding ComputerName}" />
-                    <GridViewColumn Header="Operating System" Width="140" DisplayMemberBinding="{Binding OS}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_Identifier}" Width="120" DisplayMemberBinding="{Binding Identifier}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_Address}" Width="120" DisplayMemberBinding="{Binding Address}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_Port}" Width="120" DisplayMemberBinding="{Binding Port}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_Username}" Width="120" DisplayMemberBinding="{Binding Username}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_ComputerName}" Width="140" DisplayMemberBinding="{Binding ComputerName}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_OperatingSystem}" Width="140" DisplayMemberBinding="{Binding OS}" />
                 </GridView>
             </ListView.View>
         </ListView>

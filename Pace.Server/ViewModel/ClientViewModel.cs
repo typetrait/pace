@@ -59,7 +59,7 @@ namespace Pace.Server.ViewModel
 
         private void Server_ClientConnected(object sender, ClientEventArgs e)
         {
-            ConnectedMessageQueue.Enqueue($"Client connected from {e.Client.TcpClient.Client.RemoteEndPoint}.");
+            ConnectedMessageQueue.Enqueue(string.Format(Resources.Strings.Main_ClientConnected, e.Client.RemoteAddress));
 
             e.Client.SendPacket(new GetSystemInfoRequestPacket());
         }
