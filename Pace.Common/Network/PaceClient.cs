@@ -1,4 +1,5 @@
 ﻿using NetSerializer;
+using Pace.Common.IO.Compression;
 using Pace.Common.Network.Packets;
 using System;
 using System.IO;
@@ -41,7 +42,7 @@ namespace Pace.Common.Network
 
         public IPacket ReadPacket()
         {
-            byte[] packetBytes = ReadData();
+            byte[] packetBytes = QuickLZ.Decompress(ReadData());
 
             using (var ms = new MemoryStream(packetBytes))
             {
@@ -87,7 +88,7 @@ namespace Pace.Common.Network
             {
                 serializer.Serialize(ms, packet);
 
-                byte[] packetBytes = ms.ToArray();
+                byte[] packetBytes = QuickLZ.Compress(ms.ToArray(), 3);
                 SendData(packetBytes);
             }
 
