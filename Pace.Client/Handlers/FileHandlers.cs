@@ -30,7 +30,7 @@ namespace Pace.Client.Handlers
 
             if (Directory.Exists(deleteFilePacket.Path))
             {
-                Directory.Delete(deleteFilePacket.Path);
+                Directory.Delete(deleteFilePacket.Path, true);
             }
             else if (File.Exists(deleteFilePacket.Path))
             {
