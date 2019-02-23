@@ -40,7 +40,6 @@ namespace Pace.Client
                 try
                 {
                     var packet = client.ReadPacket();
-
                     packetChannel.HandlePacket(client, packet);
                 }
                 catch (IOException ex)
