@@ -26,15 +26,15 @@ namespace Pace.Client.Handlers
         {
             var deleteFilePacket = (DeleteFileRequestPacket)packet;
 
-            var directory = Directory.GetParent(deleteFilePacket.File).FullName;
+            var directory = Directory.GetParent(deleteFilePacket.Path).FullName;
 
-            if (Directory.Exists(deleteFilePacket.File))
+            if (Directory.Exists(deleteFilePacket.Path))
             {
-                Directory.Delete(deleteFilePacket.File);
+                Directory.Delete(deleteFilePacket.Path);
             }
-            else if (File.Exists(deleteFilePacket.File))
+            else if (File.Exists(deleteFilePacket.Path))
             {
-                File.Delete(deleteFilePacket.File);
+                File.Delete(deleteFilePacket.Path);
             }
 
             GetDirectoryFileEntries(client, directory);
