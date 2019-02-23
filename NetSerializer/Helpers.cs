@@ -113,7 +113,7 @@ namespace NetSerializer
 
 			// Create a trampoline
 
-			var wrapper = Helpers.GenerateDynamicSerializerStub(paramType);
+			var wrapper = GenerateDynamicSerializerStub(paramType);
 			var il = wrapper.GetILGenerator();
 
 			if (needsInstanceParameter)

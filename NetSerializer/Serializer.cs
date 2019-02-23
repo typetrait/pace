@@ -59,7 +59,7 @@ namespace NetSerializer
 
 				AddTypesInternal(new Dictionary<Type, uint>()
 				{
-					{ typeof(object), Serializer.ObjectTypeId }
+					{ typeof(object), ObjectTypeId }
 				});
 
 				AddTypesInternal(rootTypes);
@@ -97,7 +97,7 @@ namespace NetSerializer
 
 				AddTypesInternal(new Dictionary<Type, uint>()
 				{
-					{ typeof(object), Serializer.ObjectTypeId }
+					{ typeof(object), ObjectTypeId }
 				});
 
 				AddTypesInternal(typeMap);
