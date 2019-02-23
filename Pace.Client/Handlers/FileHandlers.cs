@@ -19,6 +19,41 @@ namespace Pace.Client.Handlers
 
             var path = getDirectoryPacket.Path == string.Empty ? Environment.GetFolderPath(Environment.SpecialFolder.Windows) : getDirectoryPacket.Path;
 
+            GetDirectoryFileEntries(client, path);
+        }
+
+        public static void HandleDeleteFile(PaceClient client, IPacket packet)
+        {
+            var deleteFilePacket = (DeleteFileRequestPacket)packet;
+
+            var directory = Directory.GetParent(deleteFilePacket.File).FullName;
+
+            if (Directory.Exists(deleteFilePacket.File))
+            {
+                Directory.Delete(deleteFilePacket.File);
+            }
+            else if (File.Exists(deleteFilePacket.File))
+            {
+                File.Delete(deleteFilePacket.File);
+            }
+
+            GetDirectoryFileEntries(client, directory);
+        }
+
+        public static void HandleSendFile(PaceClient client, IPacket packet)
+        {
+            var sendFilePacket = (SendFileRequestPacket)packet;
+            File.WriteAllBytes(Path.Combine(Environment.CurrentDirectory, sendFilePacket.Filename), sendFilePacket.FileData);
+        }
+
+        public static void HandleDownloadFile(PaceClient client, IPacket packet)
+        {
+            var downloadFilePacket = (DownloadFileRequestPacket)packet;
+            new WebFileDownloader().DownloadFile(downloadFilePacket.Url);
+        }
+
+        private static void GetDirectoryFileEntries(PaceClient client, string path)
+        {
             try
             {
                 var directory = new DirectoryInfo(path);
@@ -52,42 +87,6 @@ namespace Pace.Client.Handlers
             {
                 NotifyStatus(client, "An unexpected error has occured.");
             }
-        }
-
-        public static void HandleDeleteFile(PaceClient client, IPacket packet)
-        {
-            var deleteFilePacket = (DeleteFileRequestPacket)packet;
-
-            if (Directory.Exists(deleteFilePacket.File))
-            {
-                Directory.Delete(deleteFilePacket.File);
-            }
-            else if (File.Exists(deleteFilePacket.File))
-            {
-                File.Delete(deleteFilePacket.File);
-            }
-
-            var folders = FileExplorer.GetDirectories(Directory.GetParent(deleteFilePacket.File).FullName);
-            var files = FileExplorer.GetFiles(Directory.GetParent(deleteFilePacket.File).FullName);
-
-            client.SendPacket(new GetDirectoryResponsePacket
-            {
-                Folders = folders.Select(folder => folder.Name).ToArray(),
-                Files = files.Select(file => file.Name).ToArray(),
-                FileSizes = files.Select(file => file.Size).ToArray()
-            });
-        }
-
-        public static void HandleSendFile(PaceClient client, IPacket packet)
-        {
-            var sendFilePacket = (SendFileRequestPacket)packet;
-            File.WriteAllBytes(Path.Combine(Environment.CurrentDirectory, sendFilePacket.Filename), sendFilePacket.FileData);
-        }
-
-        public static void HandleDownloadFile(PaceClient client, IPacket packet)
-        {
-            var downloadFilePacket = (DownloadFileRequestPacket)packet;
-            new WebFileDownloader().DownloadFile(downloadFilePacket.Url);
         }
 
         private static void NotifyStatus(PaceClient client, string statusMessage)
