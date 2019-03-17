@@ -153,9 +153,6 @@
   <data name="Main_ClientConnected" xml:space="preserve">
     <value>Client connected from {0}.</value>
   </data>
-  <data name="Main_CommandPrompt" xml:space="preserve">
-    <value>Command Prompt</value>
-  </data>
   <data name="Main_ComputerName" xml:space="preserve">
     <value>Computer Name</value>
   </data>
@@ -179,6 +176,9 @@
   </data>
   <data name="Main_TakeScreenshot" xml:space="preserve">
     <value>Take Screenshot</value>
+  </data>
+  <data name="Main_Terminal" xml:space="preserve">
+    <value>Terminal</value>
   </data>
   <data name="Main_Username" xml:space="preserve">
     <value>Username</value>

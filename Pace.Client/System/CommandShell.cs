@@ -10,7 +10,7 @@ namespace Pace.Client.System
         public Process Process { get; set; }
         public bool SessionOpen { get; set; }
 
-        private PaceClient client;
+        private readonly PaceClient client;
         private StreamWriter streamWriter;
 
         public CommandShell(PaceClient client)

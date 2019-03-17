@@ -169,15 +169,6 @@ namespace Pace.Server.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Command Prompt.
-        /// </summary>
-        public static string Main_CommandPrompt {
-            get {
-                return ResourceManager.GetString("Main_CommandPrompt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Computer Name.
         /// </summary>
         public static string Main_ComputerName {
@@ -246,6 +237,15 @@ namespace Pace.Server.Resources {
         public static string Main_TakeScreenshot {
             get {
                 return ResourceManager.GetString("Main_TakeScreenshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terminal.
+        /// </summary>
+        public static string Main_Terminal {
+            get {
+                return ResourceManager.GetString("Main_Terminal", resourceCulture);
             }
         }
         

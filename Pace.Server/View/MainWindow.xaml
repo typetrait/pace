@@ -47,7 +47,7 @@
                                 <materialDesign:PackIcon Kind="Folder" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="{x:Static p:Strings.Main_CommandPrompt}">
+                        <MenuItem Header="{x:Static p:Strings.Main_Terminal}">
                             <MenuItem.Icon>
                                 <materialDesign:PackIcon Kind="Console" />
                             </MenuItem.Icon>
