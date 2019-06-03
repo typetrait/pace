@@ -37,7 +37,7 @@
         </materialDesign:ColorZone>
         <ListView Margin="10" Name="clientListView" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
             <ListView.ContextMenu>
-                <ContextMenu>
+                <ContextMenu IsEnabled="{Binding IsItemSelected}">
                     <MenuItem Header="{x:Static p:Strings.Main_Management}">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="Monitor" />

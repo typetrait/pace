@@ -25,8 +25,11 @@ namespace Pace.Server.ViewModel
             {
                 selectedClient = value;
                 OnPropertyChanged(() => selectedClient);
+                OnPropertyChanged(() => IsItemSelected);
             }
         }
+
+        public bool IsItemSelected { get { return SelectedClient != null; } }
 
         public ObservableCollection<ClientInfo> Clients { get; set; }
 
@@ -68,6 +71,11 @@ namespace Pace.Server.ViewModel
         {
             var list = new List<ClientInfo>(Clients);
             var client = list.Find(c => c.Owner == e.Client);
+
+            if (client == SelectedClient)
+            {
+                SelectedClient = null;
+            }
 
             Application.Current.Dispatcher.Invoke(() =>
             {
