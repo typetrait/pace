@@ -67,7 +67,7 @@ namespace Pace.Client.Handlers
                 var response = new GetDirectoryResponsePacket
                 {
                     Name = directory.Name,
-                    Path = path,
+                    Path = directory.FullName,
                     Folders = folders.Select(folder => folder.Name).ToArray(),
                     Files = files.Select(file => file.Name).ToArray(),
                     FileSizes = files.Select(file => file.Size).ToArray()
