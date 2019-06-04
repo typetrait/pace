@@ -4,6 +4,7 @@ using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
 using Pace.Server.Model;
 using Pace.Server.Network;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -12,6 +13,9 @@ namespace Pace.Server.ViewModel
 {
     public class FileExplorerViewModel : ViewModelBase
     {
+        private int navigationHistoryIndex;
+        private List<FileSystemEntry> navigationHistory;
+
         public ObservableCollection<FileSystemEntry> Files { get; set; }
 
         public string Path { get; set; }
@@ -41,6 +45,8 @@ namespace Pace.Server.ViewModel
         public ICommand NavigateCommand { get; set; }
         public ICommand NavigateSelectedCommand { get; set; }
         public ICommand NavigateUpCommand { get; set; }
+        public ICommand NavigateForwardCommand { get; set; }
+        public ICommand NavigateBackCommand { get; set; }
         public ICommand DeleteFileCommand { get; set; }
 
         public ClientInfo Client { get; set; }
@@ -48,6 +54,9 @@ namespace Pace.Server.ViewModel
         public FileExplorerViewModel(PaceServer server, ClientInfo client)
         {
             Files = new ObservableCollection<FileSystemEntry>();
+
+            navigationHistoryIndex = 0;
+            navigationHistory = new List<FileSystemEntry>();
 
             server.PacketChannel.RegisterHandler<GetDirectoryResponsePacket>(HandleGetDirectory);
             server.PacketChannel.RegisterHandler<NotifyStatusPacket>(HandleNotifyStatus);
@@ -62,6 +71,8 @@ namespace Pace.Server.ViewModel
             NavigateCommand = new RelayCommand<string>(Navigate);
             NavigateSelectedCommand = new RelayCommand<string>(NavigateSelected);
             NavigateUpCommand = new RelayCommand<string>(NavigateUp);
+            NavigateForwardCommand = new RelayCommand<string>(NavigateForward);
+            NavigateBackCommand = new RelayCommand<string>(NavigateBack);
             DeleteFileCommand = new RelayCommand<string>(DeleteFile);
         }
 
@@ -75,6 +86,8 @@ namespace Pace.Server.ViewModel
             var directoryResponse = (GetDirectoryResponsePacket)packet;
 
             CurrentDirectory = new FileSystemEntry(directoryResponse.Name, directoryResponse.Path, 0, FileType.Directory);
+
+            navigationHistory.Add(CurrentDirectory);
 
             for (int i = 0; i < directoryResponse.Folders.Length; i++)
             {
@@ -127,6 +140,16 @@ namespace Pace.Server.ViewModel
         private void NavigateUp(string s)
         {
             Navigate(System.IO.Path.Combine(CurrentDirectory.Path, ".."));
+        }
+
+        private void NavigateForward(string s)
+        {
+            MessageBox.Show("Forward");
+        }
+
+        private void NavigateBack(string s)
+        {
+            MessageBox.Show("Back");
         }
 
         private void DeleteFile(string s)
