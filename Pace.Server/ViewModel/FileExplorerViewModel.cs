@@ -13,10 +13,10 @@ namespace Pace.Server.ViewModel
 {
     public class FileExplorerViewModel : ViewModelBase
     {
-        private int navigationHistoryIndex;
-        private List<FileSystemEntry> navigationHistory;
-
         public ObservableCollection<FileSystemEntry> Files { get; set; }
+
+        public Stack<FileSystemEntry> ForwardHistory { get; set; }
+        public Stack<FileSystemEntry> BackHistory { get; set; }
 
         public string Path { get; set; }
 
@@ -55,16 +55,14 @@ namespace Pace.Server.ViewModel
         {
             Files = new ObservableCollection<FileSystemEntry>();
 
-            navigationHistoryIndex = 0;
-            navigationHistory = new List<FileSystemEntry>();
+            ForwardHistory = new Stack<FileSystemEntry>();
+            BackHistory = new Stack<FileSystemEntry>();
 
             server.PacketChannel.RegisterHandler<GetDirectoryResponsePacket>(HandleGetDirectory);
             server.PacketChannel.RegisterHandler<NotifyStatusPacket>(HandleNotifyStatus);
 
             if (server.ConnectedClients.Count > 0)
-            {
                 client.Owner.SendPacket(new GetDirectoryRequestPacket(string.Empty));
-            }
 
             Client = client;
 
@@ -86,8 +84,6 @@ namespace Pace.Server.ViewModel
             var directoryResponse = (GetDirectoryResponsePacket)packet;
 
             CurrentDirectory = new FileSystemEntry(directoryResponse.Name, directoryResponse.Path, 0, FileType.Directory);
-
-            navigationHistory.Add(CurrentDirectory);
 
             for (int i = 0; i < directoryResponse.Folders.Length; i++)
             {
@@ -127,6 +123,9 @@ namespace Pace.Server.ViewModel
         private void Navigate(string path)
         {
             Client.Owner.SendPacket(new GetDirectoryRequestPacket(path));
+
+            if (BackHistory.Count == 0)
+                BackHistory.Push(CurrentDirectory);
         }
 
         private void NavigateSelected(string s)
@@ -144,12 +143,24 @@ namespace Pace.Server.ViewModel
 
         private void NavigateForward(string s)
         {
-            MessageBox.Show("Forward");
+            if (ForwardHistory.Count == 0)
+                return;
+
+            BackHistory.Push(CurrentDirectory);
+
+            var returnDirectory = ForwardHistory.Pop();
+            Navigate(returnDirectory.Path);
         }
 
         private void NavigateBack(string s)
         {
-            MessageBox.Show("Back");
+            if (BackHistory.Count == 0)
+                return;
+
+            ForwardHistory.Push(CurrentDirectory);
+
+            var returnDirectory = BackHistory.Pop();
+            Navigate(returnDirectory.Path);
         }
 
         private void DeleteFile(string s)
