@@ -12,7 +12,15 @@
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-        Title="{Binding Client.Identifier, StringFormat=File Explorer @ {0}}" Height="450" Width="800">
+        Height="450" Width="800">
+
+    <Window.Title>
+        <MultiBinding StringFormat="{}{0} @ {1}">
+            <Binding Source="{x:Static p:Strings.Main_FileManager}"/>
+            <Binding Path="Client.Identifier"/>
+        </MultiBinding>
+    </Window.Title>
+    
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
