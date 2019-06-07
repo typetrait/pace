@@ -81,9 +81,19 @@ namespace Pace.Server.ViewModel
                 Files.Clear();
             });
 
+            var previousDirectory = CurrentDirectory;
+
             var directoryResponse = (GetDirectoryResponsePacket)packet;
 
             CurrentDirectory = new FileSystemEntry(directoryResponse.Name, directoryResponse.Path, 0, FileType.Directory);
+
+            if (previousDirectory != null)
+            {
+                if (CurrentDirectory.Path.Contains(previousDirectory.Path))
+                {
+                    BackHistory.Push(previousDirectory);
+                }
+            }
 
             for (int i = 0; i < directoryResponse.Folders.Length; i++)
             {
@@ -123,9 +133,6 @@ namespace Pace.Server.ViewModel
         private void Navigate(string path)
         {
             Client.Owner.SendPacket(new GetDirectoryRequestPacket(path));
-
-            if (BackHistory.Count == 0)
-                BackHistory.Push(CurrentDirectory);
         }
 
         private void NavigateSelected(string s)
@@ -143,24 +150,18 @@ namespace Pace.Server.ViewModel
 
         private void NavigateForward(string s)
         {
-            if (ForwardHistory.Count == 0)
-                return;
-
             BackHistory.Push(CurrentDirectory);
+            var nextDirectory = ForwardHistory.Pop();
 
-            var returnDirectory = ForwardHistory.Pop();
-            Navigate(returnDirectory.Path);
+            Navigate(nextDirectory.Path);
         }
 
         private void NavigateBack(string s)
         {
-            if (BackHistory.Count == 0)
-                return;
-
             ForwardHistory.Push(CurrentDirectory);
+            var previousDirectory = BackHistory.Pop();
 
-            var returnDirectory = BackHistory.Pop();
-            Navigate(returnDirectory.Path);
+            Navigate(previousDirectory.Path);
         }
 
         private void DeleteFile(string s)
