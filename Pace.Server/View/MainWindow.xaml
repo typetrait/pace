@@ -52,6 +52,17 @@
                                 <materialDesign:PackIcon Kind="Console" />
                             </MenuItem.Icon>
                         </MenuItem>
+                        <Separator></Separator>
+                        <MenuItem Header="Restart">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Refresh" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Shutdown">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Shutdown" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
                     <MenuItem Header="{x:Static p:Strings.Main_Surveillance}">
                         <MenuItem.Icon>
