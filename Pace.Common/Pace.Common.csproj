@@ -50,6 +50,7 @@
     <Compile Include="Model\FileType.cs" />
     <Compile Include="Network\PaceClient.cs" />
     <Compile Include="Network\Packets\Client\GetDirectoryResponsePacket.cs" />
+    <Compile Include="Network\Packets\Client\GetDrivesResponsePacket.cs" />
     <Compile Include="Network\Packets\Client\GetSystemInfoResponsePacket.cs" />
     <Compile Include="Network\Packets\Client\NotifyStatusPacket.cs" />
     <Compile Include="Network\Packets\Client\TakeScreenshotResponsePacket.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Network\Packets\Server\DeleteFileRequestPacket.cs" />
     <Compile Include="Network\Packets\Server\DownloadFileRequestPacket.cs" />
     <Compile Include="Network\Packets\Server\GetDirectoryRequestPacket.cs" />
+    <Compile Include="Network\Packets\Server\GetDrivesRequestPacket.cs" />
     <Compile Include="Network\Packets\Server\GetSystemInfoRequestPacket.cs" />
     <Compile Include="Network\Packets\Server\SendFileRequestPacket.cs" />
     <Compile Include="Network\Packets\Server\TakeScreenshotRequestPacket.cs" />

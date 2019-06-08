@@ -26,6 +26,7 @@ namespace Pace.Client
             var packetChannel = new PacketChannel();
 
             packetChannel.RegisterHandler<GetSystemInfoRequestPacket>(SystemHandlers.HandleGetSystemInfo);
+            packetChannel.RegisterHandler<GetDrivesRequestPacket>(SystemHandlers.HandleGetDrives);
             packetChannel.RegisterHandler<TakeScreenshotRequestPacket>(SystemHandlers.HandleTakeScreenshot);
 
             packetChannel.RegisterHandler<DownloadFileRequestPacket>(FileHandlers.HandleDownloadFile);

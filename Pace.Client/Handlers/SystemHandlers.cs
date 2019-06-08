@@ -3,6 +3,8 @@ using Pace.Client.System;
 using Pace.Common.Network;
 using Pace.Common.Network.Packets;
 using Pace.Common.Network.Packets.Client;
+using System.IO;
+using System.Linq;
 
 namespace Pace.Client.Handlers
 {
@@ -23,6 +25,16 @@ namespace Pace.Client.Handlers
             );
 
             client.SendPacket(infoPacket);
+        }
+
+        public static void HandleGetDrives(PaceClient client, IPacket packet)
+        {
+            var drives = DriveInfo.GetDrives();
+            var driveNames = drives.Select(drive => drive.Name).ToArray();
+
+            var response = new GetDrivesResponsePacket(driveNames);
+
+            client.SendPacket(response);
         }
 
         public static void HandleTakeScreenshot(PaceClient client, IPacket packet)

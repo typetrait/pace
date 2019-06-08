@@ -62,10 +62,14 @@ namespace Pace.Server.ViewModel
             BackHistory = new Stack<FileSystemEntry>();
 
             server.PacketChannel.RegisterHandler<GetDirectoryResponsePacket>(HandleGetDirectory);
+            server.PacketChannel.RegisterHandler<GetDrivesResponsePacket>(HandleGetDrives);
             server.PacketChannel.RegisterHandler<NotifyStatusPacket>(HandleNotifyStatus);
 
             if (server.ConnectedClients.Count > 0)
+            {
                 client.Owner.SendPacket(new GetDirectoryRequestPacket(string.Empty));
+                client.Owner.SendPacket(new GetDrivesRequestPacket());
+            }
 
             Client = client;
 
@@ -125,6 +129,11 @@ namespace Pace.Server.ViewModel
                     ));
                 });
             }
+        }
+
+        private void HandleGetDrives(IPacket packet)
+        {
+            var getDrivesPacket = (GetDrivesResponsePacket)packet;
         }
 
         private void HandleNotifyStatus(IPacket packet)
