@@ -21,7 +21,16 @@ namespace Pace.Server.ViewModel
         public bool CanGoForward { get { return ForwardHistory.Count > 0; } }
         public bool CanGoBackward { get { return BackHistory.Count > 0; } }
 
-        public string Path { get; set; }
+        private string[] drives;
+        public string[] Drives
+        {
+            get { return drives; }
+            set
+            {
+                drives = value;
+                OnPropertyChanged(() => Drives);
+            }
+        }
 
         private FileSystemEntry currentDirectory;
         public FileSystemEntry CurrentDirectory
@@ -134,6 +143,7 @@ namespace Pace.Server.ViewModel
         private void HandleGetDrives(IPacket packet)
         {
             var getDrivesPacket = (GetDrivesResponsePacket)packet;
+            Drives = getDrivesPacket.Drives;
         }
 
         private void HandleNotifyStatus(IPacket packet)

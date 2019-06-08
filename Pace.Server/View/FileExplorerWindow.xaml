@@ -41,11 +41,11 @@
                     <materialDesign:PackIcon Kind="ArrowUp" />
                 </Button>
                 <Separator></Separator>
-                <TextBox materialDesign:HintAssist.Hint="{x:Static p:Strings.FileExplorer_Browse}" Text="{Binding CurrentDirectory.Path}">
-                    <TextBox.InputBindings>
-                        <KeyBinding Key="Enter" Command="{Binding NavigateCommand}" CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
-                    </TextBox.InputBindings>
-                </TextBox>
+                <ComboBox IsEditable="True" ItemsSource="{Binding Drives}" materialDesign:HintAssist.Hint="{x:Static p:Strings.FileExplorer_Browse}" Text="{Binding CurrentDirectory.Path}">
+                    <ComboBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding NavigateCommand}" CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" />
+                    </ComboBox.InputBindings>
+                </ComboBox>
                 <Button Command="{Binding NavigateCommand}" CommandParameter="{Binding CurrentDirectory.Path}">
                     <materialDesign:PackIcon Kind="Refresh" />
                 </Button>
