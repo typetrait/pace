@@ -59,7 +59,6 @@
     <Compile Include="Network\PacketChannel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="System\CommandShell.cs" />
     <Compile Include="System\FileExplorer.cs" />
     <Compile Include="System\ScreenCapture.cs" />
     <Compile Include="System\SystemInformation.cs" />
