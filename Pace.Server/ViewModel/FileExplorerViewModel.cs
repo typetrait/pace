@@ -18,6 +18,9 @@ namespace Pace.Server.ViewModel
         public Stack<FileSystemEntry> ForwardHistory { get; set; }
         public Stack<FileSystemEntry> BackHistory { get; set; }
 
+        public bool CanGoForward { get { return ForwardHistory.Count > 0; } }
+        public bool CanGoBackward { get { return BackHistory.Count > 0; } }
+
         public string Path { get; set; }
 
         private FileSystemEntry currentDirectory;
@@ -89,11 +92,11 @@ namespace Pace.Server.ViewModel
 
             if (previousDirectory != null)
             {
-                if (CurrentDirectory.Path.Contains(previousDirectory.Path))
-                {
-                    BackHistory.Push(previousDirectory);
-                }
+                BackHistory.Push(previousDirectory);
             }
+
+            OnPropertyChanged(() => CanGoForward);
+            OnPropertyChanged(() => CanGoBackward);
 
             for (int i = 0; i < directoryResponse.Folders.Length; i++)
             {

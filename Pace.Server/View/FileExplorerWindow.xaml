@@ -31,10 +31,10 @@
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" >
-                <Button Command="{Binding NavigateBackCommand}">
+                <Button IsEnabled="{Binding CanGoBackward}" Command="{Binding NavigateBackCommand}">
                     <materialDesign:PackIcon Kind="ArrowLeft" />
                 </Button>
-                <Button Command="{Binding NavigateForwardCommand}">
+                <Button IsEnabled="{Binding CanGoForward}" Command="{Binding NavigateForwardCommand}">
                     <materialDesign:PackIcon Kind="ArrowRight" />
                 </Button>
                 <Button Command="{Binding NavigateUpCommand}">
