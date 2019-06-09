@@ -21,7 +21,8 @@ namespace Pace.Common.Network.Packets
                 typeof(DeleteFileRequestPacket),
                 typeof(NotifyStatusPacket),
                 typeof(GetDrivesRequestPacket),
-                typeof(GetDrivesResponsePacket)
+                typeof(GetDrivesResponsePacket),
+                typeof(RestartRequestPacket)
             };
         }
     }

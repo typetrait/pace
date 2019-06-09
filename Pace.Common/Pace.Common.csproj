@@ -62,6 +62,7 @@
     <Compile Include="Network\Packets\Server\GetDrivesRequestPacket.cs" />
     <Compile Include="Network\Packets\Server\GetSystemInfoRequestPacket.cs" />
     <Compile Include="Network\Packets\Server\SendFileRequestPacket.cs" />
+    <Compile Include="Network\Packets\Server\RestartRequestPacket.cs" />
     <Compile Include="Network\Packets\Server\TakeScreenshotRequestPacket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

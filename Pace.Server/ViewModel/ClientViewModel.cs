@@ -36,6 +36,7 @@ namespace Pace.Server.ViewModel
         public SnackbarMessageQueue ConnectedMessageQueue { get; set; }
 
         public RelayCommand<ClientInfo> OpenFileManagerCommand { get; set; }
+        public RelayCommand<ClientInfo> RestartCommand { get; set; }
 
         public ClientViewModel()
         {
@@ -46,9 +47,10 @@ namespace Pace.Server.ViewModel
             ConnectedMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(5000));
 
             OpenFileManagerCommand = new RelayCommand<ClientInfo>(OpenFileManager);
+            RestartCommand = new RelayCommand<ClientInfo>(RestartClient);
 
             #if DEBUG
-                if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
             #endif
 
             server = new PaceServer();
@@ -86,6 +88,11 @@ namespace Pace.Server.ViewModel
         private void OpenFileManager(ClientInfo client)
         {
             fileManagerService.ShowWindow(server, SelectedClient);
+        }
+
+        private void RestartClient(ClientInfo client)
+        {
+            SelectedClient.Owner.SendPacket(new RestartRequestPacket());
         }
 
         private void HandleSystemInfo(IPacket packet)

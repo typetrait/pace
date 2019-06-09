@@ -53,7 +53,7 @@
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator></Separator>
-                        <MenuItem Header="Restart">
+                        <MenuItem Header="Restart" Command="{Binding RestartCommand}" >
                             <MenuItem.Icon>
                                 <materialDesign:PackIcon Kind="Refresh" />
                             </MenuItem.Icon>

