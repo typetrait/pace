@@ -1,5 +1,4 @@
-﻿using NetSerializer;
-using Pace.Common.Network;
+﻿using Pace.Common.Network;
 using Pace.Common.Network.Packets;
 using Pace.Server.Configuration;
 using System;
