@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace Pace.Server.Network
@@ -17,18 +18,23 @@ namespace Pace.Server.Network
         public event EventHandler<ClientEventArgs> ClientConnected;
         public event EventHandler<ClientEventArgs> ClientDisconnected;
 
+        public readonly X509Certificate Certificate;
+
         public readonly PacketChannel PacketChannel;
         public List<PaceClient> ConnectedClients { get; set; }
         public bool Listening { get; set; }
 
-        private readonly Serializer serializer;
         private TcpListener listener;
 
         public PaceServer()
         {
             PacketChannel = new PacketChannel();
             ConnectedClients = new List<PaceClient>();
-            serializer = new Serializer(PacketRegistry.GetPacketTypes());
+        }
+
+        public PaceServer(X509Certificate certificate) : this()
+        {
+            Certificate = certificate;
         }
 
         public void Start()
