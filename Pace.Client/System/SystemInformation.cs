@@ -26,7 +26,7 @@ namespace Pace.Client.System
 
         private static string GetProductName()
         {
-            var key = @"SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion";
+            var key = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion";
             return Registry.LocalMachine.OpenSubKey(key).GetValue("ProductName").ToString();
         }
     }
