@@ -5,49 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pace.Server.View"
         xmlns:p="clr-namespace:Pace.Server.Resources"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
-        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         Height="450" Width="800">
-
     <Window.Title>
         <MultiBinding StringFormat="{}{0} @ {1}">
             <Binding Source="{x:Static p:Strings.Main_FileManager}"/>
             <Binding Path="Client.Identifier"/>
         </MultiBinding>
     </Window.Title>
-    
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
-            <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" >
+            <ToolBar ClipToBounds="False" >
                 <Button IsEnabled="{Binding CanGoBackward}" Command="{Binding NavigateBackCommand}">
-                    <materialDesign:PackIcon Kind="ArrowLeft" />
                 </Button>
                 <Button IsEnabled="{Binding CanGoForward}" Command="{Binding NavigateForwardCommand}">
-                    <materialDesign:PackIcon Kind="ArrowRight" />
                 </Button>
                 <Button Command="{Binding NavigateUpCommand}">
-                    <materialDesign:PackIcon Kind="ArrowUp" />
                 </Button>
                 <Separator></Separator>
-                <ComboBox IsEditable="True" ItemsSource="{Binding Drives}" materialDesign:HintAssist.Hint="{x:Static p:Strings.FileExplorer_Browse}" Text="{Binding CurrentDirectory.Path}">
+                <ComboBox IsEditable="True" ItemsSource="{Binding Drives}" Text="{Binding CurrentDirectory.Path}">
                     <ComboBox.InputBindings>
                         <KeyBinding Key="Enter" Command="{Binding NavigateCommand}" CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" />
                     </ComboBox.InputBindings>
                 </ComboBox>
                 <Button Command="{Binding NavigateCommand}" CommandParameter="{Binding CurrentDirectory.Path}">
-                    <materialDesign:PackIcon Kind="Refresh" />
                 </Button>
             </ToolBar>
         </ToolBarTray>
@@ -55,26 +38,14 @@
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="{x:Static p:Strings.FileExplorer_Open}" Command="{Binding NavigateSelectedCommand}">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="FolderOpen" />
-                        </MenuItem.Icon>
                     </MenuItem>
                     <Separator/>
                     <MenuItem Header="{x:Static p:Strings.FileExplorer_Rename}">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Pencil" />
-                        </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="{x:Static p:Strings.FileExplorer_Delete}" Command="{Binding DeleteFileCommand}">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Delete" />
-                        </MenuItem.Icon>
                     </MenuItem>
                     <Separator/>
                     <MenuItem Header="{x:Static p:Strings.FileExplorer_Properties}">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Information" />
-                        </MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>
             </ListView.ContextMenu>

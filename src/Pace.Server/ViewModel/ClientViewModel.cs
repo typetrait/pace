@@ -1,5 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
-using Pace.Common.Network.Packets;
+﻿using Pace.Common.Network.Packets;
 using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
 using Pace.Server.Model;
@@ -34,8 +33,6 @@ public class ClientViewModel : ViewModelBase
 
     public ObservableCollection<ClientInfo> Clients { get; set; }
 
-    public SnackbarMessageQueue ConnectedMessageQueue { get; set; }
-
     public RelayCommand<ClientInfo> OpenFileManagerCommand { get; set; }
     public RelayCommand<ClientInfo> RestartCommand { get; set; }
 
@@ -44,8 +41,6 @@ public class ClientViewModel : ViewModelBase
         fileManagerService = new FileWindowService();
 
         Clients = new ObservableCollection<ClientInfo>();
-
-        ConnectedMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(5000));
 
         OpenFileManagerCommand = new RelayCommand<ClientInfo>(OpenFileManager);
         RestartCommand = new RelayCommand<ClientInfo>(RestartClient);
@@ -68,8 +63,6 @@ public class ClientViewModel : ViewModelBase
 
     private void Server_ClientConnected(object sender, ClientEventArgs e)
     {
-        ConnectedMessageQueue.Enqueue(string.Format(Resources.Strings.Main_ClientConnected, e.Client.RemoteAddress));
-
         e.Client.SendPacket(new GetSystemInfoRequestPacket());
     }
 

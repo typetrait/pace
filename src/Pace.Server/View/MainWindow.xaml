@@ -5,73 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pace.Server"
         xmlns:p="clr-namespace:Pace.Server.Resources"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Pace" Height="500" Width="815"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
-        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         DataContext="{StaticResource ResourceKey=ClientViewModel}">
 
     <DockPanel>
-        <materialDesign:Snackbar HorizontalAlignment="Stretch" MessageQueue="{Binding ConnectedMessageQueue}" x:Name="ConnectionSnackbar" DockPanel.Dock="Bottom" />
-        <materialDesign:ColorZone DockPanel.Dock="Top" Mode="PrimaryDark" Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth0">
-            <DockPanel>
-                <!--<materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges">
-                    <ListBox>
-                        <ListBoxItem>
-                            About
-                        </ListBoxItem>
-                    </ListBox>
-                </materialDesign:PopupBox>-->
-                <StackPanel Orientation="Horizontal">
-                    <!--<ToggleButton Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />-->
-                    <Image VerticalAlignment="Center" Height="45px" Source="{StaticResource Icon}"></Image>
-                    <TextBlock VerticalAlignment="Center" Margin="16 0 0 0" FontSize="24px">
-                        PACE
-                    </TextBlock>
-                </StackPanel>
-            </DockPanel>
-        </materialDesign:ColorZone>
         <ListView Margin="10" Name="clientListView" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
             <ListView.ContextMenu>
                 <ContextMenu IsEnabled="{Binding IsItemSelected}">
                     <MenuItem Header="{x:Static p:Strings.Main_Management}">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Monitor" />
-                        </MenuItem.Icon>
                         <MenuItem Header="{x:Static p:Strings.Main_FileManager}" Command="{Binding OpenFileManagerCommand}">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="Folder" />
-                            </MenuItem.Icon>
                         </MenuItem>
                         <MenuItem Header="{x:Static p:Strings.Main_Terminal}">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="Console" />
-                            </MenuItem.Icon>
                         </MenuItem>
                         <Separator></Separator>
                         <MenuItem Header="Restart" Command="{Binding RestartCommand}" >
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="Refresh" />
-                            </MenuItem.Icon>
                         </MenuItem>
                         <MenuItem Header="Shutdown">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="Shutdown" />
-                            </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>
                     <MenuItem Header="{x:Static p:Strings.Main_Surveillance}">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Eye" />
-                        </MenuItem.Icon>
                         <MenuItem Header="{x:Static p:Strings.Main_TakeScreenshot}">
-                            <MenuItem.Icon>
-                                <materialDesign:PackIcon Kind="Camera" />
-                            </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>
                 </ContextMenu>
