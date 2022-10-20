@@ -9,89 +9,88 @@ using System.IO;
 using System.Linq;
 using System.Security;
 
-namespace Pace.Client.Handlers
+namespace Pace.Client.Handlers;
+
+public static class FileHandlers
 {
-    public static class FileHandlers
+    public static void HandleGetDirectory(PaceClient client, IPacket packet)
     {
-        public static void HandleGetDirectory(PaceClient client, IPacket packet)
+        var getDirectoryPacket = (GetDirectoryRequestPacket)packet;
+
+        var path = getDirectoryPacket.Path == string.Empty ? Environment.GetFolderPath(Environment.SpecialFolder.Windows) : getDirectoryPacket.Path;
+
+        GetDirectoryFileEntries(client, path);
+    }
+
+    public static void HandleDeleteFile(PaceClient client, IPacket packet)
+    {
+        var deleteFilePacket = (DeleteFileRequestPacket)packet;
+
+        var directory = Directory.GetParent(deleteFilePacket.Path).FullName;
+
+        if (Directory.Exists(deleteFilePacket.Path))
         {
-            var getDirectoryPacket = (GetDirectoryRequestPacket)packet;
-
-            var path = getDirectoryPacket.Path == string.Empty ? Environment.GetFolderPath(Environment.SpecialFolder.Windows) : getDirectoryPacket.Path;
-
-            GetDirectoryFileEntries(client, path);
+            Directory.Delete(deleteFilePacket.Path, true);
+        }
+        else if (File.Exists(deleteFilePacket.Path))
+        {
+            File.Delete(deleteFilePacket.Path);
         }
 
-        public static void HandleDeleteFile(PaceClient client, IPacket packet)
+        GetDirectoryFileEntries(client, directory);
+    }
+
+    public static void HandleSendFile(PaceClient client, IPacket packet)
+    {
+        var sendFilePacket = (SendFileRequestPacket)packet;
+        File.WriteAllBytes(Path.Combine(Environment.CurrentDirectory, sendFilePacket.Filename), sendFilePacket.FileData);
+    }
+
+    public static void HandleDownloadFile(PaceClient client, IPacket packet)
+    {
+        var downloadFilePacket = (DownloadFileRequestPacket)packet;
+        new WebFileDownloader().DownloadFile(downloadFilePacket.Url);
+    }
+
+    private static void GetDirectoryFileEntries(PaceClient client, string path)
+    {
+        try
         {
-            var deleteFilePacket = (DeleteFileRequestPacket)packet;
+            var directory = new DirectoryInfo(path);
 
-            var directory = Directory.GetParent(deleteFilePacket.Path).FullName;
+            if (!directory.Exists)
+                return;
 
-            if (Directory.Exists(deleteFilePacket.Path))
+            var folders = FileExplorer.GetDirectories(path);
+            var files = FileExplorer.GetFiles(path);
+
+            var response = new GetDirectoryResponsePacket
             {
-                Directory.Delete(deleteFilePacket.Path, true);
-            }
-            else if (File.Exists(deleteFilePacket.Path))
-            {
-                File.Delete(deleteFilePacket.Path);
-            }
+                Name = directory.Name,
+                Path = directory.FullName,
+                Folders = folders.Select(folder => folder.Name).ToArray(),
+                Files = files.Select(file => file.Name).ToArray(),
+                FileSizes = files.Select(file => file.Size).ToArray()
+            };
 
-            GetDirectoryFileEntries(client, directory);
+            client.SendPacket(response);
         }
-
-        public static void HandleSendFile(PaceClient client, IPacket packet)
+        catch (SecurityException)
         {
-            var sendFilePacket = (SendFileRequestPacket)packet;
-            File.WriteAllBytes(Path.Combine(Environment.CurrentDirectory, sendFilePacket.Filename), sendFilePacket.FileData);
+            NotifyStatus(client, "Insufficient privileges.");
         }
-
-        public static void HandleDownloadFile(PaceClient client, IPacket packet)
+        catch (ArgumentException)
         {
-            var downloadFilePacket = (DownloadFileRequestPacket)packet;
-            new WebFileDownloader().DownloadFile(downloadFilePacket.Url);
+            NotifyStatus(client, "Invalid path.");
         }
-
-        private static void GetDirectoryFileEntries(PaceClient client, string path)
+        catch (Exception)
         {
-            try
-            {
-                var directory = new DirectoryInfo(path);
-
-                if (!directory.Exists)
-                    return;
-
-                var folders = FileExplorer.GetDirectories(path);
-                var files = FileExplorer.GetFiles(path);
-
-                var response = new GetDirectoryResponsePacket
-                {
-                    Name = directory.Name,
-                    Path = directory.FullName,
-                    Folders = folders.Select(folder => folder.Name).ToArray(),
-                    Files = files.Select(file => file.Name).ToArray(),
-                    FileSizes = files.Select(file => file.Size).ToArray()
-                };
-
-                client.SendPacket(response);
-            }
-            catch (SecurityException)
-            {
-                NotifyStatus(client, "Insufficient privileges.");
-            }
-            catch (ArgumentException)
-            {
-                NotifyStatus(client, "Invalid path.");
-            }
-            catch (Exception)
-            {
-                NotifyStatus(client, "An unexpected error has occured.");
-            }
+            NotifyStatus(client, "An unexpected error has occured.");
         }
+    }
 
-        private static void NotifyStatus(PaceClient client, string statusMessage)
-        {
-            client.SendPacket(new NotifyStatusPacket(statusMessage));
-        }
+    private static void NotifyStatus(PaceClient client, string statusMessage)
+    {
+        client.SendPacket(new NotifyStatusResponsePacket(statusMessage));
     }
 }

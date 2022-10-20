@@ -1,4 +1,4 @@
-﻿using NetSerializer;
+﻿using MessagePack;
 using Pace.Common.IO.Compression;
 using Pace.Common.Network.Packets;
 using System;
@@ -6,99 +6,92 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 
-namespace Pace.Common.Network
+namespace Pace.Common.Network;
+
+public class PaceClient
 {
-    public class PaceClient
+    public event EventHandler PacketReceived;
+    public event EventHandler PacketSent;
+
+    public TcpClient TcpClient { get; set; }
+
+    public IPEndPoint RemoteAddress => TcpClient.Client.RemoteEndPoint as IPEndPoint;
+    public IPEndPoint LocalAddress => TcpClient.Client.RemoteEndPoint as IPEndPoint;
+    public int Port => LocalAddress.Port;
+
+    public PaceClient()
     {
-        public event EventHandler PacketReceived;
-        public event EventHandler PacketSent;
+        TcpClient = new TcpClient();
+    }
 
-        public TcpClient TcpClient { get; set; }
+    public PaceClient(TcpClient client)
+    {
+        TcpClient = client;
+    }
 
-        public string RemoteAddress => TcpClient.Client.RemoteEndPoint.ToString();
-        public string LocalAddress => TcpClient.Client.LocalEndPoint.ToString();
+    public void Connect(IPAddress address, int port)
+    {
+        TcpClient = new TcpClient();
+        TcpClient.Connect(address, port);
+    }
 
-        private Serializer serializer;
+    public IPacket ReadPacket()
+    {
+        byte[] packetBytes = QuickLZ.Decompress(ReadData());
 
-        public PaceClient()
+        PacketReceived?.Invoke(this, EventArgs.Empty);
+
+        using var ms = new MemoryStream(packetBytes);
+        return MessagePackSerializer.Deserialize<IPacket>(ms);
+    }
+
+    public byte[] ReadData()
+    {
+        var stream = TcpClient.GetStream();
+
+        byte[] packetLengthBytes = new byte[4];
+
+        int headerBytesRead = 0;
+        int headerRead = 0;
+
+        while (headerBytesRead < packetLengthBytes.Length)
         {
-            TcpClient = new TcpClient();
-
-            serializer = new Serializer(PacketRegistry.GetPacketTypes());
+            headerRead = stream.Read(packetLengthBytes, headerBytesRead, packetLengthBytes.Length);
+            headerBytesRead += headerRead;
         }
 
-        public PaceClient(TcpClient client)
-        {
-            TcpClient = client;
+        int packetLength = BitConverter.ToInt32(packetLengthBytes, 0);
 
-            serializer = new Serializer(PacketRegistry.GetPacketTypes());
+        byte[] packetData = new byte[packetLength];
+
+        int bytesRead = 0;
+        int read = 0;
+
+        while (bytesRead < packetLength)
+        {
+            read = stream.Read(packetData, bytesRead, packetLength - bytesRead);
+            bytesRead += read;
         }
 
-        public void Connect(IPAddress address, int port)
+        return packetData;
+    }
+
+    public void SendPacket(IPacket packet)
+    {
+        using (var ms = new MemoryStream())
         {
-            TcpClient = new TcpClient();
-            TcpClient.Connect(address, port);
+            MessagePackSerializer.Serialize(ms, packet);
+
+            byte[] packetBytes = QuickLZ.Compress(ms.ToArray(), 3);
+            SendData(packetBytes);
         }
 
-        public IPacket ReadPacket()
-        {
-            byte[] packetBytes = QuickLZ.Decompress(ReadData());
+        PacketSent?.Invoke(this, EventArgs.Empty);
+    }
 
-            using (var ms = new MemoryStream(packetBytes))
-            {
-                PacketReceived?.Invoke(this, EventArgs.Empty);
-                return (IPacket)serializer.Deserialize(ms);
-            }
-        }
-
-        public byte[] ReadData()
-        {
-            var stream = TcpClient.GetStream();
-
-            byte[] packetLengthBytes = new byte[4];
-
-            int headerBytesRead = 0;
-            int headerRead = 0;
-
-            while (headerBytesRead < packetLengthBytes.Length)
-            {
-                headerRead = stream.Read(packetLengthBytes, headerBytesRead, packetLengthBytes.Length);
-                headerBytesRead += headerRead;
-            }
-
-            int packetLength = BitConverter.ToInt32(packetLengthBytes, 0);
-
-            byte[] packetData = new byte[packetLength];
-
-            int bytesRead = 0;
-            int read = 0;
-
-            while (bytesRead < packetLength)
-            {
-                read = stream.Read(packetData, bytesRead, packetLength - bytesRead);
-                bytesRead += read;
-            }
-
-            return packetData;
-        }
-
-        public void SendPacket(IPacket packet)
-        {
-            using (var ms = new MemoryStream())
-            {
-                serializer.Serialize(ms, packet);
-
-                byte[] packetBytes = QuickLZ.Compress(ms.ToArray(), 3);
-                SendData(packetBytes);
-            }
-
-            PacketSent?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void SendData(byte[] data)
-        {
-            TcpClient.GetStream().Write(BitConverter.GetBytes(data.Length), 0, 4);
-            TcpClient.GetStream().Write(data, 0, data.Length);
-        }
+    public void SendData(byte[] data)
+    {
+        TcpClient.GetStream().Write(BitConverter.GetBytes(data.Length), 0, 4);
+        TcpClient.GetStream().Write(data, 0, data.Length);
     }
 }

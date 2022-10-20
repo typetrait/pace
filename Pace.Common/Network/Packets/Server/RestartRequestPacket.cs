@@ -1,10 +1,9 @@
-﻿using System;
+﻿using MessagePack;
 
-namespace Pace.Common.Network.Packets.Server
+namespace Pace.Common.Network.Packets.Server;
+
+[MessagePackObject]
+public class RestartRequestPacket : IPacket
 {
-    [Serializable]
-    public class RestartRequestPacket : IPacket
-    {
 
-    }
 }

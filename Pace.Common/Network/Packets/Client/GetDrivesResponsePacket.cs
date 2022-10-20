@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MessagePack;
 
-namespace Pace.Common.Network.Packets.Client
+namespace Pace.Common.Network.Packets.Client;
+
+[MessagePackObject]
+public class GetDrivesResponsePacket : IPacket
 {
-    [Serializable]
-    public class GetDrivesResponsePacket : IPacket
-    {
-        public string[] Drives { get; set; }
+    [Key(0)]
+    public string[] Drives { get; set; }
 
-        public GetDrivesResponsePacket(string[] drives)
-        {
-            Drives = drives;
-        }
+    public GetDrivesResponsePacket(string[] drives)
+    {
+        Drives = drives;
     }
 }

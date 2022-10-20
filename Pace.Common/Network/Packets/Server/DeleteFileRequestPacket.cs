@@ -1,15 +1,15 @@
-﻿using System;
+﻿using MessagePack;
 
-namespace Pace.Common.Network.Packets.Server
+namespace Pace.Common.Network.Packets.Server;
+
+[MessagePackObject]
+public class DeleteFileRequestPacket : IPacket
 {
-    [Serializable]
-    public class DeleteFileRequestPacket : IPacket
-    {
-        public string Path { get; set; }
+    [Key(0)]
+    public string Path { get; set; }
 
-        public DeleteFileRequestPacket(string path)
-        {
-            Path = path;
-        }
+    public DeleteFileRequestPacket(string path)
+    {
+        Path = path;
     }
 }

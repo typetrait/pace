@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MessagePack;
 
-namespace Pace.Common.Network.Packets.Server
+namespace Pace.Common.Network.Packets.Server;
+
+[MessagePackObject]
+public class TakeScreenshotRequestPacket : IPacket
 {
-    [Serializable]
-    public class TakeScreenshotRequestPacket : IPacket
-    {
-    }
+
 }

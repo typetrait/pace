@@ -1,15 +1,15 @@
-﻿using System;
+﻿using MessagePack;
 
-namespace Pace.Common.Network.Packets.Server
+namespace Pace.Common.Network.Packets.Server;
+
+[MessagePackObject]
+public class GetDirectoryRequestPacket : IPacket
 {
-    [Serializable]
-    public class GetDirectoryRequestPacket : IPacket
-    {
-        public string Path { get; set; }
+    [Key(0)]
+    public string Path { get; set; }
 
-        public GetDirectoryRequestPacket(string path)
-        {
-            Path = path;
-        }
+    public GetDirectoryRequestPacket(string path)
+    {
+        Path = path;
     }
 }

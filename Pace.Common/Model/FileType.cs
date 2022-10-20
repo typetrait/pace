@@ -1,8 +1,7 @@
-﻿namespace Pace.Common.Model
+﻿namespace Pace.Common.Model;
+
+public enum FileType
 {
-    public enum FileType
-    {
-        Directory,
-        File
-    }
+    Directory,
+    File
 }
