@@ -1,4 +1,6 @@
-﻿using Pace.Common.Model;
+﻿using Avalonia.Threading;
+using CommunityToolkit.Mvvm.Input;
+using Pace.Common.Model;
 using Pace.Common.Network.Packets;
 using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
@@ -6,7 +8,6 @@ using Pace.Server.Model;
 using Pace.Server.Network;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Pace.Server.ViewModel;
@@ -18,8 +19,8 @@ public class FileExplorerViewModel : ViewModelBase
     public Stack<FileSystemEntry> ForwardHistory { get; set; }
     public Stack<FileSystemEntry> BackHistory { get; set; }
 
-    public bool CanGoForward { get { return ForwardHistory.Count > 0; } }
-    public bool CanGoBackward { get { return BackHistory.Count > 0; } }
+    public bool CanGoForward => ForwardHistory.Count > 0;
+    public bool CanGoBackward => BackHistory.Count > 0;
 
     private string[] drives;
     public string[] Drives
@@ -28,7 +29,7 @@ public class FileExplorerViewModel : ViewModelBase
         set
         {
             drives = value;
-            OnPropertyChanged(() => Drives);
+            OnPropertyChanged(nameof(Drives));
         }
     }
 
@@ -39,7 +40,7 @@ public class FileExplorerViewModel : ViewModelBase
         set
         {
             currentDirectory = value;
-            OnPropertyChanged(() => CurrentDirectory);
+            OnPropertyChanged(nameof(CurrentDirectory));
         }
     }
 
@@ -50,7 +51,7 @@ public class FileExplorerViewModel : ViewModelBase
         set
         {
             selectedFile = value;
-            OnPropertyChanged(() => selectedFile);
+            OnPropertyChanged(nameof(SelectedFile));
         }
     }
 
@@ -92,7 +93,7 @@ public class FileExplorerViewModel : ViewModelBase
 
     private void HandleGetDirectory(IPacket packet)
     {
-        Application.Current.Dispatcher.Invoke(() =>
+        Dispatcher.UIThread.InvokeAsync(() =>
         {
             Files.Clear();
         });
@@ -108,12 +109,12 @@ public class FileExplorerViewModel : ViewModelBase
             BackHistory.Push(previousDirectory);
         }
 
-        OnPropertyChanged(() => CanGoForward);
-        OnPropertyChanged(() => CanGoBackward);
+        OnPropertyChanged(nameof(CanGoForward));
+        OnPropertyChanged(nameof(CanGoBackward));
 
         for (int i = 0; i < directoryResponse.Folders.Length; i++)
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Dispatcher.UIThread.InvokeAsync(() =>
             {
                 Files.Add(new FileSystemEntry
                 (
@@ -127,7 +128,7 @@ public class FileExplorerViewModel : ViewModelBase
 
         for (int i = 0; i < directoryResponse.Files.Length; i++)
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Dispatcher.UIThread.InvokeAsync(() =>
             {
                 Files.Add(new FileSystemEntry
                 (
@@ -149,7 +150,6 @@ public class FileExplorerViewModel : ViewModelBase
     private void HandleNotifyStatus(IPacket packet)
     {
         var statusPacket = (NotifyStatusResponsePacket)packet;
-        MessageBox.Show(statusPacket.StatusMessage, "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     private void Navigate(string path)
@@ -160,7 +160,9 @@ public class FileExplorerViewModel : ViewModelBase
     private void NavigateSelected(string s)
     {
         if (SelectedFile.Type != FileType.Directory)
+        {
             return;
+        }
 
         Navigate(SelectedFile.Path);
     }
@@ -188,9 +190,9 @@ public class FileExplorerViewModel : ViewModelBase
 
     private void DeleteFile(string s)
     {
-        var result = MessageBox.Show($"Delete {SelectedFile.Name}?", "File deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-
-        if (result == MessageBoxResult.Yes)
+        if (false)
+        {
             Client.Owner.SendPacket(new DeleteFileRequestPacket(SelectedFile.Path));
+        }
     }
 }

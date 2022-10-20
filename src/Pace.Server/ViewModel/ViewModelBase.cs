@@ -1,25 +1,7 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq.Expressions;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Pace.Server.ViewModel;
 
-public abstract class ViewModelBase : INotifyPropertyChanged
+public abstract class ViewModelBase : ObservableObject
 {
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    public virtual void OnPropertyChanged(string propertyName)
-    {
-        PropertyChangedEventHandler handler = PropertyChanged;
-        if (handler != null)
-        {
-            var e = new PropertyChangedEventArgs(propertyName);
-            handler(this, e);
-        }
-    }
-
-    public virtual void OnPropertyChanged<T>(Expression<Func<T>> propertyNameExpression)
-    {
-        OnPropertyChanged(((MemberExpression)propertyNameExpression.Body).Member.Name);
-    }
 }

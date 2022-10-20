@@ -1,13 +1,14 @@
-﻿using Pace.Common.Model;
+﻿using Avalonia.Data.Converters;
+using Pace.Common.Model;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
-using System.Windows.Data;
 
 namespace Pace.Server.Converters;
 
 public class FileSizeConverter : IMultiValueConverter
 {
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
     {
         long size = (long)values[0];
         var fileType = (FileType)values[1];
@@ -34,11 +35,6 @@ public class FileSizeConverter : IMultiValueConverter
             minifiedSize = size / 1073741824;
         }
 
-        return $"{minifiedSize.ToString()} {unit}";
-    }
-
-    public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
+        return $"{minifiedSize} {unit}";
     }
 }
