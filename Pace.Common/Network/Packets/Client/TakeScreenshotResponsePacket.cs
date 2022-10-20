@@ -1,15 +1,15 @@
-﻿using System;
+﻿using MessagePack;
 
-namespace Pace.Common.Network.Packets.Client
+namespace Pace.Common.Network.Packets.Client;
+
+[MessagePackObject]
+public class TakeScreenshotResponsePacket : IPacket
 {
-    [Serializable]
-    public class TakeScreenshotResponsePacket : IPacket
-    {
-        public byte[] ImageData { get; set; }
+    [Key(0)]
+    public byte[] ImageData { get; set; }
 
-        public TakeScreenshotResponsePacket(byte[] imageData)
-        {
-            ImageData = imageData;
-        }
+    public TakeScreenshotResponsePacket(byte[] imageData)
+    {
+        ImageData = imageData;
     }
 }

@@ -2,37 +2,36 @@
 using System;
 using System.Collections.Generic;
 
-namespace Pace.Server.Network
+namespace Pace.Server.Network;
+
+public class PacketChannel
 {
-    public class PacketChannel
+    public readonly Dictionary<Type, Action<IPacket>> Handlers;
+
+    public PacketChannel()
     {
-        public readonly Dictionary<Type, Action<IPacket>> Handlers;
+        Handlers = new Dictionary<Type, Action<IPacket>>();
+    }
 
-        public PacketChannel()
+    public void HandlePacket(IPacket packet)
+    {
+        foreach (var action in Handlers)
         {
-            Handlers = new Dictionary<Type, Action<IPacket>>();
-        }
-
-        public void HandlePacket(IPacket packet)
-        {
-            foreach (var action in Handlers)
+            if (action.Key.Equals(packet.GetType()))
             {
-                if (action.Key.Equals(packet.GetType()))
-                {
-                    action.Value(packet);
-                    return;
-                }
+                action.Value(packet);
+                return;
             }
         }
+    }
 
-        public void RegisterHandler<TPacket>(Action<IPacket> handler)
+    public void RegisterHandler<TPacket>(Action<IPacket> handler)
+    {
+        if (Handlers.ContainsKey(typeof(TPacket)))
         {
-            if (Handlers.ContainsKey(typeof(TPacket)))
-            {
-                Handlers.Remove(typeof(TPacket));
-            }
-
-            Handlers.Add(typeof(TPacket), handler);
+            Handlers.Remove(typeof(TPacket));
         }
+
+        Handlers.Add(typeof(TPacket), handler);
     }
 }

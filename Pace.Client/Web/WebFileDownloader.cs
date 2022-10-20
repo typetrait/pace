@@ -1,66 +1,64 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 
-namespace Pace.Client.Web
+namespace Pace.Client.Web;
+
+public class WebFileDownloader
 {
-    public class WebFileDownloader
+    private HttpClient httpClient;
+
+    public WebFileDownloader()
     {
-        private HttpClient httpClient;
+        httpClient = new HttpClient();
+    }
 
-        public WebFileDownloader()
+    public async void DownloadFile(string url)
+    {
+        var response = await httpClient.GetAsync(url);
+
+        if (!response.IsSuccessStatusCode)
+            return;
+
+        byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
+
+        string fileName = string.Empty;
+        string extension = string.Empty;
+
+        var splitUrl = url.Split('/');
+
+        var possibleFile = splitUrl[splitUrl.Length - 1];
+
+        if (possibleFile.Contains("."))
         {
-            httpClient = new HttpClient();
+            var temp = possibleFile.Split('.');
+
+            fileName = temp[0];
+
+            if (temp[1].Contains('?'))
+            {
+                temp[1] = temp[1].Split('?')[0];
+            }
+
+            extension = temp[1];
+
+            fileName = $"{fileName}.{extension}";
+        }
+        else
+        {
+            fileName = possibleFile;
         }
 
-        public async void DownloadFile(string url)
+        if (response.Content.Headers.ContentDisposition != null)
         {
-            var response = await httpClient.GetAsync(url);
-
-            if (!response.IsSuccessStatusCode)
-                return;
-
-            byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
-
-            string fileName = string.Empty;
-            string extension = string.Empty;
-
-            var splitUrl = url.Split('/');
-
-            var possibleFile = splitUrl[splitUrl.Length - 1];
-
-            if (possibleFile.Contains("."))
-            {
-                var temp = possibleFile.Split('.');
-
-                fileName = temp[0];
-
-                if (temp[1].Contains('?'))
-                {
-                    temp[1] = temp[1].Split('?')[0];
-                }
-
-                extension = temp[1];
-
-                fileName = $"{fileName}.{extension}";
-            }
-            else
-            {
-                fileName = possibleFile;
-            }
-
-            if (response.Content.Headers.ContentDisposition != null)
-            {
-                fileName = response.Content.Headers.ContentDisposition.FileName;
-            }
-
-            if (response.Content.Headers.ContentType != null)
-            {
-                extension = MimeTypeMap.GetExtension(response.Content.Headers.ContentType.MediaType);
-            }
-
-            File.WriteAllBytes(Path.Combine(Environment.CurrentDirectory, fileName), fileBytes);
+            fileName = response.Content.Headers.ContentDisposition.FileName;
         }
+
+        if (response.Content.Headers.ContentType != null)
+        {
+            extension = MimeTypeMap.GetExtension(response.Content.Headers.ContentType.MediaType);
+        }
+
+        File.WriteAllBytes(Path.Combine(Environment.CurrentDirectory, fileName), fileBytes);
     }
 }

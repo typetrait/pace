@@ -3,17 +3,16 @@ using Pace.Server.Network;
 using Pace.Server.ViewModel;
 using System.Windows;
 
-namespace Pace.Server.View
+namespace Pace.Server.View;
+
+/// <summary>
+/// Interaction logic for FileExplorerWindow.xaml
+/// </summary>
+public partial class FileExplorerWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for FileExplorerWindow.xaml
-    /// </summary>
-    public partial class FileExplorerWindow : Window
+    public FileExplorerWindow(PaceServer server, ClientInfo client)
     {
-        public FileExplorerWindow(PaceServer server, ClientInfo client)
-        {
-            InitializeComponent();
-            DataContext = new FileExplorerViewModel(server, client);
-        }
+        InitializeComponent();
+        DataContext = new FileExplorerViewModel(server, client);
     }
 }

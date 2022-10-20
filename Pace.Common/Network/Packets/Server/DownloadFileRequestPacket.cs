@@ -1,15 +1,15 @@
-﻿using System;
+﻿using MessagePack;
 
-namespace Pace.Common.Network.Packets.Server
+namespace Pace.Common.Network.Packets.Server;
+
+[MessagePackObject]
+public class DownloadFileRequestPacket : IPacket
 {
-    [Serializable]
-    public class DownloadFileRequestPacket : IPacket
-    {
-        public string Url { get; set; }
+    [Key(0)]
+    public string Url { get; set; }
 
-        public DownloadFileRequestPacket(string url)
-        {
-            Url = url;
-        }
+    public DownloadFileRequestPacket(string url)
+    {
+        Url = url;
     }
 }
