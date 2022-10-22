@@ -8,5 +8,13 @@
         Title="Pace"
 	    Height="500"
 	    Width="815">
-	<TextBlock Text="Pace Server" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <ListBox Items="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
+		<ListBox.ItemTemplate>
+            <DataTemplate>
+                <Border CornerRadius="4" Padding="4">
+                    <TextBlock Text="{Binding Identifier}"/>
+                </Border>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
 </Window>
