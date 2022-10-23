@@ -5,16 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pace.Server.View"
         mc:Ignorable="d"
+        Icon="/Resources/icon.ico"
         Title="Pace"
-	    Height="500"
-	    Width="815">
-    <ListBox Items="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
-		<ListBox.ItemTemplate>
-            <DataTemplate>
-                <Border CornerRadius="4" Padding="4">
-                    <TextBlock Text="{Binding Identifier}"/>
-                </Border>
-            </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>
+        Height="500"
+        Width="815">
+    <DockPanel>
+        <DockPanel Background="#D32F2F" DockPanel.Dock="Top">
+            <Image Margin="10" Source="/Resources/icon.ico" Height="40"></Image>
+            <TextBlock Foreground="White" VerticalAlignment="Center" FontWeight="DemiBold" Text="PACE"/>
+        </DockPanel>
+        <ListBox Items="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border CornerRadius="4" Padding="4">
+                        <TextBlock Text="{Binding}"/>
+                    </Border>
+                 </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
 </Window>

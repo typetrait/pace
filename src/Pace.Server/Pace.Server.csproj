@@ -11,6 +11,9 @@
     <Resource Include="Resources\icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaResource Include="Resources\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.18" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
