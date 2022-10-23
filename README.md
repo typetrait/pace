@@ -14,5 +14,5 @@ Manage remote computers with ease, through an easy to use interface, straightfor
 
 ## Screenshots
 <p align="center">
-  <img src="Screenshots/pace-screenshot-01.png">
+  <img src="screenshots/pace-screenshot-01.png">
 </p>
