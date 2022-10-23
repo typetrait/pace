@@ -1,19 +1,18 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using Avalonia;
+using Avalonia.Threading;
+using CommunityToolkit.Mvvm.Input;
 using Pace.Common.Network.Packets;
 using Pace.Common.Network.Packets.Client;
 using Pace.Common.Network.Packets.Server;
 using Pace.Server.Model;
 using Pace.Server.Network;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Windows;
 
 namespace Pace.Server.ViewModel;
 
-public class ClientViewModel : ViewModelBase
+public class MainViewModel : ViewModelBase
 {
     private readonly PaceServer server;
     private readonly FileWindowService fileManagerService;
@@ -25,8 +24,8 @@ public class ClientViewModel : ViewModelBase
         set
         {
             selectedClient = value;
-            OnPropertyChanged(() => selectedClient);
-            OnPropertyChanged(() => IsItemSelected);
+            OnPropertyChanged(nameof(SelectedClient));
+            OnPropertyChanged(nameof(IsItemSelected));
         }
     }
 
@@ -34,28 +33,17 @@ public class ClientViewModel : ViewModelBase
 
     public ObservableCollection<ClientInfo> Clients { get; set; }
 
-    public SnackbarMessageQueue ConnectedMessageQueue { get; set; }
-
     public RelayCommand<ClientInfo> OpenFileManagerCommand { get; set; }
     public RelayCommand<ClientInfo> RestartCommand { get; set; }
 
-    public ClientViewModel()
+    public MainViewModel()
     {
         fileManagerService = new FileWindowService();
 
         Clients = new ObservableCollection<ClientInfo>();
 
-        ConnectedMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(5000));
-
         OpenFileManagerCommand = new RelayCommand<ClientInfo>(OpenFileManager);
         RestartCommand = new RelayCommand<ClientInfo>(RestartClient);
-
-        #if DEBUG
-        if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-        {
-            return;
-        }
-        #endif
 
         server = new PaceServer();
         server.ClientConnected += Server_ClientConnected;
@@ -68,8 +56,6 @@ public class ClientViewModel : ViewModelBase
 
     private void Server_ClientConnected(object sender, ClientEventArgs e)
     {
-        ConnectedMessageQueue.Enqueue(string.Format(Resources.Strings.Main_ClientConnected, e.Client.RemoteAddress));
-
         e.Client.SendPacket(new GetSystemInfoRequestPacket());
     }
 
@@ -83,7 +69,7 @@ public class ClientViewModel : ViewModelBase
             SelectedClient = null;
         }
 
-        Application.Current.Dispatcher.Invoke(() =>
+        Dispatcher.UIThread.InvokeAsync(() =>
         {
             Clients.Remove(client);
         });
@@ -114,7 +100,7 @@ public class ClientViewModel : ViewModelBase
             OS = systemInfoResponse.OS
         };
 
-        Application.Current.Dispatcher.Invoke(() =>
+        Dispatcher.UIThread.InvokeAsync(() =>
         {
             Clients.Add(clientInfo);
         });

@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using Avalonia.Controls;
 
-namespace Pace.Server;
+namespace Pace.Server.View;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml
