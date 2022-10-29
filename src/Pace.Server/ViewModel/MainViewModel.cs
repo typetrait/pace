@@ -1,5 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Threading;
+﻿using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
 using Pace.Common.Network.Packets;
 using Pace.Common.Network.Packets.Client;
