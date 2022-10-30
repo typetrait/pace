@@ -4,11 +4,11 @@ namespace Pace.Server.Model;
 
 public class ClientInfo
 {
-    public PaceClient Owner { get; set; }
-    public string Identifier { get; set; }
-    public string Address { get; set; }
-    public int Port { get; set; }
-    public string Username { get; set; }
-    public string ComputerName { get; set; }
-    public string OS { get; set; }
+    public PaceClient Owner { get; init; }
+    public string Identifier { get; init; }
+    public string Address { get; init; }
+    public int Port { get; init; }
+    public string Username { get; init; }
+    public string ComputerName { get; init; }
+    public string OS { get; init; }
 }

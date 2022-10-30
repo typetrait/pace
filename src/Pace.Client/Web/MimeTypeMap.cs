@@ -714,9 +714,7 @@ public static class MimeTypeMap
             extension = "." + extension;
         }
 
-        string mime;
-
-        return mappings.Value.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
+        return mappings.Value.TryGetValue(extension, out string mime) ? mime : "application/octet-stream";
     }
 
     public static string GetExtension(string mimeType)
@@ -736,9 +734,7 @@ public static class MimeTypeMap
             throw new ArgumentException("Requested mime type is not valid: " + mimeType);
         }
 
-        string extension;
-
-        if (mappings.Value.TryGetValue(mimeType, out extension))
+        if (mappings.Value.TryGetValue(mimeType, out string extension))
         {
             return extension;
         }

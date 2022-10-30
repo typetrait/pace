@@ -1,5 +1,6 @@
 ﻿using Pace.Client.System;
 using Pace.Client.Web;
+using Pace.Common.Model;
 using Pace.Common.Network;
 using Pace.Common.Network.Packets;
 using Pace.Common.Network.Packets.Client;
@@ -17,7 +18,7 @@ public static class FileHandlers
     {
         var getDirectoryPacket = (GetDirectoryRequestPacket)packet;
 
-        var path = getDirectoryPacket.Path == string.Empty ? Environment.GetFolderPath(Environment.SpecialFolder.Windows) : getDirectoryPacket.Path;
+        string path = getDirectoryPacket.Path == string.Empty ? Environment.GetFolderPath(Environment.SpecialFolder.Windows) : getDirectoryPacket.Path;
 
         GetDirectoryFileEntries(client, path);
     }
@@ -61,8 +62,8 @@ public static class FileHandlers
             if (!directory.Exists)
                 return;
 
-            var folders = FileExplorer.GetDirectories(path);
-            var files = FileExplorer.GetFiles(path);
+            FileSystemEntry[] folders = FileExplorer.GetDirectories(path);
+            FileSystemEntry[] files = FileExplorer.GetFiles(path);
 
             var response = new GetDirectoryResponsePacket
             {

@@ -30,8 +30,8 @@ public static class SystemHandlers
 
     public static void HandleGetDrives(PaceClient client, IPacket packet)
     {
-        var drives = DriveInfo.GetDrives();
-        var driveNames = drives.Select(drive => drive.Name).ToArray();
+        DriveInfo[] drives = DriveInfo.GetDrives();
+        string[] driveNames = drives.Select(drive => drive.Name).ToArray();
 
         var response = new GetDrivesResponsePacket(driveNames);
 

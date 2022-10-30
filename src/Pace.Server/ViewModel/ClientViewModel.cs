@@ -5,7 +5,6 @@ using Pace.Common.Network.Packets.Server;
 using Pace.Server.Model;
 using Pace.Server.Network;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -75,8 +74,7 @@ public class ClientViewModel : ViewModelBase
 
     private void Server_ClientDisconnected(object sender, ClientEventArgs e)
     {
-        var list = new List<ClientInfo>(Clients);
-        var client = list.Find(c => c.Owner == e.Client);
+        ClientInfo client = Clients.SingleOrDefault(c => c.Owner == e.Client);
 
         if (client == SelectedClient)
         {
@@ -101,7 +99,7 @@ public class ClientViewModel : ViewModelBase
 
     private void HandleSystemInfo(IPacket packet)
     {
-        var systemInfoResponse = packet as GetSystemInfoResponsePacket;
+        var systemInfoResponse = (GetSystemInfoResponsePacket)packet;
 
         var clientInfo = new ClientInfo()
         {

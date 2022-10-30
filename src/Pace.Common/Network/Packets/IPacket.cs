@@ -18,5 +18,4 @@ namespace Pace.Common.Network.Packets;
 [MessagePack.Union(12, typeof(TakeScreenshotRequestPacket))]
 public interface IPacket
 {
-
 }

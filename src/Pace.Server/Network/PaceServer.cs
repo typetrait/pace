@@ -85,7 +85,7 @@ public class PaceServer
                 {
                     try
                     {
-                        var packet = client.ReadPacket();
+                        IPacket packet = client.ReadPacket();
                         OnPacketReceived(client, packet);
                     }
                     catch (IOException ex)

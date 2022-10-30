@@ -6,7 +6,7 @@ namespace Pace.Client.Web;
 
 public class WebFileDownloader
 {
-    private HttpClient httpClient;
+    private readonly HttpClient httpClient;
 
     public WebFileDownloader()
     {
@@ -15,19 +15,19 @@ public class WebFileDownloader
 
     public async void DownloadFile(string url)
     {
-        var response = await httpClient.GetAsync(url);
+        HttpResponseMessage response = await httpClient.GetAsync(url);
 
         if (!response.IsSuccessStatusCode)
             return;
 
         byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
 
-        string fileName = string.Empty;
-        string extension = string.Empty;
-
         var splitUrl = url.Split('/');
 
         var possibleFile = splitUrl[splitUrl.Length - 1];
+
+        string fileName = string.Empty;
+        string extension = string.Empty;
 
         if (possibleFile.Contains("."))
         {
