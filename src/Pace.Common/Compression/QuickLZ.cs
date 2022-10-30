@@ -16,7 +16,7 @@
 
 using System;
 
-namespace Pace.Common.IO.Compression;
+namespace Pace.Common.Compression;
 
 public static class QuickLZ
 {

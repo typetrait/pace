@@ -1,5 +1,5 @@
 ﻿using MessagePack;
-using Pace.Common.IO.Compression;
+using Pace.Common.Compression;
 using Pace.Common.Network.Packets;
 using System;
 using System.IO;
