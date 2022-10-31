@@ -78,12 +78,12 @@
             </ListView.ContextMenu>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="{x:Static p:Strings.Main_Identifier}" Width="120" DisplayMemberBinding="{Binding Identifier}" />
-                    <GridViewColumn Header="{x:Static p:Strings.Main_Address}" Width="120" DisplayMemberBinding="{Binding Address}" />
-                    <GridViewColumn Header="{x:Static p:Strings.Main_Port}" Width="120" DisplayMemberBinding="{Binding Port}" />
-                    <GridViewColumn Header="{x:Static p:Strings.Main_Username}" Width="120" DisplayMemberBinding="{Binding Username}" />
-                    <GridViewColumn Header="{x:Static p:Strings.Main_ComputerName}" Width="140" DisplayMemberBinding="{Binding ComputerName}" />
-                    <GridViewColumn Header="{x:Static p:Strings.Main_OperatingSystem}" Width="140" DisplayMemberBinding="{Binding OS}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_Identifier}" DisplayMemberBinding="{Binding Identifier}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_Address}" DisplayMemberBinding="{Binding Address}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_Port}" DisplayMemberBinding="{Binding Port}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_Username}" DisplayMemberBinding="{Binding Username}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_ComputerName}" DisplayMemberBinding="{Binding ComputerName}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_OperatingSystem}" DisplayMemberBinding="{Binding OS}" />
                 </GridView>
             </ListView.View>
         </ListView>
