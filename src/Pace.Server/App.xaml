@@ -1,22 +1,28 @@
 ﻿<Application x:Class="Pace.Server.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Pace.Server"
-             xmlns:viewModel="clr-namespace:Pace.Server.ViewModel"
-             xmlns:converters="clr-namespace:Pace.Server.Converters"
-             StartupUri="View\MainWindow.xaml">
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Pace.Server"
+    xmlns:view="clr-namespace:Pace.Server.View"
+    xmlns:viewModel="clr-namespace:Pace.Server.ViewModel"
+    xmlns:converters="clr-namespace:Pace.Server.Converters"
+    StartupUri="View\MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary x:Name="Habalau">
-            <BitmapImage UriSource="pack://application:,,,/Resources/icon.ico" x:Key="Icon" />
-            <viewModel:ClientViewModel x:Key="ClientViewModel" />
-            <converters:FileTypeConverter x:Key="fileTypeConverter"/>
-            <converters:FileSizeConverter x:Key="fileSizeConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Red.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BitmapImage UriSource="pack://application:,,,/Resources/icon.ico" x:Key="Icon" />
+            <converters:FileTypeConverter x:Key="fileTypeConverter" />
+            <converters:FileSizeConverter x:Key="fileSizeConverter" />
+            <DataTemplate DataType="{x:Type viewModel:ManageClientsViewModel}">
+                <view:ManageClients />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:FileExplorerViewModel}">
+                <view:FileExplorer />
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

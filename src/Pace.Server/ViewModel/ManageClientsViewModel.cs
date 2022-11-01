@@ -12,10 +12,11 @@ using System.Windows;
 
 namespace Pace.Server.ViewModel;
 
-public class ClientViewModel : ViewModelBase
+public class ManageClientsViewModel : ViewModelBase
 {
     private readonly PaceServer server;
-    private readonly FileWindowService fileManagerService;
+
+    private readonly MainViewModel _mainViewModel;
 
     private ClientInfo selectedClient;
     public ClientInfo SelectedClient
@@ -36,11 +37,12 @@ public class ClientViewModel : ViewModelBase
     public SnackbarMessageQueue ConnectedMessageQueue { get; set; }
 
     public RelayCommand<ClientInfo> OpenFileManagerCommand { get; set; }
+
     public RelayCommand<ClientInfo> RestartCommand { get; set; }
 
-    public ClientViewModel()
+    public ManageClientsViewModel(MainViewModel mainViewModel)
     {
-        fileManagerService = new FileWindowService();
+        _mainViewModel = mainViewModel;
 
         Clients = new ObservableCollection<ClientInfo>();
 
@@ -89,7 +91,7 @@ public class ClientViewModel : ViewModelBase
 
     private void OpenFileManager(ClientInfo client)
     {
-        fileManagerService.ShowWindow(server, SelectedClient);
+        _mainViewModel.CurrentPageViewModel = new FileExplorerViewModel(server, SelectedClient);
     }
 
     private void RestartClient(ClientInfo client)
