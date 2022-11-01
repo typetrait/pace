@@ -13,56 +13,59 @@
     TextElement.FontSize="14"
     FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
     d:DesignHeight="450" d:DesignWidth="800">
-    <ListView Margin="10" Name="clientListView" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
-        <ListView.ContextMenu>
-            <ContextMenu IsEnabled="{Binding IsItemSelected}">
-                <MenuItem Header="{x:Static p:Strings.Main_Management}">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="Monitor" />
-                    </MenuItem.Icon>
-                    <MenuItem Header="{x:Static p:Strings.Main_FileManager}" Command="{Binding OpenFileManagerCommand}">
+    <DockPanel>
+        <materialDesign:Snackbar HorizontalAlignment="Stretch" MessageQueue="{Binding ConnectedMessageQueue}" x:Name="ConnectionSnackbar" DockPanel.Dock="Bottom" />
+        <ListView Margin="10" Name="clientListView" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
+            <ListView.ContextMenu>
+                <ContextMenu IsEnabled="{Binding IsItemSelected}">
+                    <MenuItem Header="{x:Static p:Strings.Main_Management}">
                         <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Folder" />
+                            <materialDesign:PackIcon Kind="Monitor" />
                         </MenuItem.Icon>
+                        <MenuItem Header="{x:Static p:Strings.Main_FileManager}" Command="{Binding OpenFileManagerCommand}">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Folder" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{x:Static p:Strings.Main_Terminal}">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Console" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator></Separator>
+                        <MenuItem Header="Restart" Command="{Binding RestartCommand}" >
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Refresh" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Shutdown">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Shutdown" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
-                    <MenuItem Header="{x:Static p:Strings.Main_Terminal}">
+                    <MenuItem Header="{x:Static p:Strings.Main_Surveillance}">
                         <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Console" />
+                            <materialDesign:PackIcon Kind="Eye" />
                         </MenuItem.Icon>
+                        <MenuItem Header="{x:Static p:Strings.Main_TakeScreenshot}">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Camera" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
-                    <Separator></Separator>
-                    <MenuItem Header="Restart" Command="{Binding RestartCommand}" >
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Refresh" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Shutdown">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Shutdown" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                </MenuItem>
-                <MenuItem Header="{x:Static p:Strings.Main_Surveillance}">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="Eye" />
-                    </MenuItem.Icon>
-                    <MenuItem Header="{x:Static p:Strings.Main_TakeScreenshot}">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Camera" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                </MenuItem>
-            </ContextMenu>
-        </ListView.ContextMenu>
-        <ListView.View>
-            <GridView>
-                <GridViewColumn Header="{x:Static p:Strings.Main_Identifier}" DisplayMemberBinding="{Binding Identifier}" />
-                <GridViewColumn Header="{x:Static p:Strings.Main_Address}" DisplayMemberBinding="{Binding Address}" />
-                <GridViewColumn Header="{x:Static p:Strings.Main_Port}" DisplayMemberBinding="{Binding Port}" />
-                <GridViewColumn Header="{x:Static p:Strings.Main_Username}" DisplayMemberBinding="{Binding Username}" />
-                <GridViewColumn Header="{x:Static p:Strings.Main_ComputerName}" DisplayMemberBinding="{Binding ComputerName}" />
-                <GridViewColumn Header="{x:Static p:Strings.Main_OperatingSystem}" DisplayMemberBinding="{Binding OS}" />
-            </GridView>
-        </ListView.View>
-    </ListView>
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="{x:Static p:Strings.Main_Identifier}" DisplayMemberBinding="{Binding Identifier}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_Address}" DisplayMemberBinding="{Binding Address}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_Port}" DisplayMemberBinding="{Binding Port}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_Username}" DisplayMemberBinding="{Binding Username}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_ComputerName}" DisplayMemberBinding="{Binding ComputerName}" />
+                    <GridViewColumn Header="{x:Static p:Strings.Main_OperatingSystem}" DisplayMemberBinding="{Binding OS}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
 </UserControl>

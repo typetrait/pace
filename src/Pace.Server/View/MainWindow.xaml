@@ -14,7 +14,6 @@
     TextElement.FontSize="14"
     FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
     <DockPanel>
-        <materialDesign:Snackbar HorizontalAlignment="Stretch" MessageQueue="{Binding ConnectedMessageQueue}" x:Name="ConnectionSnackbar" DockPanel.Dock="Bottom" />
         <materialDesign:ColorZone DockPanel.Dock="Top" Mode="PrimaryDark" Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth0">
             <DockPanel>
                 <StackPanel Orientation="Horizontal">
