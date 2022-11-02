@@ -6,6 +6,7 @@ using Pace.Server.Model;
 using Pace.Server.Network;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 
@@ -15,42 +16,40 @@ public class FileExplorerViewModel : ViewModelBase
 {
     public ObservableCollection<FileSystemEntry> Files { get; set; }
 
-    public Stack<FileSystemEntry> ForwardHistory { get; set; }
     public Stack<FileSystemEntry> BackHistory { get; set; }
 
-    public bool CanGoForward { get { return ForwardHistory.Count > 0; } }
-    public bool CanGoBackward { get { return BackHistory.Count > 0; } }
+    public bool CanGoBackward => BackHistory.Count > 0;
 
-    private string[] drives;
+    private string[] _drives;
     public string[] Drives
     {
-        get { return drives; }
+        get { return _drives; }
         set
         {
-            drives = value;
+            _drives = value;
             OnPropertyChanged(() => Drives);
         }
     }
 
-    private FileSystemEntry currentDirectory;
+    private FileSystemEntry _currentDirectory;
     public FileSystemEntry CurrentDirectory
     {
-        get { return currentDirectory; }
+        get { return _currentDirectory; }
         set
         {
-            currentDirectory = value;
+            _currentDirectory = value;
             OnPropertyChanged(() => CurrentDirectory);
         }
     }
 
-    private FileSystemEntry selectedFile;
+    private FileSystemEntry _selectedFile;
     public FileSystemEntry SelectedFile
     {
-        get { return selectedFile; }
+        get { return _selectedFile; }
         set
         {
-            selectedFile = value;
-            OnPropertyChanged(() => selectedFile);
+            _selectedFile = value;
+            OnPropertyChanged(() => _selectedFile);
         }
     }
 
@@ -67,7 +66,6 @@ public class FileExplorerViewModel : ViewModelBase
     {
         Files = new ObservableCollection<FileSystemEntry>();
 
-        ForwardHistory = new Stack<FileSystemEntry>();
         BackHistory = new Stack<FileSystemEntry>();
 
         server.PacketChannel.RegisterHandler<GetDirectoryResponsePacket>(HandleGetDirectory);
@@ -82,7 +80,7 @@ public class FileExplorerViewModel : ViewModelBase
 
         Client = client;
 
-        NavigateCommand = new RelayCommand<string>(Navigate);
+        NavigateCommand = new RelayCommand<string>(NavigateWithHistory);
         NavigateSelectedCommand = new RelayCommand<string>(NavigateSelected);
         NavigateUpCommand = new RelayCommand<string>(NavigateUp);
         NavigateForwardCommand = new RelayCommand<string>(NavigateForward);
@@ -97,18 +95,9 @@ public class FileExplorerViewModel : ViewModelBase
             Files.Clear();
         });
 
-        var previousDirectory = CurrentDirectory;
-
         var directoryResponse = (GetDirectoryResponsePacket)packet;
-
         CurrentDirectory = new FileSystemEntry(directoryResponse.Name, directoryResponse.Path, 0, FileType.Directory);
 
-        if (previousDirectory != null)
-        {
-            BackHistory.Push(previousDirectory);
-        }
-
-        OnPropertyChanged(() => CanGoForward);
         OnPropertyChanged(() => CanGoBackward);
 
         for (int i = 0; i < directoryResponse.Folders.Length; i++)
@@ -118,7 +107,7 @@ public class FileExplorerViewModel : ViewModelBase
                 Files.Add(new FileSystemEntry
                 (
                     directoryResponse.Folders[i],
-                    System.IO.Path.Combine(CurrentDirectory.Path, directoryResponse.Folders[i]),
+                    Path.Combine(CurrentDirectory.Path, directoryResponse.Folders[i]),
                     0,
                     FileType.Directory
                 ));
@@ -132,7 +121,7 @@ public class FileExplorerViewModel : ViewModelBase
                 Files.Add(new FileSystemEntry
                 (
                     directoryResponse.Files[i],
-                    System.IO.Path.Combine(CurrentDirectory.Path, directoryResponse.Files[i]),
+                    Path.Combine(CurrentDirectory.Path, directoryResponse.Files[i]),
                     directoryResponse.FileSizes[i],
                     FileType.File
                 ));
@@ -157,40 +146,42 @@ public class FileExplorerViewModel : ViewModelBase
         Client.Owner.SendPacket(new GetDirectoryRequestPacket(path));
     }
 
+    private void NavigateWithHistory(string path)
+    {
+        BackHistory.Push(CurrentDirectory);
+        Navigate(path);
+    }
+
     private void NavigateSelected(string s)
     {
         if (SelectedFile.Type != FileType.Directory)
             return;
 
-        Navigate(SelectedFile.Path);
+        NavigateWithHistory(SelectedFile.Path);
     }
 
     private void NavigateUp(string s)
     {
-        Navigate(System.IO.Path.Combine(CurrentDirectory.Path, ".."));
+        NavigateWithHistory(Path.Combine(CurrentDirectory.Path, ".."));
     }
 
     private void NavigateForward(string s)
     {
         BackHistory.Push(CurrentDirectory);
-        var nextDirectory = ForwardHistory.Pop();
-
-        Navigate(nextDirectory.Path);
     }
 
     private void NavigateBack(string s)
     {
-        ForwardHistory.Push(CurrentDirectory);
-        var previousDirectory = BackHistory.Pop();
-
+        FileSystemEntry previousDirectory = BackHistory.Pop();
         Navigate(previousDirectory.Path);
     }
 
     private void DeleteFile(string s)
     {
-        var result = MessageBox.Show($"Delete {SelectedFile.Name}?", "File deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-
+        MessageBoxResult result = MessageBox.Show($"Delete {SelectedFile.Name}?", "File deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
         if (result == MessageBoxResult.Yes)
+        {
             Client.Owner.SendPacket(new DeleteFileRequestPacket(SelectedFile.Path));
+        }
     }
 }
