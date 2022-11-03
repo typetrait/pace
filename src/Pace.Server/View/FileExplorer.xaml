@@ -44,6 +44,11 @@
             </ToolBar>
         </ToolBarTray>
         <ListView Margin="10" Name="fileListView" ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource MaterialDesignGridViewItem}">
+                    <EventSetter Event="MouseDoubleClick" Handler="OnFileEntryClicked"/>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="{x:Static p:Strings.FileExplorer_Open}" Command="{Binding NavigateSelectedCommand}">
