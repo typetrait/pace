@@ -135,6 +135,9 @@
   <data name="FileExplorer_Rename" xml:space="preserve">
     <value>Rename</value>
   </data>
+  <data name="FileExplorer_Save" xml:space="preserve">
+    <value>Save As...</value>
+  </data>
   <data name="FileExplorer_Size" xml:space="preserve">
     <value>Size</value>
   </data>
