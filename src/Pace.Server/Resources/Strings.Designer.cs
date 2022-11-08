@@ -115,7 +115,7 @@ namespace Pace.Server.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save As....
+        ///   Looks up a localized string similar to Save as....
         /// </summary>
         public static string FileExplorer_Save {
             get {

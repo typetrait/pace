@@ -148,14 +148,20 @@ public class FileExplorerViewModel : ViewModelBase
 
     private void NavigateWithHistory(string path)
     {
-        BackHistory.Push(CurrentDirectory);
+        if (path != CurrentDirectory.Path)
+        {
+            BackHistory.Push(CurrentDirectory);
+        }
+
         Navigate(path);
     }
 
     private void NavigateSelected(string s)
     {
         if (SelectedFile.Type != FileType.Directory)
+        {
             return;
+        }
 
         NavigateWithHistory(SelectedFile.Path);
     }
