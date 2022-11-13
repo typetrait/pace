@@ -17,8 +17,10 @@ public class FileExplorerViewModel : ViewModelBase
     public ObservableCollection<FileSystemEntry> Files { get; set; }
 
     public Stack<FileSystemEntry> BackHistory { get; set; }
+    public Stack<FileSystemEntry> ForwardHistory { get; set; }
 
     public bool CanGoBackward => BackHistory.Count > 0;
+    public bool CanGoForward => ForwardHistory.Count > 0;
 
     private string[] _drives;
     public string[] Drives
@@ -67,6 +69,7 @@ public class FileExplorerViewModel : ViewModelBase
         Files = new ObservableCollection<FileSystemEntry>();
 
         BackHistory = new Stack<FileSystemEntry>();
+        ForwardHistory = new Stack<FileSystemEntry>();
 
         server.PacketChannel.RegisterHandler<GetDirectoryResponsePacket>(HandleGetDirectory);
         server.PacketChannel.RegisterHandler<GetDrivesResponsePacket>(HandleGetDrives);
@@ -99,6 +102,7 @@ public class FileExplorerViewModel : ViewModelBase
         CurrentDirectory = new FileSystemEntry(directoryResponse.Name, directoryResponse.Path, 0, FileType.Directory);
 
         OnPropertyChanged(() => CanGoBackward);
+        OnPropertyChanged(() => CanGoForward);
 
         for (int i = 0; i < directoryResponse.Folders.Length; i++)
         {
@@ -174,10 +178,15 @@ public class FileExplorerViewModel : ViewModelBase
     private void NavigateForward(string s)
     {
         BackHistory.Push(CurrentDirectory);
+
+        FileSystemEntry nextDirectory = ForwardHistory.Pop();
+        Navigate(nextDirectory.Path);
     }
 
     private void NavigateBack(string s)
     {
+        ForwardHistory.Push(CurrentDirectory);
+
         FileSystemEntry previousDirectory = BackHistory.Pop();
         Navigate(previousDirectory.Path);
     }
@@ -185,6 +194,7 @@ public class FileExplorerViewModel : ViewModelBase
     private void DeleteFile(string s)
     {
         MessageBoxResult result = MessageBox.Show($"Delete {SelectedFile.Name}?", "File deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
         if (result == MessageBoxResult.Yes)
         {
             Client.Owner.SendPacket(new DeleteFileRequestPacket(SelectedFile.Path));
