@@ -18,6 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pace.Common\Pace.Common.csproj" />
+    <ProjectReference Include="..\Pace.Server.Core\Pace.Server.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
